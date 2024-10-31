@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Register Page</title>
+    <link rel="stylesheet" href="../../static/register.css">
+</head>
+<body>
+
+    <div class="register-container">
+        <h2>Register</h2>
+        <form method="POST" autocomplete="off">
+            {% csrf_token %}
+            <div class="form-group">
+                <label for="{{ registerform.username.id_for_label }}">Username</label>
+                {{ registerform.username }}
+                {% if registerform.username.errors %}
+                    <div class="error">{{ registerform.username.errors }}</div>
+                {% endif %}
+            </div>
+            <div class="form-group">
+                <label for="{{ registerform.email.id_for_label }}">Email</label>
+                {{ registerform.email }}
+                {% if registerform.email.errors %}
+                    <div class="error">{{ registerform.email.errors }}</div>
+                {% endif %}
+            </div>
+            <div class="form-group">
+                <label for="{{ registerform.password1.id_for_label }}">Password</label>
+                {{ registerform.password1 }}
+                {% if registerform.password1.errors %}
+                    <div class="error">{{ registerform.password1.errors }}</div>
+                {% endif %}
+            </div>
+            <div class="form-group">
+                <label for="{{ registerform.password2.id_for_label }}">Confirm Password</label>
+                {{ registerform.password2 }}
+                {% if registerform.password2.errors %}
+                    <div class="error">{{ registerform.password2.errors }}</div>
+                {% endif %}
+            </div>
+            <button type="submit">Register</button>
+        </form>
+        <p style="text-align: center; margin-top: 10px;">
+            Already have an account? <a href="login">Login here</a>
+        </p>
+    </div>
+
+</body>
+</html>
