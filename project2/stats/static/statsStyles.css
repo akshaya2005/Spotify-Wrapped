@@ -1,0 +1,55 @@
+/* Basic Reset */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+/* Body Styles */
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f4f4f4;
+    color: #333;
+    line-height: 1.6;
+}
+
+/* Header Styles */
+h1 {
+    text-align: center;
+    margin: 20px 0;
+    color: #2c3e50; /* Dark blue color */
+}
+
+/* List Styles */
+ul {
+    list-style: none; /* Remove bullet points */
+    padding: 20px;
+}
+
+/* List Item Styles */
+li {
+    background: #fff; /* White background */
+    margin: 10px 0;
+    padding: 15px;
+    border-radius: 8px; /* Rounded corners */
+    display: flex;
+    align-items: center; /* Center align items vertically */
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); /* Subtle shadow */
+}
+
+/* Image Styles */
+img {
+    margin-right: 15px; /* Space between image and text */
+    border-radius: 4px; /* Rounded corners for images */
+}
+
+/* Responsive Styles */
+@media (max-width: 600px) {
+    li {
+        flex-direction: column; /* Stack items on small screens */
+        align-items: flex-start; /* Align items to start */
+    }
+    img {
+        margin-bottom: 10px; /* Space below image */
+    }
+}

@@ -1,0 +1,32 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Your Stats</title>
+    <link rel="stylesheet" href="{% static 'statsStyles.css' %}">
+</head>
+<body>
+    <h1>Your Top Artists</h1>
+    <ul>
+        {% for artist in top_artists %}
+            <li>
+                <img src="{{ artist.images.0.url }}" alt="{{ artist.name }} cover" width="50"> <!-- Artist image -->
+                {{ artist.name }}
+            </li>
+        {% endfor %}
+    </ul>
+
+    <h1>Your Top Tracks</h1>
+    <ul>
+        {% for track in top_tracks %}
+            <li>
+                <img src="{{ track.album.images.0.url }}" alt="{{ track.name }} cover" width="50"> <!-- Album cover -->
+                {{ track.name }} by {{ track.artists.0.name }}
+            </li>
+        {% endfor %}
+    </ul>
+</body>
+</html>

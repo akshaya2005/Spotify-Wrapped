@@ -1,0 +1,27 @@
+/* static/css/loginStyles.css */
+
+body {
+    font-family: Arial, sans-serif;
+    background-color: #1DB954;
+    color: white;
+    text-align: center;
+    padding: 50px;
+}
+
+h1 {
+    margin-bottom: 20px;
+}
+
+.login-button {
+    background-color: #191414;
+    color: white;
+    padding: 15px 30px;
+    text-decoration: none;
+    border-radius: 25px;
+    font-size: 18px;
+    transition: background-color 0.3s;
+}
+
+.login-button:hover {
+    background-color: #535353;
+}
