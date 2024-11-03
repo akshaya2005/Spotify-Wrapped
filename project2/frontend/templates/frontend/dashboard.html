@@ -1,0 +1,34 @@
+{% load static %}
+
+
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Spotify Dashboard</title>
+    <link rel="stylesheet" href="{% static 'wraps/WrapCard.css' %}">
+</head>
+<body>
+    <h1>Your Spotify Wraps</h1>
+    <div class="wraps-container">
+        {% if wrap_data %}
+            {% for wrap in wrap_data %}
+            <div class="wrap-card">
+                <h3>{{ wrap.title }}</h3>
+            </div>
+            <div id="wrap-{{ forloop.counter0 }}" class="wrap-expanded">
+                <h3>{{ wrap.title }}</h3>
+                <p>{{ wrap.content }}</p>
+                <button onclick="previousWrap()">Back</button>
+                <button onclick="nextWrap()">Next</button>
+            </div>
+            {% endfor %}
+        {% else %}
+            <p>No wraps available.</p>
+        {% endif %}
+    </div>
+    <script src="{% static 'wrap/Dashboard.js' %}"></script>
+</body>
+</html>
+
+

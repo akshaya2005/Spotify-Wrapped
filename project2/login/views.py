@@ -2,6 +2,11 @@ from django.shortcuts import render, redirect
 from django.conf import settings
 from spotipy.oauth2 import SpotifyOAuth
 import spotipy
+from django.shortcuts import render, redirect
+from django.http import HttpResponse
+from .forms import CreateUserForm, LoginForm
+from django.contrib.auth.models import auth
+from django.contrib.auth import authenticate, login, logout
 
 sp_oauth = SpotifyOAuth(
     client_id=settings.SPOTIFY_CLIENT_ID,
@@ -16,6 +21,8 @@ def login_view(request):
         return redirect(auth_url)
 
     return render(request, 'login.html')
+
+
 
 def callback_view(request):
     # Handle Spotify's callback, exchange code for token

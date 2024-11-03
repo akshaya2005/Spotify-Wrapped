@@ -3,16 +3,17 @@ from django.utils import timezone
 from .credentials import *
 from requests import post
 
-
 def get_user_tokens(session_id):
-    user_tokens = SpotifyToken.objects.filter(user=session_id)
-    if user_tokens.exists():
-        user_tokens.delete()  # Delete any existing tokens upon server restart
-    return None
+    try:
+        # Fetch the user's tokens
+        user_tokens = SpotifyToken.objects.get(user=session_id)
+        return user_tokens  # Return the token object
+    except SpotifyToken.DoesNotExist:
+        return None  # Return None if no tokens found
 
 
 def update_or_create_user_tokens(session_id, access_token, token_type, expires_in, refresh_token):
-    tokens = get_user_tokens(session_id)
+    tokens = SpotifyToken.objects.get(user=session_id)
 
     if tokens:
         tokens.access_token = access_token
@@ -28,7 +29,7 @@ def update_or_create_user_tokens(session_id, access_token, token_type, expires_i
 
 
 def is_spotify_authenticated(session_id):
-    tokens = get_user_tokens(session_id)
+    tokens = SpotifyToken.objects.get(user=session_id)
     if tokens:
         expiry_time = tokens.created_at.timestamp() + tokens.expires_in  # Calculate the actual expiration timestamp
         if expiry_time <= timezone.now().timestamp():
@@ -38,7 +39,7 @@ def is_spotify_authenticated(session_id):
 
 
 def refresh_spotify_token(session_id):
-    refresh_token = get_user_tokens(session_id).refresh_token
+    refresh_token = SpotifyToken.objects.get(user=session_id).refresh_token
     response = post('https://accounts.spotify.com/api/token', data={
         'grant_type': 'refresh_token',
         'refresh_token': refresh_token,
