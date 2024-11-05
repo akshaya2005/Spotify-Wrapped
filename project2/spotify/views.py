@@ -28,7 +28,7 @@ def login_and_connect_spotify(request):
         if user is not None:
             login(request, user)
             # If the user is authenticated, redirect them to Spotify's authorization URL
-            scopes = 'user-read-playback-state user-modify-playback-state user-read-currently-playing'
+            scopes = 'user-read-playback-state user-modify-playback-state user-read-currently-playing user-read-private user-top-read'
             url = Request(
                 'GET',
                 'https://accounts.spotify.com/authorize',

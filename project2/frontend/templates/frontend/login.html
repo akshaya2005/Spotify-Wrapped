@@ -4,12 +4,11 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Login Page</title>
-
 </head>
 <body>
     <div class="login-container">
         <h2>Login</h2>
-            <form action="{% url 'spotify:login_and_connect_spotify' %}" method="post">
+        <form action="{% url 'spotify:login_and_connect_spotify' %}" method="post">
             {% csrf_token %}
 
             <!-- Display error message if authentication fails -->
@@ -34,8 +33,9 @@
             <button type="submit">Log in and connect to Spotify</button>
         </form>
 
+        <!-- Link to register page -->
         <p style="text-align: center; margin-top: 10px;">
-            Don't have an account? <a> Register here</a>
+            Don't have an account? <a href="{% url 'frontend:register' %}">Register here</a>
         </p>
     </div>
 </body>
