@@ -3,6 +3,7 @@ from django.shortcuts import render
 from django.contrib.auth import login, logout, authenticate
 from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
 from django.shortcuts import render, redirect
+from django.contrib import messages
 
 
 
@@ -21,12 +22,28 @@ def intro_view(request):
 def register_view(request):
     if request.method == 'POST':
         form = UserCreationForm(request.POST)
+
+        # Check if the checkbox was checked
+        has_spotify_account = request.POST.get('has_spotify_account')
+
         if form.is_valid():
-            form.save()  # Save the new user
-            return redirect('frontend:login')  # Redirect to login page after registration
+            if not has_spotify_account:
+                # Add error if the checkbox is not checked
+                form.add_error('has_spotify_account', 'You must have a Spotify account to register.')
+            else:
+                # Save the new user if the form is valid and checkbox is checked
+                form.save()
+                return redirect('frontend:login')  # Redirect to login page after successful registration
+        else:
+            # If the form is invalid, add a general error message
+            messages.error(request, 'Please correct the errors below.')
+
+        return render(request, 'frontend/register.html', {'form': form})
+
     else:
         form = UserCreationForm()
     return render(request, 'frontend/register.html', {'form': form})
+
 
 # Login view
 def login_view(request):
