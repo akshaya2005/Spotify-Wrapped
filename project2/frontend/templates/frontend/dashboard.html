@@ -1,34 +1,32 @@
+<!DOCTYPE html>
 {% load static %}
-
-
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Spotify Dashboard</title>
-    <link rel="stylesheet" href="{% static 'wraps/WrapCard.css' %}">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Expandable Cards</title>
+  <!-- Use Django's static tag for loading CSS -->
+  <link rel="stylesheet" href="{% static 'frontend/WrapCard.css' %}">
 </head>
 <body>
-    <h1>Your Spotify Wraps</h1>
-    <div class="wraps-container">
-        {% if wrap_data %}
-            {% for wrap in wrap_data %}
-            <div class="wrap-card">
-                <h3>{{ wrap.title }}</h3>
-            </div>
-            <div id="wrap-{{ forloop.counter0 }}" class="wrap-expanded">
-                <h3>{{ wrap.title }}</h3>
-                <p>{{ wrap.content }}</p>
-                <button onclick="previousWrap()">Back</button>
-                <button onclick="nextWrap()">Next</button>
-            </div>
-            {% endfor %}
-        {% else %}
-            <p>No wraps available.</p>
-        {% endif %}
+  <div class="wraps-container">
+    {% for wrap in wrap_data %}
+      <div class="wrap-card" data-title="{{ wrap.title }}" data-details="{{ wrap.content }}" onclick="showPopup(this)">
+        <h3>{{ wrap.title }}</h3>
+      </div>
+    {% endfor %}
+  </div>
+
+  <!-- Popup Modal -->
+  <div id="popupModal" class="modal">
+    <div class="modal-content">
+      <span class="close-button" onclick="closePopup()">&times;</span>
+      <h3 id="modalTitle"></h3>
+      <p id="modalDetails"></p>
     </div>
-    <script src="{% static 'wrap/Dashboard.js' %}"></script>
+  </div>
+
+  <!-- Use Django's static tag for loading JavaScript -->
+  <script src="{% static 'frontend/Dashboard.js' %}"></script>
 </body>
 </html>
-
-

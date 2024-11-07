@@ -20,7 +20,6 @@ from django.shortcuts import redirect
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('api/', include('api.urls')),
     path('', lambda request: redirect('frontend:login')),  # Redirects root URL to login
     path('frontend/', include('frontend.urls')),
     path('spotify/', include('spotify.urls')),

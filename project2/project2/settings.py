@@ -41,9 +41,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'frontend.apps.FrontendConfig',
     'spotify.apps.SpotifyConfig',
-    'api.apps.ApiConfig',
     'wraps.apps.WrapsConfig',
-    'login',
 ]
 
 MIDDLEWARE = [
@@ -122,7 +120,8 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/5.1/howto/static-files/
 
-STATIC_URL = 'static/'
+STATIC_URL = '/static/'
+STATICFILES_DIRS = [BASE_DIR / "static"]
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/5.1/ref/settings/#default-auto-field
@@ -130,16 +129,18 @@ STATIC_URL = 'static/'
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 # Akshaya
-# SPOTIPY_CLIENT_ID = 'cd6b9651745b4329962c82234b0064c3'
-# SPOTIPY_CLIENT_SECRET = '1feec18903eb4a8eba79f1b5d16b2d56'
-# SPOTIPY_REDIRECT_URI = 'http://127.0.0.1:8000/spotify/callback'
-
-# Arnav
 SPOTIPY_CLIENT_ID = 'cd6b9651745b4329962c82234b0064c3'
 SPOTIPY_CLIENT_SECRET = '1feec18903eb4a8eba79f1b5d16b2d56'
-SPOTIPY_REDIRECT_URI = 'http://127.0.0.1:8000/spotify/redirect/'
+SPOTIPY_REDIRECT_URI = 'http://127.0.0.1:8000/spotify/callback'
+
+# Arnav
+# SPOTIPY_CLIENT_ID = 'cd6b9651745b4329962c82234b0064c3'
+# SPOTIPY_CLIENT_SECRET = '1feec18903eb4a8eba79f1b5d16b2d56'
+# SPOTIPY_REDIRECT_URI = 'http://127.0.0.1:8000/spotify/redirect/'
 
 # LOGIN_URL = '/accounts/login/'
 
 LOGIN_URL = 'frontend:login'
 LOGIN_REDIRECT_URL = 'frontend:index'
+
+

@@ -82,3 +82,25 @@ def refresh_spotify_token(session_id):
 
     update_or_create_user_tokens(session_id, access_token, token_type, expires_in, refresh_token)
 
+import requests
+
+def get_spotify_user_id_from_access_token(access_token):
+    url = "https://api.spotify.com/v1/me"  # Endpoint to fetch the current user's profile
+    headers = {
+        "Authorization": f"Bearer {access_token}"  # Include the access token in the Authorization header
+    }
+
+    # Make the request to Spotify's API
+    response = requests.get(url, headers=headers)
+
+    # Check if the response is successful (status code 200)
+    if response.status_code == 200:
+        user_data = response.json()
+        spotify_user_id = user_data.get('id')  # Extract the Spotify user ID from the response
+        return spotify_user_id
+    else:
+        # Handle the error (e.g., access token might have expired)
+        print(f"Error fetching user data from Spotify: {response.status_code}")
+        return None
+
+
