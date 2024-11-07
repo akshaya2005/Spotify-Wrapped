@@ -6,25 +6,71 @@ from rest_framework.response import Response
 from requests import Request, post
 from .utils import *
 
+from django.shortcuts import render, redirect
+from django.contrib.auth import authenticate, login
+from django.views.decorators.csrf import csrf_protect
+from django.http import HttpResponseRedirect
+from django.urls import reverse
+from requests import Request
+from .credentials import SPOTIPY_CLIENT_ID, SPOTIPY_REDIRECT_URI
+from django.shortcuts import redirect
+from requests import post
+from .utils import update_or_create_user_tokens
 
 # Create your views here.
+@csrf_protect
+def login_and_connect_spotify(request):
+    if request.method == 'POST':
+        username = request.POST.get('username')
+        password = request.POST.get('password')
+
+        user = authenticate(request, username=username, password=password)
+        if user is not None:
+            login(request, user)
+            # If the user is authenticated, redirect them to Spotify's authorization URL
+            scopes = 'user-read-playback-state user-modify-playback-state user-read-currently-playing user-read-private user-top-read'
+            url = Request(
+                'GET',
+                'https://accounts.spotify.com/authorize',
+                params={
+                    'scope': scopes,
+                    'response_type': 'code',
+                    'redirect_uri': SPOTIPY_REDIRECT_URI,
+                    'client_id': SPOTIPY_CLIENT_ID
+                }
+            ).prepare().url
+
+            return HttpResponseRedirect(url)
+        else:
+            # Show an error message if authentication failed
+            return render(request, 'frontend/login.html', {'error': 'Invalid username or password.'})
+
+    # Render the login page if the request is not POST
+    return render(request, 'frontend/login.html')
+
+
+
 class AuthURL(APIView):
     #returns the API endpoint that allows us to authenticate
     def get(self, request, format=None):
-        scopes = 'user-read-playback-state user-modify-playback-state user-read-currently-playing' #find in spotify docs
-        #creates a url for us
+        scopes = 'user-read-private user-top-read'
         url = Request('GET', 'https://accounts.spotify.com/authorize',
         params={'scope': scopes, 'response_type':'code', 'redirect_uri': SPOTIPY_REDIRECT_URI, 'client_id':SPOTIPY_CLIENT_ID}).prepare().url
 
         return Response({'url': url}, status = 200)
 
 
+
+
 def spotify_callback(request):
+    print("Authorization Code:", request.GET.get('code'))
+    # print("Received response:")  # Logs response from Spotify
     code = request.GET.get('code')
     error = request.GET.get('error')
 
     # Handle error if exists
     if error:
+        print("Error in Spotify callback:", error)  # Log the error for debugging
         return redirect('frontend:index')  # Redirect to the index or an error page
 
     # Exchange the authorization code for an access token
@@ -34,23 +80,24 @@ def spotify_callback(request):
         'redirect_uri': SPOTIPY_REDIRECT_URI,
         'client_id': SPOTIPY_CLIENT_ID,
         'client_secret': SPOTIPY_CLIENT_SECRET
-    }).json()
+    })
+
+    if response.status_code != 200:
+        print("Failed to exchange token:", response.json())  # Log response for debugging
+        return redirect('frontend:index')  # Handle errors from the token request
 
     # Extract tokens and expiration info
-    access_token = response.get('access_token')
-    token_type = response.get('token_type')
-    refresh_token = response.get('refresh_token')
-    expires_in = int(response.get('expires_in'))
+    response_data = response.json()
+    access_token = response_data.get('access_token')
+    print("Got access token")
+    token_type = response_data.get('token_type')
+    refresh_token = response_data.get('refresh_token')
+    expires_in = response_data.get('expires_in')
 
     # Ensure expires_in is a valid integer
-    if expires_in is None:
+    if expires_in is None or not isinstance(expires_in, int):
+        print("Error: 'expires_in' is missing or not an integer:", expires_in)
         return redirect('frontend:index')  # Handle the case where expires_in is missing
-
-    try:
-        expires_in = int(expires_in)  # Convert to integer
-    except ValueError:
-        print("Error: 'expires_in' is not an integer:", expires_in)
-        return redirect('frontend:index')  # Handle the error accordingly
 
     # Create session if it doesn't exist
     if not request.session.exists(request.session.session_key):
@@ -60,7 +107,7 @@ def spotify_callback(request):
     update_or_create_user_tokens(request.session.session_key, access_token, token_type, expires_in, refresh_token)
 
     # Redirect to the intro page after successful login
-    return redirect('frontend:intro')  # Change this to match your intro page URL name
+    return redirect('wraps:dashboard')  # Change this to match your intro page URL name
 
 
 class IsAuthenticated(APIView):

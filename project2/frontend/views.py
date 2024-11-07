@@ -1,36 +1,64 @@
+from django.contrib.auth.decorators import login_required
 from django.shortcuts import render
+from django.contrib.auth import login, logout, authenticate
+from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
+from django.shortcuts import render, redirect
+from django.contrib import messages
+
+
 
 # Create your views here.
-def login(request):
-    form = LoginForm()
-    if request.method == "POST":
-        form = LoginForm(request, data=request.POST)
-        if form.is_valid():
-            username = request.POST.get('username')
-            password = request.POST.get('password')
-            user = authenticate(request, username=username, password=password)
-            if user is not None:
-                auth.login(request, user)
-                return redirect("search")
-    context = {'loginform': form}
-    return render(request, 'register/my-login.html', context = context)
 
-def register(request):
-    form = CreateUserForm()
-
-    if request.method == "POST": ##Checking to see whether data must be stored in the database
-        form = CreateUserForm(request.POST) ##Posts values for all the fields to the database
-        if form.is_valid():
-            form.save() ##Saves to database
-
-            return redirect("login")
-
-    context = {'registerform':form}
-
-    return render(request, 'register/register.html', context=context)
-
+@login_required
 def index(request, *args, **kwargs):
     return render(request, 'frontend/index.html')
 
+@login_required
 def intro_view(request):
     return render(request, 'frontend/intro.html')
+
+
+# Register view
+def register_view(request):
+    if request.method == 'POST':
+        form = UserCreationForm(request.POST)
+
+        # Check if the checkbox was checked
+        has_spotify_account = request.POST.get('has_spotify_account')
+
+        if form.is_valid():
+            if not has_spotify_account:
+                # Add error if the checkbox is not checked
+                form.add_error('has_spotify_account', 'You must have a Spotify account to register.')
+            else:
+                # Save the new user if the form is valid and checkbox is checked
+                form.save()
+                return redirect('frontend:login')  # Redirect to login page after successful registration
+        else:
+            # If the form is invalid, add a general error message
+            messages.error(request, 'Please correct the errors below.')
+
+        return render(request, 'frontend/register.html', {'form': form})
+
+    else:
+        form = UserCreationForm()
+    return render(request, 'frontend/register.html', {'form': form})
+
+
+# Login view
+def login_view(request):
+    if request.method == 'POST':
+        form = AuthenticationForm(data=request.POST)
+        if form.is_valid():
+            user = form.get_user()
+            login(request, user)
+            # Redirect to index (Spotify connection page) after login
+            return redirect('frontend:index')
+    else:
+        form = AuthenticationForm()
+    return render(request, 'frontend/login.html', {'form': form})
+
+# Logout view
+def logout_view(request):
+    logout(request)
+    return redirect('frontend:login')  # Redirect to login page after logout
