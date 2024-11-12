@@ -36,6 +36,7 @@ def dashboard(request):
 
     return render(request, 'frontend/dashboard.html', {'wrap_data': None})  # In case of no data
 
+## Write functions to create different kinds of wraps
 
 def create_wrap(request):
     user = request.user
@@ -53,6 +54,16 @@ def create_wrap(request):
     else:
         # Handle error if data fetching failed
         return render(request, 'error.html', {'error': 'Failed to fetch Spotify data.'})
+
+def create_top_artists_wrap():
+    pass
+
+def create_halloween_wrap():
+    pass
+
+def create_christmas_wrap():
+    pass
+
 
 def process_wrap_data(spotify_data):
     # Customize how you format data into wraps

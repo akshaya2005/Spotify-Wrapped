@@ -47,11 +47,13 @@ def register_view(request):
 
 # Login view
 def login_view(request):
+    print("login_view called")
     if request.method == 'POST':
         form = AuthenticationForm(data=request.POST)
         if form.is_valid():
             user = form.get_user()
             login(request, user)
+            print("redirecting to index")
             # Redirect to index (Spotify connection page) after login
             return redirect('frontend:index')
     else:
