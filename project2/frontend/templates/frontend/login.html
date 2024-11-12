@@ -4,10 +4,15 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Login Page</title>
+    {% load static %}
+    <link rel="stylesheet" href="../../static/index_login.css?v=2">
 </head>
 <body>
     <div class="login-container">
-        <h2>Login</h2>
+        <h2>
+            <img src="../../static/Primary_Logo_Green_RGB.svg" alt="Spotify Logo" class="logo">
+            Login
+        </h2>
         <form action="{% url 'spotify:login_and_connect_spotify' %}" method="post">
             {% csrf_token %}
 
@@ -34,7 +39,7 @@
         </form>
 
         <!-- Link to register page -->
-        <p style="text-align: center; margin-top: 10px;">
+        <p style="text-align: center; margin-top: 10px; color: white">
             Don't have an account? <a href="{% url 'frontend:register' %}">Register here</a>
         </p>
     </div>
