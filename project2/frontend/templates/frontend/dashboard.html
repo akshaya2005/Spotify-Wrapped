@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+{% load static %}
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Expandable Cards</title>
+  <!-- Use Django's static tag for loading CSS -->
+  <link rel="stylesheet" href="{% static 'frontend/WrapCard.css' %}">
+</head>
+<body>
+  <div class="wraps-container">
+    {% for wrap in wrap_data %}
+      <div class="wrap-card" data-title="{{ wrap.title }}" data-details="{{ wrap.content }}" onclick="showPopup(this)">
+        <h3>{{ wrap.title }}</h3>
+      </div>
+    {% endfor %}
+  </div>
+
+  <!-- Popup Modal -->
+  <div id="popupModal" class="modal">
+    <div class="modal-content">
+      <span class="close-button" onclick="closePopup()">&times;</span>
+      <h3 id="modalTitle"></h3>
+      <p id="modalDetails"></p>
+    </div>
+  </div>
+
+  <!-- Use Django's static tag for loading JavaScript -->
+  <script src="{% static 'frontend/Dashboard.js' %}"></script>
+</body>
+</html>
