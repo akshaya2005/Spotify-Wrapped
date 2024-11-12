@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Logging Out...</title>
+  <script>
+    // Redirect to Spotify's logout URL and then back to your login page
+    window.onload = function() {
+      // Spotify logout URL
+      let spotifyLogoutUrl = "https://www.spotify.com/logout/";
+
+      // Open Spotify logout in a new tab/window, then close it and redirect
+      let spotifyLogout = window.open(spotifyLogoutUrl, "spotifyLogoutWindow");
+      setTimeout(() => {
+        spotifyLogout.close(); // Close Spotify logout window
+        window.location.href = "{% url 'frontend:login' %}"; // Redirect to your login page
+      }, 1000); // Adjust delay as needed to ensure Spotify logout occurs
+    };
+  </script>
+</head>
+<body>
+  <p>Logging you out...</p>
+</body>
+</html>

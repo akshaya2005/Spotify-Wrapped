@@ -17,6 +17,12 @@
     {% endfor %}
   </div>
 
+  <!-- Logout button -->
+  <form action="{% url 'frontend:logout' %}" method="post" style="display: inline;">
+    {% csrf_token %}
+    <button type="submit" class="logout-button">Logout</button>
+  </form>
+
   <!-- Popup Modal -->
   <div id="popupModal" class="modal">
     <div class="modal-content">

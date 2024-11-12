@@ -62,5 +62,8 @@ def login_view(request):
 
 # Logout view
 def logout_view(request):
+    # Log out of Django
     logout(request)
-    return redirect('frontend:login')  # Redirect to login page after logout
+
+    # Render a template that logs out of Spotify and redirects to login
+    return render(request, 'frontend/spotify_logout.html')
