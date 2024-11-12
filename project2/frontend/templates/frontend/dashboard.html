@@ -1,6 +1,5 @@
 {% load static %}
 
-
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -13,22 +12,13 @@
     <div class="wraps-container">
         {% if wrap_data %}
             {% for wrap in wrap_data %}
-            <div class="wrap-card">
-                <h3>{{ wrap.title }}</h3>
-            </div>
-            <div id="wrap-{{ forloop.counter0 }}" class="wrap-expanded">
-                <h3>{{ wrap.title }}</h3>
-                <p>{{ wrap.content }}</p>
-                <button onclick="previousWrap()">Back</button>
-                <button onclick="nextWrap()">Next</button>
-            </div>
+                <div class="wrap-card">
+                    <h3>{{ wrap.title }}</h3>
+                </div>
             {% endfor %}
         {% else %}
             <p>No wraps available.</p>
         {% endif %}
     </div>
-    <script src="{% static 'wrap/Dashboard.js' %}"></script>
 </body>
 </html>
-
-
