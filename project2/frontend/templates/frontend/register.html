@@ -1,29 +1,26 @@
+{% load static %}
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <title>Register</title>
+    <link rel="stylesheet" type="text/css" href="{% static 'css/register.css' %}">
 </head>
 <body>
-    <h2>Register</h2>
-    <form method="post">
-        {% csrf_token %}
-
-        <!-- Display the form fields (username, password, etc.) -->
-        {{ form.as_p }}
-
-        <!-- Add the checkbox for confirming Spotify account -->
-        <div>
-            <label for="has_spotify_account">
-                <input type="checkbox" name="has_spotify_account" required>
-                I have a Spotify account.
-            </label>
-        </div>
-
-        <!-- Register button -->
-        <button type="submit">Register</button>
-    </form>
-
-    <p>Already have an account? <a href="{% url 'frontend:login' %}">Login here</a>.</p>
+    <div class="form-container">
+        <h2>Register</h2>
+        <form method="post">
+            {% csrf_token %}
+            {{ form.as_p }}
+            <div>
+                <label for="has_spotify_account">
+                    <input type="checkbox" name="has_spotify_account" required>
+                    I have a Spotify account.
+                </label>
+            </div>
+            <button type="submit">Register</button>
+        </form>
+        <p>Already have an account? <a href="{% url 'frontend:login' %}">Login here</a>.</p>
+    </div>
 </body>
 </html>
