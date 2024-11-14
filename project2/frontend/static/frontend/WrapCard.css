@@ -1,44 +1,41 @@
-/* General styles */
+/* General body styling for center alignment and background color */
 body {
     font-family: Arial, sans-serif;
-    background-color: #2e2e2e; /* Dark grey background */
-    color: #ffffff;
+    background-color: #f3f4f6;
     display: flex;
     flex-direction: column;
     align-items: center;
     padding: 20px;
     margin: 0;
 }
+
+/* Heading styling */
 h1 {
-    font-size: 3rem; /* Larger font size for more prominence */
-    margin-bottom: 30px;
+    font-size: 2.5rem;
+    margin-bottom: 20px;
     color: #1DB954; /* Spotify green */
     text-align: center;
-    font-weight: bold; /* Makes the title bold */
-    text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.3); /* Adds a shadow for depth */
 }
 
-
-/* Wraps container with centered bottom row */
+/* Wraps container with responsive grid layout */
 .wraps-container {
     display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
     gap: 20px;
-    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
     justify-content: center;
     max-width: 1200px;
     width: 100%;
 }
 
-/* Wrap card */
+/* Wrap card styling with hover effect */
 .wrap-card {
-    width: 200px;
+    background-color: #f4f4f4;
     padding: 20px;
     text-align: center;
-    background-color: #fff;
     border-radius: 8px;
     box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
     cursor: pointer;
-    transition: transform 0.2s, box-shadow 0.2s;
 }
 
 .wrap-card:hover {
@@ -46,12 +43,56 @@ h1 {
     box-shadow: 0px 6px 15px rgba(0, 0, 0, 0.15);
 }
 
-/* Wrap card title */
+/* Title inside wrap cards */
 .wrap-card h3 {
     margin: 0;
     font-size: 1.2rem;
     color: #333;
 }
 
-/* Title styling */
+/* Expanded wrap view styling (currently unused but kept for future use) */
+.wrap-expanded {
+    position: fixed;
+    top: 10%;
+    left: 25%;
+    width: 50%;
+    height: 80%;
+    background: #ffffff;
+    padding: 20px;
+    box-shadow: 0 0 15px rgba(0, 0, 0, 0.2);
+    overflow-y: auto;
+    transition: transform 0.3s ease;
+}
+/* Modal Styling */
+.modal {
+  display: none; /* Hidden by default */
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background-color: rgba(0, 0, 0, 0.5); /* Semi-transparent overlay */
+  /*display: flex;*/
+  justify-content: center;
+  align-items: center;
+  z-index: 1000; /* Ensure it appears above other content */
+}
 
+.modal-content {
+  background-color: #fff;
+  padding: 20px;
+  border-radius: 8px;
+  width: 80%;
+  max-width: 500px;
+  text-align: center;
+  position: relative;
+  box-shadow: 0px 4px 15px rgba(0, 0, 0, 0.2);
+}
+
+.close-button {
+  position: absolute;
+  top: 10px;
+  right: 15px;
+  font-size: 24px;
+  cursor: pointer;
+}
