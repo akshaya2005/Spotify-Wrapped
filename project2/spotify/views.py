@@ -99,7 +99,8 @@ def spotify_callback(request):
 
 
 
-    update_or_create_user_tokens(request.session.session_key, access_token, token_type, expires_in, refresh_token)
+    # Save access token and link the Spotify user ID with the authenticated Django user
+
 
     # Redirect to the intro page after successful login
     return redirect('wraps:dashboard')  # Change this to match your intro page URL name
