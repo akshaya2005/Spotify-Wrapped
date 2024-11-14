@@ -1,3 +1,6 @@
+from urllib.parse import urlencode
+
+from pyexpat.errors import messages
 from rest_framework.views import APIView
 from rest_framework import status
 from rest_framework.response import Response
@@ -5,13 +8,14 @@ from .utils import *
 from django.shortcuts import render, redirect
 from django.contrib.auth import authenticate, login
 from django.views.decorators.csrf import csrf_protect
-from django.http import HttpResponseRedirect
+from django.http import HttpResponseRedirect, HttpResponse
 from django.urls import reverse
 from requests import Request
 from .credentials import SPOTIPY_CLIENT_ID, SPOTIPY_REDIRECT_URI
 from django.shortcuts import redirect
 from requests import post
 from .utils import update_or_create_user_tokens
+from .models import UserSpotifyLink
 
 # Create your views here.
 @csrf_protect
@@ -58,7 +62,6 @@ class AuthURL(APIView):
 
 
 def spotify_callback(request):
-    print("Authorization Code:", request.GET.get('code'))
     # print("Received response:")  # Logs response from Spotify
     code = request.GET.get('code')
     error = request.GET.get('error')
@@ -66,7 +69,7 @@ def spotify_callback(request):
     # Handle error if exists
     if error:
         print("Error in Spotify callback:", error)  # Log the error for debugging
-        return redirect('frontend:index')  # Redirect to the index or an error page
+        return redirect('frontend:login')  # Redirect to the index or an error page
 
     # Exchange the authorization code for an access token
     response = post('https://accounts.spotify.com/api/token', data={
@@ -77,14 +80,9 @@ def spotify_callback(request):
         'client_secret': SPOTIPY_CLIENT_SECRET
     })
 
-    if response.status_code != 200:
-        print("Failed to exchange token:", response.json())  # Log response for debugging
-        return redirect('frontend:index')  # Handle errors from the token request
-
     # Extract tokens and expiration info
     response_data = response.json()
     access_token = response_data.get('access_token')
-    print("Got access token")
     token_type = response_data.get('token_type')
     refresh_token = response_data.get('refresh_token')
     expires_in = response_data.get('expires_in')
@@ -98,7 +96,9 @@ def spotify_callback(request):
     if not request.session.exists(request.session.session_key):
         request.session.create()
 
-    # Update or create user tokens in the database
+
+
+
     update_or_create_user_tokens(request.session.session_key, access_token, token_type, expires_in, refresh_token)
 
     # Redirect to the intro page after successful login

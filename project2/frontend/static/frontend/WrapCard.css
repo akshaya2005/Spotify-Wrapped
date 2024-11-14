@@ -1,23 +1,68 @@
-.wraps-container {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
-  gap: 15px;
-  padding: 20px;
+/* General body styling for center alignment and background color */
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f3f4f6;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 20px;
+    margin: 0;
 }
 
+/* Heading styling */
+h1 {
+    font-size: 2.5rem;
+    margin-bottom: 20px;
+    color: #1DB954; /* Spotify green */
+    text-align: center;
+}
+
+/* Wraps container with responsive grid layout */
+.wraps-container {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+    gap: 20px;
+    justify-content: center;
+    max-width: 1200px;
+    width: 100%;
+}
+
+/* Wrap card styling with hover effect */
 .wrap-card {
-  border: 1px solid #ddd;
-  padding: 10px;
-  cursor: pointer;
-  transition: background-color 0.3s;
-  border-radius: 8px;
-  text-align: center;
+    background-color: #f4f4f4;
+    padding: 20px;
+    text-align: center;
+    border-radius: 8px;
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    cursor: pointer;
 }
 
 .wrap-card:hover {
-  background-color: #f0f0f0;
+    transform: translateY(-5px);
+    box-shadow: 0px 6px 15px rgba(0, 0, 0, 0.15);
 }
 
+/* Title inside wrap cards */
+.wrap-card h3 {
+    margin: 0;
+    font-size: 1.2rem;
+    color: #333;
+}
+
+/* Expanded wrap view styling (currently unused but kept for future use) */
+.wrap-expanded {
+    position: fixed;
+    top: 10%;
+    left: 25%;
+    width: 50%;
+    height: 80%;
+    background: #ffffff;
+    padding: 20px;
+    box-shadow: 0 0 15px rgba(0, 0, 0, 0.2);
+    overflow-y: auto;
+    transition: transform 0.3s ease;
+}
 /* Modal Styling */
 .modal {
   display: none; /* Hidden by default */
