@@ -1,0 +1,19 @@
+{
+  "name": "spotify-wrapped",
+  "version": "1.0.0",
+  "description": "",
+  "main": "Dashboard.js",
+  "type": "module",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/akshaya2005/Spotify-Wrapped.git"
+  },
+  "private": true,
+  "dependencies": {
+    "react": "^18.3.1",
+    "react-dom": "^18.3.1"
+  }
+}

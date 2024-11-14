@@ -1,11 +1,7 @@
-from django.shortcuts import render, redirect
-from .credentials import *
 from rest_framework.views import APIView
 from rest_framework import status
 from rest_framework.response import Response
-from requests import Request, post
 from .utils import *
-
 from django.shortcuts import render, redirect
 from django.contrib.auth import authenticate, login
 from django.views.decorators.csrf import csrf_protect
@@ -27,7 +23,6 @@ def login_and_connect_spotify(request):
         user = authenticate(request, username=username, password=password)
         if user is not None:
             login(request, user)
-            # If the user is authenticated, redirect them to Spotify's authorization URL
             scopes = 'user-read-playback-state user-modify-playback-state user-read-currently-playing user-read-private user-top-read'
             url = Request(
                 'GET',

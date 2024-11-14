@@ -1,29 +1,60 @@
+{% load static %}
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <title>Register</title>
+    <link rel="stylesheet" type="text/css" href="{% static 'css/register.css' %}">
 </head>
 <body>
-    <h2>Register</h2>
-    <form method="post">
-        {% csrf_token %}
+    <div class="form-container">
+        <h2>
+            <img src="../../static/frontend/Primary_Logo_Green_RGB.svg" alt="Spotify Logo" class="logo">
+            Register
+        </h2>
+        <form method="post">
+            {% csrf_token %}
 
-        <!-- Display the form fields (username, password, etc.) -->
-        {{ form.as_p }}
+            <!-- Username field -->
+            <div class="form-field">
+                <label for="id_username">Enter your desired username:</label><br>
+                {{ form.username }}
+                <p class="input-note">Required. 150 characters or fewer. Letters, digits, and @/./+/-/_ only.</p>
+            </div>
 
-        <!-- Add the checkbox for confirming Spotify account -->
-        <div>
-            <label for="has_spotify_account">
-                <input type="checkbox" name="has_spotify_account" required>
-                I have a Spotify account.
-            </label>
-        </div>
+            <!-- Password field -->
+            <div class="form-field">
+                <label for="id_password1">Choose a password:</label><br>
+                {{ form.password1 }}
+                <ul class="input-note">
+                    <li>Your password can't be too similar to your other personal information.</li>
+                    <li>Your password must contain at least 8 characters.</li>
+                    <li>Your password can't be a commonly used password.</li>
+                    <li>Your passowrd can't be entirely numeric.</li>
+                </ul>
+            </div>
 
-        <!-- Register button -->
-        <button type="submit">Register</button>
-    </form>
+            <!-- Confirm Password field -->
+            <div class="form-field">
+                <label for="id_password2">Confirm your password:</label><br>
+                {{ form.password2 }}
+                <p class="input-note">Enter the same password as before, for verification.</p>
+            </div>
 
-    <p>Already have an account? <a href="{% url 'frontend:login' %}">Login here</a>.</p>
+            <!-- Checkbox confirmation for Spotify account -->
+            <div class="form-field">
+                <label for="has_spotify_account">
+                    <input type="checkbox" name="has_spotify_account" required>
+                    I confirm that I have an active Spotify account to link.
+                </label>
+            </div>
+
+            <!-- Submit button -->
+            <div class="form-field">
+                <button type="submit">Register</button>
+            </div>
+        </form>
+        <p>Already have an account? <a href="{% url 'frontend:login' %}">Login here</a>.</p>
+    </div>
 </body>
 </html>
