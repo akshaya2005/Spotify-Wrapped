@@ -1,3 +1,5 @@
+
+
 let currentSlideIndex = 0;
 let slides = [];
 
@@ -69,7 +71,6 @@ function closeOptionsPopup() {
     document.getElementById('options-modal').style.display ='none';
 }
 
-function toggleDropdown() {
 
-}
+
 
