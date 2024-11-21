@@ -44,3 +44,22 @@ window.onclick = function (event) {
         optionsModal.style.display = 'none';
     }
 };
+
+function createWrap() {
+    // Get the selected wrap type
+    const wrapDropdown = document.getElementById("wrapTypeDropdown");
+    const selectedWrap = wrapDropdown.value;
+
+    // Get the selected time period
+    const timeDropdown = document.getElementById("timePeriodDropdown");
+    const selectedTimePeriod = timeDropdown.value;
+
+    // Add logic to handle the wrap creation
+    console.log(`Creating wrap for: ${selectedWrap}, Time Period: ${selectedTimePeriod}`);
+
+    // Close the modal
+    closeOptionsPopup();
+
+    // Optionally, provide feedback to the user
+    alert(`Wrap for ${wrapDropdown.options[wrapDropdown.selectedIndex].text} over ${timeDropdown.options[timeDropdown.selectedIndex].text} is being created!`);
+}
