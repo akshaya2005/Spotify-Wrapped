@@ -4,34 +4,54 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Expandable Cards</title>
+  <title>Dashboard</title>
   <!-- Use Django's static tag for loading CSS -->
   <link rel="stylesheet" href="{% static 'frontend/WrapCard.css' %}">
 </head>
 <body>
+  <header class="heading-bar">
+      <h2>My Dashboard</h2>
+  </header>
   <div class="wraps-container">
     {% for wrap in wrap_data %}
-      <div class="wrap-card" data-title="{{ wrap.title }}" data-details="{{ wrap.content }}" onclick="showPopup(this)">
-        <h3>{{ wrap.title }}</h3>
+      <div class="wrap-card" data-title="{{ wrap.name | escape }}" data-details="{{ wrap.content | escape }}" onclick="showPopup(this)">
+        <h3>{{ wrap.name }}</h3>
       </div>
     {% endfor %}
   </div>
+
+  <!-- Popup Modal -->
+  <div id="popupModal" class="modal">
+    <div class="modal-content">
+      <span class="close-button" onclick="closePopup()">&times;</span>
+
+      <h3 id="modalTitle"></h3>
+      <p id="modalDetails"></p>
+    </div>
+  </div>
+
+  <!-- Create wrap button -->
+  <div class="create-wrap-button" onclick="showOptions()">Create Wrap</div>
+
+  <div id="options-modal" class="modal-content">
+    <span class="close-button" onclick="closeOptionsPopup()">&times;</span>
+    <h2>What Kind of Wrap?</h2>
+    <div class="dropdown-button"></div>
+    <h2>Time Period</h2>
+    <h3>Dropdown</h3>
+  </div>
+
+
+
+
+
+
 
   <!-- Logout button -->
   <form action="{% url 'frontend:logout' %}" method="post" style="display: inline;">
     {% csrf_token %}
     <button type="submit" class="logout-button">Logout</button>
   </form>
-
-  <!-- Popup Modal -->
-  <div id="popupModal" class="modal">
-    <div class="modal-content">
-      <span class="close-button" onclick="closePopup()">&times;</span>
-      <h3 id="modalTitle"></h3>
-      <p id="modalDetails"></p>
-    </div>
-  </div>
-
   <!-- Use Django's static tag for loading JavaScript -->
   <script src="{% static 'frontend/Dashboard.js' %}"></script>
 </body>

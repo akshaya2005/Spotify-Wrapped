@@ -1,23 +1,91 @@
-.wraps-container {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
-  gap: 15px;
-  padding: 20px;
+/* General body styling for center alignment and background color */
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f3f4f6;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 20px;
+    margin: 0;
 }
 
+.heading-bar {
+  position: fixed; /* Sticks the bar to the top */
+  top: 0;
+  left: 0;
+  width: 100%; /* Full width of the screen */
+  background-color: #4CAF50; /* Green background color */
+  color: white; /* White text */
+  padding: 10px 20px; /* Adds space around the text */
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2); /* Adds a subtle shadow */
+  z-index: 1000; /* Ensures it stays on top of other elements */
+}
+
+/* Heading Bar Text */
+.heading-bar h1 {
+  margin: 0; /* Removes default margin */
+  font-size: 24px; /* Adjusts text size */
+  text-align: center; /* Centers the heading text */
+}
+
+/* Heading styling */
+h1 {
+    font-size: 2.5rem;
+    background-color: #f3f4f6;
+    margin-bottom: 20px;
+    color: #1DB954; /* Spotify green */
+    text-align: center;
+
+}
+
+/* Wraps container with responsive grid layout */
+.wraps-container {
+    margin-top: 60px; /* Pushes content below the fixed header */
+    padding: 20px;
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+    gap: 20px;
+    justify-content: center;
+    max-width: 1200px;
+    width: 100%;
+}
+
+/* Wrap card styling with hover effect */
 .wrap-card {
-  border: 1px solid #ddd;
-  padding: 10px;
-  cursor: pointer;
-  transition: background-color 0.3s;
-  border-radius: 8px;
-  text-align: center;
+    background-color: #f4f4f4;
+    padding: 20px;
+    text-align: center;
+    border-radius: 8px;
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    cursor: pointer;
 }
 
 .wrap-card:hover {
-  background-color: #f0f0f0;
+    transform: translateY(-5px);
+    box-shadow: 0px 6px 15px rgba(0, 0, 0, 0.15);
 }
 
+/* Title inside wrap cards */
+.wrap-card h3 {
+    margin: 0;
+    font-size: 1.2rem;
+    color: #333;
+}
+
+/* Expanded wrap view styling (currently unused but kept for future use) */
+.wrap-expanded {
+    position: fixed;
+    top: 10%;
+    left: 25%;
+    width: 50%;
+    height: 80%;
+    background: #ffffff;
+    padding: 20px;
+    box-shadow: 0 0 15px rgba(0, 0, 0, 0.2);
+    overflow-y: auto;
+    transition: transform 0.3s ease;
+}
 /* Modal Styling */
 .modal {
   display: none; /* Hidden by default */
@@ -34,6 +102,7 @@
 }
 
 .modal-content {
+
   background-color: #fff;
   padding: 20px;
   border-radius: 8px;
@@ -45,6 +114,14 @@
 }
 
 .close-button {
+    position: absolute;
+    top: 10px;
+    right: 15px;
+    font-size: 24px;
+    cursor: pointer;
+}
+
+.close-button {
   position: absolute;
   top: 10px;
   right: 15px;
@@ -52,17 +129,36 @@
   cursor: pointer;
 }
 
-button {
-    width: 100%;
-    padding: 10px;
-    background-color: #28a745;
-    border: none;
-    color: white;
-    border-radius: 4px;
-    font-size: 16px;
+.create-wrap-button{
+    background-color: #f4f4f4;
+    padding: 20px;
+    text-align: center;
+    border-radius: 8px;
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
     cursor: pointer;
 }
-
-button:hover {
-    background-color: #218838;
+/* Dropdown Button */
+.dropdown-button {
+  background-color: #4CAF50; /* Green background */
+  color: white; /* White text */
+  padding: 10px 20px; /* Spacing */
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 16px;
 }
+
+    /* Dropdown Content */
+.dropdown-content {
+    display: none; /* Hidden by default */
+    position: absolute;
+    background-color: white; /* Dropdown background */
+    min-width: 160px; /* Minimum width */
+    box-shadow: 0px 8px 16px rgba(0, 0, 0, 0.2); /* Shadow for the dropdown */
+    z-index: 1; /* Ensures it appears on top */
+    border-radius: 4px;
+    overflow: hidden;
+}
+
+
