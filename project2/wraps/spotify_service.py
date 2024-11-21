@@ -1,11 +1,4 @@
 # yourapp/spotify_service.py
-
-import requests
-
-import spotipy
-from spotipy.oauth2 import SpotifyOAuth
-
-
 import spotipy
 
 def get_user_top_tracks(access_token):
