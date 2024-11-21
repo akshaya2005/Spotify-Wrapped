@@ -15,6 +15,12 @@
         </h2>
         <form action="{% url 'spotify:login_and_connect_spotify' %}" method="post">
             {% csrf_token %}
+            {% if request.GET.error %}
+            <div class="error">
+                {{ request.GET.error }}
+            </div>
+            {% endif %}
+
 
             <!-- Display error message if authentication fails -->
             {% if error %}

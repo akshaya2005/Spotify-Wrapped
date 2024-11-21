@@ -11,3 +11,5 @@ function showPopup(title, details) {
       // Hide the modal
       document.getElementById('popupModal').style.display = 'none';
     }
+
+

@@ -55,7 +55,7 @@ def login_view(request):
             login(request, user)
             print("redirecting to index")
             # Redirect to index (Spotify connection page) after login
-            return redirect('frontend:index')
+            return redirect('frontend:dashboard')
     else:
         form = AuthenticationForm()
     return render(request, 'frontend/login.html', {'form': form})
