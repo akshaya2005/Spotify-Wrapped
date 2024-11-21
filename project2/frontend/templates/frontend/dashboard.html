@@ -10,7 +10,7 @@
 </head>
 <body>
   <header class="heading-bar">
-      <h2>Spotify Wrapped</h2>
+      <h1>Spotify Wrapped</h1>
       <form action="{% url 'frontend:logout' %}" method="post" class="logout-form">
         {% csrf_token %}
         <button type="submit" class="logout-button">Logout</button>
@@ -54,11 +54,7 @@
     <h3>Dropdown</h3>
   </div>
 
-  <!-- Logout button -->
-  <form action="{% url 'frontend:logout' %}" method="post" style="display: inline;">
-    {% csrf_token %}
-    <button type="submit" class="logout-button">Logout</button>
-  </form>
+
   <!-- Use Django's static tag for loading JavaScript -->
   <script src="{% static 'frontend/Dashboard.js' %}"></script>
 </body>
