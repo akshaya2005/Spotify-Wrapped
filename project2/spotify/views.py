@@ -61,6 +61,7 @@ class AuthURL(APIView):
 
 
 
+
 def spotify_callback(request):
     # print("Received response:")  # Logs response from Spotify
     code = request.GET.get('code')
