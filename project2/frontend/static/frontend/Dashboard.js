@@ -1,13 +1,37 @@
-function showPopup(title, details) {
-  // Set the title and details in the modal
-      document.getElementById('modalTitle').innerText = title;
-      document.getElementById('modalDetails').innerText = details;
+function showPopup(element) {
+  // Get the modal and modal content elements
+  const modal = document.getElementById("popupModal");
+  const modalTitle = document.getElementById("modalTitle");
+  const modalDetails = document.getElementById("modalDetails");
 
-      // Show the modal
-      document.getElementById('popupModal').style.display = 'flex';
-    }
+  // Get the title and details from the clicked card's data attributes
+  const title = element.getAttribute("data-title");
+  const details = element.getAttribute("data-details");
 
-    function closePopup() {
+
+  // Set the content of the modal
+  modalTitle.textContent = title;
+  modalDetails.textContent = details;
+
+  // Show the modal
+  modal.style.display = 'flex';
+}
+
+function closePopup() {
       // Hide the modal
-      document.getElementById('popupModal').style.display = 'none';
-    }
+    document.getElementById('popupModal').style.display = 'none';
+}
+
+function showOptions() {
+    const modal = document.getElementById("options-modal")
+    modal.style.display = 'block';
+}
+
+function closeOptionsPopup() {
+    document.getElementById('options-modal').style.display ='none';
+}
+
+function toggleDropdown() {
+
+}
+
