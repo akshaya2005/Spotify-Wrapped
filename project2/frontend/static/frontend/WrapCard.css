@@ -160,5 +160,9 @@ h1 {
     border-radius: 4px;
     overflow: hidden;
 }
-
+.slide-controls {
+  margin-top: 20px;
+  display: flex;
+  justify-content: space-between;
+}
 

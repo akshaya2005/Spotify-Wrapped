@@ -26,7 +26,14 @@
       <span class="close-button" onclick="closePopup()">&times;</span>
 
       <h3 id="modalTitle"></h3>
-      <p id="modalDetails"></p>
+      <!-- Slide Content -->
+      <div id="slideContent"></div>
+
+    <!-- Navigation Buttons -->
+      <div class="slide-controls">
+        <button id="prevSlide" onclick="changeSlide(-1)">Previous</button>
+        <button id="nextSlide" onclick="changeSlide(1)">Next</button>
+      </div>
     </div>
   </div>
 
@@ -40,12 +47,6 @@
     <h2>Time Period</h2>
     <h3>Dropdown</h3>
   </div>
-
-
-
-
-
-
 
   <!-- Logout button -->
   <form action="{% url 'frontend:logout' %}" method="post" style="display: inline;">
