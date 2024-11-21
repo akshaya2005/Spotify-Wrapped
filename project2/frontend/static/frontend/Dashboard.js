@@ -1,37 +1,46 @@
 function showPopup(element) {
-  // Get the modal and modal content elements
-  const modal = document.getElementById("popupModal");
-  const modalTitle = document.getElementById("modalTitle");
-  const modalDetails = document.getElementById("modalDetails");
+    // Get the modal and its content
+    const modal = document.getElementById("popupModal");
+    const modalTitle = document.getElementById("modalTitle");
+    const modalDetails = document.getElementById("modalDetails");
 
-  // Get the title and details from the clicked card's data attributes
-  const title = element.getAttribute("data-title");
-  const details = element.getAttribute("data-details");
+    // Get the data attributes
+    const title = element.getAttribute("data-title");
+    const details = element.getAttribute("data-details");
 
+    // Set the modal content
+    modalTitle.textContent = title;
+    modalDetails.textContent = details;
 
-  // Set the content of the modal
-  modalTitle.textContent = title;
-  modalDetails.textContent = details;
-
-  // Show the modal
-  modal.style.display = 'flex';
+    // Show the modal
+    modal.style.display = 'flex';
 }
 
 function closePopup() {
-      // Hide the modal
-    document.getElementById('popupModal').style.display = 'none';
+    const modal = document.getElementById('popupModal');
+    modal.style.display = 'none'; // Hide the modal
 }
 
 function showOptions() {
-    const modal = document.getElementById("options-modal")
-    modal.style.display = 'block';
+    const optionsModal = document.getElementById("options-modal");
+    optionsModal.style.display = 'flex'; // Show the options modal
 }
 
 function closeOptionsPopup() {
-    document.getElementById('options-modal').style.display ='none';
+    const optionsModal = document.getElementById("options-modal");
+    optionsModal.style.display = 'none'; // Hide the options modal
 }
 
-function toggleDropdown() {
+// Close modal when clicking outside the content
+window.onclick = function (event) {
+    const popupModal = document.getElementById("popupModal");
+    const optionsModal = document.getElementById("options-modal");
 
-}
+    if (event.target === popupModal) {
+        popupModal.style.display = 'none';
+    }
 
+    if (event.target === optionsModal) {
+        optionsModal.style.display = 'none';
+    }
+};
