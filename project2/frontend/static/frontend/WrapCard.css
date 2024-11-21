@@ -9,16 +9,39 @@ body {
     margin: 0;
 }
 
+.heading-bar {
+  position: fixed; /* Sticks the bar to the top */
+  top: 0;
+  left: 0;
+  width: 100%; /* Full width of the screen */
+  background-color: #4CAF50; /* Green background color */
+  color: white; /* White text */
+  padding: 10px 20px; /* Adds space around the text */
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2); /* Adds a subtle shadow */
+  z-index: 1000; /* Ensures it stays on top of other elements */
+}
+
+/* Heading Bar Text */
+.heading-bar h1 {
+  margin: 0; /* Removes default margin */
+  font-size: 24px; /* Adjusts text size */
+  text-align: center; /* Centers the heading text */
+}
+
 /* Heading styling */
 h1 {
     font-size: 2.5rem;
+    background-color: #f3f4f6;
     margin-bottom: 20px;
     color: #1DB954; /* Spotify green */
     text-align: center;
+
 }
 
 /* Wraps container with responsive grid layout */
 .wraps-container {
+    margin-top: 60px; /* Pushes content below the fixed header */
+    padding: 20px;
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
     gap: 20px;
@@ -79,6 +102,7 @@ h1 {
 }
 
 .modal-content {
+
   background-color: #fff;
   padding: 20px;
   border-radius: 8px;
@@ -90,9 +114,51 @@ h1 {
 }
 
 .close-button {
+    position: absolute;
+    top: 10px;
+    right: 15px;
+    font-size: 24px;
+    cursor: pointer;
+}
+
+.close-button {
   position: absolute;
   top: 10px;
   right: 15px;
   font-size: 24px;
   cursor: pointer;
 }
+
+.create-wrap-button{
+    background-color: #f4f4f4;
+    padding: 20px;
+    text-align: center;
+    border-radius: 8px;
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    cursor: pointer;
+}
+/* Dropdown Button */
+.dropdown-button {
+  background-color: #4CAF50; /* Green background */
+  color: white; /* White text */
+  padding: 10px 20px; /* Spacing */
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 16px;
+}
+
+    /* Dropdown Content */
+.dropdown-content {
+    display: none; /* Hidden by default */
+    position: absolute;
+    background-color: white; /* Dropdown background */
+    min-width: 160px; /* Minimum width */
+    box-shadow: 0px 8px 16px rgba(0, 0, 0, 0.2); /* Shadow for the dropdown */
+    z-index: 1; /* Ensures it appears on top */
+    border-radius: 4px;
+    overflow: hidden;
+}
+
+

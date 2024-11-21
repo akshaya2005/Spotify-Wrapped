@@ -61,6 +61,7 @@ class AuthURL(APIView):
 
 
 
+
 def spotify_callback(request):
     # print("Received response:")  # Logs response from Spotify
     code = request.GET.get('code')
@@ -96,9 +97,7 @@ def spotify_callback(request):
     if not request.session.exists(request.session.session_key):
         request.session.create()
 
-
-
-
+    update_or_create_user_tokens(request.session.session_key, access_token, token_type, expires_in, refresh_token)
     # Save access token and link the Spotify user ID with the authenticated Django user
 
 
