@@ -9,9 +9,8 @@ function showPopup(element) {
   const modalTitle = document.getElementById("modalTitle");
   const slideContent = document.getElementById("slideContent");
 
-    // Get the data attributes
-    const title = element.getAttribute("data-title");
-    const details = element.getAttribute("data-details");
+  const title = element.getAttribute("data-title");
+  const details = element.getAttribute("data-details");
 
   slides = details.split('},'); // Example: Use '|' as a delimiter for multiple slides
   currentSlideIndex = 0; // Start at the first slide
