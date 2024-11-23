@@ -11,6 +11,7 @@
 <body>
   <header class="heading-bar">
       <h1>Spotify Wrapped</h1>
+      <button id="theme-toggle" class="theme-toggle">🌙 Dark Mode</button>
       <form action="{% url 'frontend:logout' %}" method="post" class="logout-form">
         {% csrf_token %}
         <button type="submit" class="logout-button">Logout</button>

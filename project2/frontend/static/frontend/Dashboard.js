@@ -71,6 +71,25 @@ function closeOptionsPopup() {
     document.getElementById('options-modal').style.display ='none';
 }
 
+const themeToggle = document.getElementById('theme-toggle');
+
+// Check for saved theme in localStorage
+const savedTheme = localStorage.getItem('theme');
+if (savedTheme === 'dark') {
+  document.body.classList.add('dark-mode');
+  themeToggle.textContent = '☀️ Light Mode'; // Update toggle text
+}
+
+// Add event listener to toggle button
+themeToggle.addEventListener('click', () => {
+  const isDarkMode = document.body.classList.toggle('dark-mode');
+
+  // Update button text based on mode
+  themeToggle.textContent = isDarkMode ? '☀️ Light Mode' : '🌙 Dark Mode';
+
+  // Save the selected theme in localStorage
+  localStorage.setItem('theme', isDarkMode ? 'dark' : 'light');
+});
 
 
 

@@ -2,7 +2,7 @@
 body {
     overflow-x: hidden;
     font-family: 'Montserrat', sans-serif;
-    background: url('../images/dashboard.png') no-repeat center center fixed;
+    background: url('../images/image.png') no-repeat center center fixed;
     background-size: cover;
     display: flex;
     flex-direction: column;
@@ -19,11 +19,12 @@ body {
   background-color: #4CAF50; /* Green background color */
   color: white; /* White text */
   display: flex;
-  padding: 10px 20px; /* Adds space around the text */
+  padding: 20px 20px; /* Adds space around the text */
   box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2); /* Adds a subtle shadow */
   z-index: 1000; /* Ensures it stays on top of other elements */
   box-sizing: border-box;
   align-items: center;
+  justify-content: space-between;
 }
 
 /* Heading Bar Text */
@@ -38,6 +39,8 @@ body {
 
 .logout-form {
   margin: 0; /* Remove default margins */
+  justify-content: flex-end;
+  display: inline-block;
 }
 
 /* Logout button styling */
@@ -197,6 +200,77 @@ h1 {
   margin-top: 20px;
   display: flex;
   justify-content: space-between;
+}
+
+/* Dark Mode Styles */
+body.dark-mode {
+    background: #121212; /* Dark background for the entire dashboard */
+    background: url('../images/dashboard.png') no-repeat center center fixed;
+    background-size: cover;
+    color: #ffffff; /* Light text for general content */
+}
+
+/* Header in Dark Mode */
+body.dark-mode .heading-bar {
+    background-color: #333333; /* Darker header background */
+    color: #ffffff; /* Light text */
+}
+
+/* Wrap Cards in Dark Mode */
+body.dark-mode .wrap-card {
+    background-color: #1e1e1e; /* Dark card background */
+    color: #ffffff; /* Light text for cards */
+    box-shadow: 0px 4px 10px rgba(255, 255, 255, 0.1); /* Softer shadow */
+}
+body.dark-mode .wrap-card h3 {
+    color: #ffffff; /* White text */
+}
+
+body.dark-mode .wrap-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0px 6px 15px rgba(255, 255, 255, 0.15); /* Softer hover shadow */
+}
+
+/* Modal in Dark Mode */
+body.dark-mode .modal-content {
+    background-color: #1e1e1e; /* Dark modal background */
+    color: #ffffff; /* Light text for modal */
+    box-shadow: 0px 4px 15px rgba(255, 255, 255, 0.2); /* Softer modal shadow */
+}
+
+/* Close Button in Dark Mode */
+body.dark-mode .close-button {
+    color: #ffffff; /* White close button */
+}
+
+/* Dropdown Button in Dark Mode */
+body.dark-mode .dropdown-button {
+    background-color: #333333; /* Dark dropdown background */
+    color: #ffffff; /* Light dropdown text */
+}
+
+/* Create Wrap Button in Dark Mode */
+body.dark-mode .create-wrap-button {
+    background-color: #1e1e1e; /* Dark button background */
+    color: #ffffff; /* Light button text */
+    box-shadow: 0px 4px 10px rgba(255, 255, 255, 0.1); /* Softer button shadow */
+}
+
+/* Slide Controls in Dark Mode */
+body.dark-mode .slide-controls {
+    color: #ffffff; /* Light text for controls */
+}
+
+.theme-toggle {
+  background-color: #fff;
+  color: #1DB954;
+  border: 2px solid #1DB954;
+  padding: 8px 16px;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 16px;
+  font-weight: bold;
+  transition: background-color 0.3s ease, color 0.3s ease;
 }
 
 
