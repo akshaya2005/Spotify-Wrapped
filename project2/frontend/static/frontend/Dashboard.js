@@ -1,5 +1,3 @@
-
-
 let currentSlideIndex = 0;
 let slides = [];
 
@@ -9,9 +7,9 @@ function showPopup(element) {
   const modalTitle = document.getElementById("modalTitle");
   const slideContent = document.getElementById("slideContent");
 
-  // Get the title and details from the clicked card's data attributes
-  const title = element.getAttribute("data-title");
-  const details = element.getAttribute("data-details");
+    // Get the data attributes
+    const title = element.getAttribute("data-title");
+    const details = element.getAttribute("data-details");
 
   slides = details.split('},'); // Example: Use '|' as a delimiter for multiple slides
   currentSlideIndex = 0; // Start at the first slide
@@ -91,5 +89,21 @@ themeToggle.addEventListener('click', () => {
   localStorage.setItem('theme', isDarkMode ? 'dark' : 'light');
 });
 
+function createWrap() {
+    // Get the selected wrap type
+    const wrapDropdown = document.getElementById("wrapTypeDropdown");
+    const selectedWrap = wrapDropdown.value;
 
+    // Get the selected time period
+    const timeDropdown = document.getElementById("timePeriodDropdown");
+    const selectedTimePeriod = timeDropdown.value;
 
+    // Add logic to handle the wrap creation
+    console.log(`Creating wrap for: ${selectedWrap}, Time Period: ${selectedTimePeriod}`);
+
+    // Close the modal
+    closeOptionsPopup();
+
+    // Optionally, provide feedback to the user
+    alert(`Wrap for ${wrapDropdown.options[wrapDropdown.selectedIndex].text} over ${timeDropdown.options[timeDropdown.selectedIndex].text} is being created!`);
+}
