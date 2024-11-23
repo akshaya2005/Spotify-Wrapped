@@ -1,21 +1,16 @@
-from urllib.parse import urlencode
-
-from pyexpat.errors import messages
 from rest_framework.views import APIView
 from rest_framework import status
 from rest_framework.response import Response
 from .utils import *
-from django.shortcuts import render, redirect
+from django.shortcuts import render
 from django.contrib.auth import authenticate, login
 from django.views.decorators.csrf import csrf_protect
-from django.http import HttpResponseRedirect, HttpResponse
-from django.urls import reverse
+from django.http import HttpResponseRedirect
 from requests import Request
 from .credentials import SPOTIPY_CLIENT_ID, SPOTIPY_REDIRECT_URI
 from django.shortcuts import redirect
 from requests import post
 from .utils import update_or_create_user_tokens
-from .models import UserSpotifyLink
 
 # Create your views here.
 @csrf_protect
@@ -57,6 +52,7 @@ class AuthURL(APIView):
         params={'scope': scopes, 'response_type':'code', 'redirect_uri': SPOTIPY_REDIRECT_URI, 'client_id':SPOTIPY_CLIENT_ID}).prepare().url
 
         return Response({'url': url}, status = 200)
+
 
 
 

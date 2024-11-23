@@ -1,4 +1,4 @@
-/* General body styling for center alignment and background color */
+/* General body styling */
 body {
     overflow-x: hidden;
     font-family: 'Montserrat', sans-serif;
@@ -126,14 +126,37 @@ h1 {
     cursor: pointer;
 }
 
-.close-button {
-  position: absolute;
-  top: 10px;
-  right: 15px;
-  font-size: 24px;
-  cursor: pointer;
+.create-wrap-button {
+    background-color: #4CAF50;
+    color: white;
+    padding: 10px 20px;
+    border-radius: 8px;
+    cursor: pointer;
+    margin-top: 20px;
+    transition: background-color 0.3s ease;
 }
 
+.create-wrap-button:hover {
+    background-color: #3e8e41;
+}
+
+.dropdown-menu {
+    width: 100%;
+    padding: 10px;
+    margin: 15px 0;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    font-size: 16px;
+    background-color: #f9f9f9;
+    color: #333;
+    cursor: pointer;
+}
+
+/* Submit button styling */
+.submit-wrap-button {
+    background-color: #007bff;
+    color: white;
+    padding: 10px 20px;
 .create-wrap-container {
   display: flex;
   justify-content: center;
@@ -145,54 +168,11 @@ h1 {
     padding: 20px;
     text-align: center;
     border-radius: 8px;
-    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
-    transition: transform 0.3s ease, box-shadow 0.3s ease;
     cursor: pointer;
-}
-/* Dropdown Button */
-.dropdown-button {
-  background-color: #4CAF50; /* Green background */
-  color: white; /* White text */
-  padding: 10px 20px; /* Spacing */
-  border: none;
-  border-radius: 4px;
-  cursor: pointer;
-  font-size: 16px;
+    transition: background-color 0.3s ease;
+    border: none;
 }
 
-    /* Dropdown Content */
-.dropdown-content {
-    display: none; /* Hidden by default */
-    position: absolute;
-    background-color: white; /* Dropdown background */
-    min-width: 160px; /* Minimum width */
-    box-shadow: 0px 8px 16px rgba(0, 0, 0, 0.2); /* Shadow for the dropdown */
-    z-index: 1; /* Ensures it appears on top */
-    border-radius: 4px;
-    overflow: hidden;
+.submit-wrap-button:hover {
+    background-color: #0056b3;
 }
-.slide-controls {
-  margin-top: 20px;
-  display: flex;
-  justify-content: space-between;
-}
-
-.logout-form {
-  position: absolute;
-  top: 15px;
-  right: 20px;
-}
-
-/* Logout button styling */
-.logout-button {
-  background-color: #fff;
-  color: #1DB954;
-  border: 2px solid #1DB954;
-  padding: 8px 16px;
-  border-radius: 5px;
-  cursor: pointer;
-  font-size: 16px;
-  font-weight: bold;
-  transition: background-color 0.3s ease, color 0.3s ease;
-}
-
