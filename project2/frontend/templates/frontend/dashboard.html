@@ -10,7 +10,8 @@
 </head>
 <body>
   <header class="heading-bar">
-      <h2>Spotify Wrapped</h2>
+      <h1>Spotify Wrapped</h1>
+      <button id="theme-toggle" class="theme-toggle">🌙 Dark Mode</button>
       <form action="{% url 'frontend:logout' %}" method="post" class="logout-form">
         {% csrf_token %}
         <button type="submit" class="logout-button">Logout</button>
@@ -41,41 +42,19 @@
     </div>
   </div>
 
-  <!-- Create Wrap Modal -->
-  <div id="options-modal" class="modal" style="display: none;">
-  <div class="modal-content">
-    <span class="close-button" onclick="closeOptionsPopup()">&times;</span>
-    <h2>Select Wrap Type</h2>
-    <!-- Dropdown Menu -->
-    <select id="wrapTypeDropdown" class="dropdown-menu">
-      <option value="top_artists">Top Artists</option>
-      <option value="top_tracks">Top Tracks</option>
-      <option value="top_albums">Top Albums</option>
-      <option value="top_genres">Top Genres</option>
-      <option value="top_playlists">Top Playlists</option>
-    </select>
-
-    <h2>Select Time Period</h2>
-
-    <!-- Dropdown Menu for Time Period -->
-    <select id="timePeriodDropdown" class="dropdown-menu">
-      <option value="short_term">Short-Term</option>
-      <option value="medium_term">Medium-Term</option>
-      <option value="long_term">Long-Term</option>
-    </select>
-    <!-- Submit Button -->
-    <button class="submit-wrap-button" onclick="createWrap()">Create Wrap</button>
+  <!-- Create wrap button -->
+  <div class="create-wrap-container">
+    <div class="create-wrap-button" onclick="showOptions()">Create Wrap</div>
   </div>
-</div>
 
-  <!-- Create Wrap Button -->
-  <div class="create-wrap-button" onclick="showOptions()">Create Wrap</div>
+  <div id="options-modal" class="modal-content">
+    <span class="close-button" onclick="closeOptionsPopup()">&times;</span>
+    <h2>What Kind of Wrap?</h2>
+    <div class="dropdown-button"></div>
+    <h2>Time Period</h2>
+    <h3>Dropdown</h3>
+  </div>
 
-  <!-- Logout button -->
-  <form action="{% url 'frontend:logout' %}" method="post" style="display: inline;">
-    {% csrf_token %}
-    <button type="submit" class="logout-button">Logout</button>
-  </form>
 
   <!-- Use Django's static tag for loading JavaScript -->
   <script src="{% static 'frontend/Dashboard.js' %}"></script>
