@@ -19,11 +19,14 @@
   </header>
   <div class="wraps-container">
     {% for wrap in wrap_data %}
-      <div class="wrap-card" data-title="{{ wrap.name | escape }}" data-details="{{ wrap.content | escape }}" onclick="showPopup(this)">
-        <h3>{{ wrap.name }}</h3>
+      <div class="wrap-card" data-title="{{ wrap.wrap_type | escape }}" data-details="{{ wrap.wrap_data | escape }}" onclick="showPopup(this)">
+        <h3>{{ wrap.wrap_type }}</h3>
+        <p>{{ wrap.created_at }}</p>
       </div>
+    {% empty %}
+      <p>You don't have any saved wraps yet.</p>
     {% endfor %}
-  </div>
+</div>
 
   <!-- Popup Modal -->
   <div id="popupModal" class="modal" style="display: none;">
@@ -47,13 +50,17 @@
     <span class="close-button" onclick="closeOptionsPopup()">&times;</span>
     <h2>Select Wrap Type</h2>
     <!-- Dropdown Menu -->
-    <select id="wrapTypeDropdown" class="dropdown-menu">
-      <option value="top_artists">Top Artists</option>
-      <option value="top_tracks">Top Tracks</option>
-      <option value="top_albums">Top Albums</option>
-      <option value="top_genres">Top Genres</option>
-      <option value="top_playlists">Top Playlists</option>
+    <<form method="post" action="{% url 'wraps:dashboard' %}">
+    {% csrf_token %}
+    <select id="wrapTypeDropdown" name="wrapTypeDropdown" class="dropdown-menu">
+        <option value="top_artists">Top Artists</option>
+        <option value="top_tracks">Top Tracks</option>
+        <option value="top_albums">Top Albums</option>
+        <option value="top_genres">Top Genres</option>
+        <option value="top_playlists">Top Playlists</option>
     </select>
+    <button type="submit">Generate Wrap</button>
+</form>
 
     <h2>Select Time Period</h2>
 
