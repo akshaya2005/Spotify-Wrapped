@@ -116,6 +116,7 @@ h1 {
     overflow-y: auto;
     transition: transform 0.3s ease;
 }
+
 /* Modal Styling */
 .modal {
   display: none; /* Hidden by default */
@@ -159,43 +160,47 @@ h1 {
   cursor: pointer;
 }
 
-.create-wrap-container {
-  display: flex;
-  justify-content: center;
-  margin-top: 20px;
+.create-wrap-button {
+    background-color: #4CAF50;
+    color: white;
+    padding: 10px 20px;
+    border-radius: 8px;
+    cursor: pointer;
+    margin-top: 20px;
+    transition: background-color 0.3s ease;
 }
 
-.create-wrap-button{
-    background-color: #f4f4f4;
-    padding: 20px;
-    text-align: center;
+.create-wrap-button:hover {
+    background-color: #3e8e41;
+}
+
+.dropdown-menu {
+    width: 100%;
+    padding: 10px;
+    margin: 15px 0;
+    border: 1px solid #ddd;
     border-radius: 8px;
-    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
-    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    font-size: 16px;
+    background-color: #f9f9f9;
+    color: #333;
     cursor: pointer;
 }
-/* Dropdown Button */
-.dropdown-button {
-  background-color: #4CAF50; /* Green background */
-  color: white; /* White text */
-  padding: 10px 20px; /* Spacing */
-  border: none;
-  border-radius: 4px;
-  cursor: pointer;
-  font-size: 16px;
+
+/* Submit button styling */
+.submit-wrap-button {
+    background-color: #007bff;
+    color: white;
+    padding: 10px 20px;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    border: none;
 }
 
-    /* Dropdown Content */
-.dropdown-content {
-    display: none; /* Hidden by default */
-    position: absolute;
-    background-color: white; /* Dropdown background */
-    min-width: 160px; /* Minimum width */
-    box-shadow: 0px 8px 16px rgba(0, 0, 0, 0.2); /* Shadow for the dropdown */
-    z-index: 1; /* Ensures it appears on top */
-    border-radius: 4px;
-    overflow: hidden;
+.submit-wrap-button:hover {
+    background-color: #0056b3;
 }
+
 .slide-controls {
   margin-top: 20px;
   display: flex;
