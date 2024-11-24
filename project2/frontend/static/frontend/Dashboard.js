@@ -4,7 +4,10 @@ let currentSlideIndex = 0;
 let slides = [];
 
 function showPopup(element) {
-  // Get the modal and modal content elements
+    if (event.target.classList.contains('delete-wrap-button')) {
+        return; // Exit the function, do not expand the wrap card
+  }
+  // Get the modal and modal content elementss
   const modal = document.getElementById("popupModal");
   const modalTitle = document.getElementById("modalTitle");
   const slideContent = document.getElementById("slideContent");

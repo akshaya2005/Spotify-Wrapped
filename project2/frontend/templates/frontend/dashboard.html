@@ -19,9 +19,13 @@
   </header>
   <div class="wraps-container">
     {% for wrap in wrap_data %}
-      <div class="wrap-card" data-title="{{ wrap.wrap_type | escape }}" data-details="{{ wrap.wrap_data | escape }}" onclick="showPopup(this)">
+      <div class="wrap-card" data-title="{{ wrap.wrap_type | escape }}" data-details="{{ wrap.wrap_data | escape }}" onclick="showPopup(this)" id="wrap-{{ wrap.id }}" data-id="{{ wrap.id }}">
         <h3>{{ wrap.wrap_type }}</h3>
         <p>{{ wrap.created_at }}</p>
+          <form action="{% url 'wraps:delete_wrap' wrap.id %}" method="post">
+            {% csrf_token %}
+            <button type="submit" class="delete-wrap-button">Delete</button>
+        </form>
       </div>
     {% empty %}
       <p>You don't have any saved wraps yet.</p>
@@ -50,7 +54,7 @@
     <span class="close-button" onclick="closeOptionsPopup()">&times;</span>
     <h2>Select Wrap Type</h2>
     <!-- Dropdown Menu -->
-    <<form method="post" action="{% url 'wraps:dashboard' %}">
+    <form method="post" action="{% url 'wraps:dashboard' %}">
     {% csrf_token %}
     <select id="wrapTypeDropdown" name="wrapTypeDropdown" class="dropdown-menu">
         <option value="top_artists">Top Artists</option>
@@ -59,19 +63,24 @@
         <option value="top_genres">Top Genres</option>
         <option value="top_playlists">Top Playlists</option>
     </select>
-    <button type="submit">Generate Wrap</button>
-</form>
-
     <h2>Select Time Period</h2>
-
-    <!-- Dropdown Menu for Time Period -->
     <select id="timePeriodDropdown" class="dropdown-menu">
       <option value="short_term">Short-Term</option>
       <option value="medium_term">Medium-Term</option>
       <option value="long_term">Long-Term</option>
     </select>
-    <!-- Submit Button -->
-    <button class="submit-wrap-button" onclick="createWrap()">Create Wrap</button>
+    <button class="submit-wrap-button" type="submit">Generate Wrap</button>
+</form>
+
+
+    <!-- Dropdown Menu for Time Period
+    <select id="timePeriodDropdown" class="dropdown-menu">
+      <option value="short_term">Short-Term</option>
+      <option value="medium_term">Medium-Term</option>
+      <option value="long_term">Long-Term</option>
+    </select>
+    Submit Button
+    <button class="submit-wrap-button" onclick="createWrap()">Create Wrap</button> -->
   </div>
 </div>
 
@@ -83,5 +92,6 @@
 
   <!-- Use Django's static tag for loading JavaScript -->
   <script src="{% static 'frontend/Dashboard.js' %}"></script>
+
 </body>
 </html>

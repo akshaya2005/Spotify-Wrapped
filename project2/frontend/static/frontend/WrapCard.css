@@ -200,6 +200,8 @@ h1 {
     cursor: pointer;
 }
 
+
+
 /* Submit button styling */
 .submit-wrap-button {
     background-color: #007bff;
@@ -304,6 +306,19 @@ body.dark-mode .slide-controls {
   font-size: 16px;
   font-weight: bold;
   transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+.delete-wrap-button {
+  background-color: #ff4d4d;
+  color: white;
+  border: none;
+  padding: 10px 15px;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.delete-wrap-button:hover {
+  background-color: #ff1a1a;
 }
 
 

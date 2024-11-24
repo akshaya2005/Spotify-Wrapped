@@ -7,6 +7,10 @@ from .models import *
 
 #@login_required  # Ensures only authenticated users can access this view
 from django.shortcuts import redirect
+from django.shortcuts import get_object_or_404, redirect
+from django.http import HttpResponse
+
+
 
 
 def dashboard(request):
@@ -58,6 +62,13 @@ def dashboard(request):
     user_wraps = UserWrap.objects.filter(user=request.user).order_by('-created_at')
     return render(request, 'frontend/dashboard.html', {'wrap_data': user_wraps})
 
+def delete_wrap(request, wrap_id):
+    if request.method == 'POST':
+        # Get the wrap instance for the logged-in user
+        wrap = get_object_or_404(UserWrap, id=wrap_id, user=request.user)
+        wrap.delete()  # Delete the wrap
+        return redirect('wraps:dashboard')  # Redirect to the dashboard after deletion
+    return HttpResponse("Invalid request method", status=405)
 ## Write functions to create different kinds of wraps
 def toggle_favorite(request, place_id):
     # Get or create the restaurant based on place_id
