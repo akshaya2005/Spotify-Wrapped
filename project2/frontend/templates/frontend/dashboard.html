@@ -19,10 +19,37 @@
   </header>
   <div class="wraps-container">
     {% for wrap in wrap_data %}
-      <div class="wrap-card" data-title="{{ wrap.wrap_type | escape }}" data-details="{{ wrap.wrap_data | escape }}" onclick="showPopup(this)" id="wrap-{{ wrap.id }}" data-id="{{ wrap.id }}">
+      <div class="wrap-card {{ wrap.wrap_type }}" data-title="{{ wrap.wrap_type | escape }}" data-details="{{ wrap.wrap_data | escape }}" onclick="showPopup(this)" id="wrap-{{ wrap.id }}" data-id="{{ wrap.id }}">
         <h3>{{ wrap.wrap_type }}</h3>
         <p>{{ wrap.created_at }}</p>
-          <form action="{% url 'wraps:delete_wrap' wrap.id %}" method="post">
+        {% if wrap.wrap_type == "top_tracks" %}
+          {% for track in wrap.wrap_data.content %}
+            <p><strong>Name:</strong> {{ track.name }}</p>
+            <p><strong>Artists:</strong> {{ track.artists }}</p>
+            <p><strong>Album:</strong> {{ track.album }}</p>
+            {% if track.album_cover %}
+              <img src="{{ track.album_cover }}" alt="Album Cover" style="width: 100px; height: auto;">
+            {% endif %}
+            {% if track.preview_url %}
+              <audio controls>
+                <source src="{{ track.preview_url }}" type="audio/mpeg">
+                Your browser does not support the audio element.
+              </audio>
+            {% endif %}
+            <hr> <!-- Divider between tracks -->
+          {% endfor %}
+        {% endif %}
+
+  <!-- Conditional Rendering for Top Artists -->
+        {% if wrap.wrap_type == "top_artists" %}
+          {% for artist in wrap.wrap_data.content %}
+            <p><strong>Artist Name:</strong> {{ artist.artist_name }}</p>
+            <p><strong>Popularity:</strong> {{ artist.popularity }}</p>
+            <p><strong>Genres:</strong> {{ artist.genres|join:", " }}</p>
+            <hr> <!-- Divider between artists -->
+          {% endfor %}
+        {% endif %}
+        <form action="{% url 'wraps:delete_wrap' wrap.id %}" method="post">
             {% csrf_token %}
             <button type="submit" class="delete-wrap-button">Delete</button>
         </form>
@@ -72,15 +99,6 @@
     <button class="submit-wrap-button" type="submit">Generate Wrap</button>
 </form>
 
-
-    <!-- Dropdown Menu for Time Period
-    <select id="timePeriodDropdown" class="dropdown-menu">
-      <option value="short_term">Short-Term</option>
-      <option value="medium_term">Medium-Term</option>
-      <option value="long_term">Long-Term</option>
-    </select>
-    Submit Button
-    <button class="submit-wrap-button" onclick="createWrap()">Create Wrap</button> -->
   </div>
 </div>
 

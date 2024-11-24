@@ -1,5 +1,3 @@
-
-
 let currentSlideIndex = 0;
 let slides = [];
 
@@ -11,17 +9,19 @@ function showPopup(element) {
   const modal = document.getElementById("popupModal");
   const modalTitle = document.getElementById("modalTitle");
   const slideContent = document.getElementById("slideContent");
-
+    console.log("Raw JSON String:", element.getAttribute("data-details"))
     // Get the data attributes
     const title = element.getAttribute("data-title");
-    const details = element.getAttribute("data-details");
+    const details = JSON.parse(element.getAttribute("data-details"));
 
-  slides = details.split('},'); // Example: Use '|' as a delimiter for multiple slides
+
+  slides = details.content; // Example: Use '|' as a delimiter for multiple slides
   currentSlideIndex = 0; // Start at the first slide
 
+    renderCurrentSlide(title)
   // Set the modal title and initial slide content
   modalTitle.textContent = title;
-  slideContent.textContent = slides[currentSlideIndex];
+  //slideContent.textContent = slides[currentSlideIndex];
 
   // Show the modal
   modal.style.display = 'flex';
@@ -48,6 +48,54 @@ function changeSlide(direction) {
 
   // Update navigation button visibility
   updateSlideControls();
+}
+
+
+function renderCurrentSlide(title) {
+  const slideContent = document.getElementById("slideContent");
+  const currentSlide = slides[currentSlideIndex];
+
+  // Clear previous content
+  slideContent.innerHTML = "";
+
+  if (title === "top_tracks") {
+    // Render top tracks
+    const trackHTML = `
+      <div>
+        <p><strong>Name:</strong> ${currentSlide.name}</p>
+        <p><strong>Artists:</strong> ${currentSlide.artists}</p>
+        <p><strong>Album:</strong> ${currentSlide.album}</p>
+        ${
+          currentSlide.album_cover
+            ? `<img src="${currentSlide.album_cover}" alt="Album Cover" style="width: 100px; height: auto;">`
+            : ""
+        }
+        ${
+          currentSlide.preview_url
+            ? `
+            <audio controls>
+              <source src="${currentSlide.preview_url}" type="audio/mpeg">
+              Your browser does not support the audio element.
+            </audio>
+            `
+            : ""
+        }
+      </div>
+    `;
+    slideContent.innerHTML = trackHTML;
+  } else if (title === "top_artists") {
+    // Render top artists
+    const artistHTML = `
+      <div>
+        <p><strong>Artist Name:</strong> ${currentSlide.artist_name}</p>
+        <p><strong>Popularity:</strong> ${currentSlide.popularity}</p>
+        <p><strong>Genres:</strong> ${currentSlide.genres.join(", ")}</p>
+      </div>
+    `;
+    slideContent.innerHTML = artistHTML;
+  } else {
+    slideContent.innerHTML = `<p>Unknown wrap type: ${title}</p>`;
+  }
 }
 
 function updateSlideControls() {

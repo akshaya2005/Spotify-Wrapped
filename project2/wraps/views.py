@@ -1,4 +1,5 @@
 import spotify
+import json
 from django.shortcuts import render
 from .spotify_service import *
 from django.http import JsonResponse
@@ -60,7 +61,18 @@ def dashboard(request):
             return JsonResponse({'status': 'error', 'message': str(e)})
 
     user_wraps = UserWrap.objects.filter(user=request.user).order_by('-created_at')
-    return render(request, 'frontend/dashboard.html', {'wrap_data': user_wraps})
+    wraps_with_serialized_data = [
+        {
+            "id": wrap.id,
+            "wrap_type": wrap.wrap_type,
+            "wrap_data": json.dumps(wrap.wrap_data),  # Convert to valid JSON
+            "created_at": wrap.created_at,
+        }
+        for wrap in user_wraps
+    ]
+
+    return render(request, 'frontend/dashboard.html', {'wrap_data': wraps_with_serialized_data})
+    #return render(request, 'frontend/dashboard.html', {'wrap_data': user_wraps})
 
 def delete_wrap(request, wrap_id):
     if request.method == 'POST':
