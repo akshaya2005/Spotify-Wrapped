@@ -20,10 +20,11 @@ body::before {
     height: 100%;
     background: url('../images/image.png') no-repeat center center fixed;
     background-size: cover;
-    filter: blur(2px); /* Adjust blur intensity here */
-    z-index: -1; /* Ensures the blurred background stays behind other content */
-    transform: scale(1.1); /* Optional: Slightly enlarges the background to prevent edges from being visible */
+    filter: blur(2px);
+    z-index: -1;
+    transform: scale(1.1);
 }
+
 
 .heading-bar {
   position: fixed; /* Sticks the bar to the top */
@@ -296,6 +297,14 @@ body.dark-mode .slide-controls {
     color: #ffffff; /* Light text for controls */
 }
 
+body.dark-mode .empty-wrap {
+  background-color: #1e1e1e; /* Dark background color */
+  color: #ffffff; /* Light text color */
+  border: 1px solid #333333; /* Optional: Border for better contrast */
+  box-shadow: 0px 4px 10px rgba(255, 255, 255, 0.1); /* Softer shadow */
+}
+
+
 .theme-toggle {
   background-color: #fff;
   color: #1DB954;
@@ -320,5 +329,15 @@ body.dark-mode .slide-controls {
 .delete-wrap-button:hover {
   background-color: #ff1a1a;
 }
+
+.empty-wrap {
+  background-color: white;
+  color: black;
+  padding: 10px;
+  border-radius: 5px;
+  z-index: 1;
+}
+
+
 
 
