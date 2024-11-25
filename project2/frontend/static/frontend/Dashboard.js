@@ -1,27 +1,28 @@
 let currentSlideIndex = 0;
 let slides = [];
+let currentWrapTitle = ""; // Store the current wrap title globally
 
 function showPopup(element) {
     if (event.target.classList.contains('delete-wrap-button')) {
         return; // Exit the function, do not expand the wrap card
   }
-  // Get the modal and modal content elementss
+  // Get the modal and modal content elements
   const modal = document.getElementById("popupModal");
   const modalTitle = document.getElementById("modalTitle");
   const slideContent = document.getElementById("slideContent");
     console.log("Raw JSON String:", element.getAttribute("data-details"))
     // Get the data attributes
-    const title = element.getAttribute("data-title");
+    currentWrapTitle = element.getAttribute("data-title");
     const details = JSON.parse(element.getAttribute("data-details"));
 
 
   slides = details.content; // Example: Use '|' as a delimiter for multiple slides
   currentSlideIndex = 0; // Start at the first slide
-
-    renderCurrentSlide(title)
   // Set the modal title and initial slide content
-  modalTitle.textContent = title;
+  modalTitle.textContent = currentWrapTitle;
   //slideContent.textContent = slides[currentSlideIndex];
+  renderCurrentSlide()
+
 
   // Show the modal
   modal.style.display = 'flex';
@@ -31,7 +32,7 @@ function showPopup(element) {
 
 }
 function changeSlide(direction) {
-  const slideContent = document.getElementById("slideContent");
+  //const slideContent = document.getElementById("slideContent");
 
   // Update the current slide index
   currentSlideIndex += direction;
@@ -44,7 +45,9 @@ function changeSlide(direction) {
   }
 
   // Update the slide content
-  slideContent.textContent = slides[currentSlideIndex];
+  //slideContent.textContent = slides[currentSlideIndex];
+
+  renderCurrentSlide();
 
   // Update navigation button visibility
   updateSlideControls();
@@ -58,7 +61,7 @@ function renderCurrentSlide(title) {
   // Clear previous content
   slideContent.innerHTML = "";
 
-  if (title === "top_tracks") {
+  if (currentWrapTitle === "top_tracks") {
     // Render top tracks
     const trackHTML = `
       <div>
@@ -83,7 +86,7 @@ function renderCurrentSlide(title) {
       </div>
     `;
     slideContent.innerHTML = trackHTML;
-  } else if (title === "top_artists") {
+  } else if (currentWrapTitle === "top_artists") {
     // Render top artists
     const artistHTML = `
       <div>
@@ -94,7 +97,7 @@ function renderCurrentSlide(title) {
     `;
     slideContent.innerHTML = artistHTML;
   } else {
-    slideContent.innerHTML = `<p>Unknown wrap type: ${title}</p>`;
+    slideContent.innerHTML = `<p>Unknown wrap type: ${currentWrapTitle}</p>`;
   }
 }
 
@@ -142,6 +145,8 @@ themeToggle.addEventListener('click', () => {
   localStorage.setItem('theme', isDarkMode ? 'dark' : 'light');
 });
 
+
+/*
 function createWrap() {
     // Get the selected wrap type
     const wrapDropdown = document.getElementById("wrapTypeDropdown");
@@ -160,4 +165,4 @@ function createWrap() {
     // Optionally, provide feedback to the user
     alert(`Wrap for ${wrapDropdown.options[wrapDropdown.selectedIndex].text} over ${timeDropdown.options[timeDropdown.selectedIndex].text} is being created!`);
 }
-
+*/
