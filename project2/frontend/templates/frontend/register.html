@@ -48,6 +48,15 @@
                     I confirm that I have an active Spotify account to link.
                 </label>
             </div>
+            <div class="form-field">
+                <label for="spotify_account">
+                    Link your Spotify account:
+                </label><br>
+                <a href="{% url 'spotify:get-auth-url' %}" class="spotify-link-button">
+                    Link Spotify Account
+                </a>
+                <p class="input-note">Click the button above to link your Spotify account.</p>
+            </div>
 
             <!-- Submit button -->
             <div class="form-field">
