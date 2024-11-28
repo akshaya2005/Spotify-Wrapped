@@ -39,12 +39,12 @@ def dashboard(request):
                 wrap_data = (get_user_top_tracks(access_token))
             elif wrap_type == 'top_artists':
                 wrap_data = (get_user_top_artists(access_token))
-            # elif wrap_type == 'top_albums':
-            #     wrap_data = get_user_top_albums(access_token)
-            # elif wrap_type == 'top_genres':
-            #     wrap_data = get_user_top_genres(access_token)
-            # elif wrap_type == 'top_playlists':
-            #     wrap_data = get_user_top_playlists(access_token)
+            elif wrap_type == 'top_albums':
+                wrap_data = get_user_top_albums(access_token)
+            elif wrap_type == 'top_genres':
+                wrap_data = get_user_top_genres(access_token)
+            elif wrap_type == 'top_playlists':
+                wrap_data = get_user_top_playlists(access_token)
             else:
                 wrap_data = {'error': 'Invalid wrap type selected'}
 
@@ -81,40 +81,8 @@ def delete_wrap(request, wrap_id):
         wrap.delete()  # Delete the wrap
         return redirect('wraps:dashboard')  # Redirect to the dashboard after deletion
     return HttpResponse("Invalid request method", status=405)
-## Write functions to create different kinds of wraps
-def toggle_favorite(request, place_id):
-    # Get or create the restaurant based on place_id
-    # restaurant, created = Restaurants.objects.get_or_create(place_id=place_id, defaults={
-    #     'name': request.POST.get('name'),
-    #     'address': request.POST.get('address'),
-    #     'latitude': request.POST.get('latitude'),
-    #     'longitude': request.POST.get('longitude'),
-    # })
-    #
-    # # Check if the restaurant is already in the user's favorites
-    # favorite = Favorite.objects.filter(user=request.user, restaurant=restaurant).first()
-    #
-    # if favorite:
-    #     # If it is already a favorite, remove it
-    #     favorite.delete()
-    #     message = "Removed from favorites"
-    # else:
-    #     # Otherwise, add it to favorites
-    #     Favorite.objects.create(user=request.user, restaurant=restaurant)
-    #     message = "Added to favorites"
-    #
-    # return JsonResponse({'message': message})
-    pass
 
 
-def create_top_artists_wrap():
-    pass
-
-def create_halloween_wrap():
-    pass
-
-def create_christmas_wrap():
-    pass
 
 
 def process_wrap_data(spotify_data):

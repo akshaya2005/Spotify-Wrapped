@@ -22,7 +22,7 @@ def login_and_connect_spotify(request):
         user = authenticate(request, username=username, password=password)
         if user is not None:
             login(request, user)
-            scopes = 'user-read-playback-state user-modify-playback-state user-read-currently-playing user-read-private user-top-read'
+            scopes = 'user-read-playback-state user-modify-playback-state user-read-currently-playing user-read-private user-top-read user-library-read'
             url = Request(
                 'GET',
                 'https://accounts.spotify.com/authorize',
