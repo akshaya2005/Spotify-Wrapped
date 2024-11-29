@@ -1,13 +1,12 @@
 import spotify
 import json
+
+from django.contrib import messages
 from django.shortcuts import render
 from .spotify_service import *
 from django.http import JsonResponse
 from .models import *
-# Create your views here.
 
-#@login_required  # Ensures only authenticated users can access this view
-from django.shortcuts import redirect
 from django.shortcuts import get_object_or_404, redirect
 from django.http import HttpResponse
 
@@ -15,6 +14,11 @@ from django.http import HttpResponse
 
 
 def dashboard(request):
+
+    if not hasattr(request.user, 'userspotifylink'):
+        messages.error(request, "Please link your Spotify account to proceed.")
+        return redirect('spotify:login_and_connect_spotify')
+
     # Ensure the session exists
     session_id = request.session.session_key
     if not session_id:
@@ -31,25 +35,32 @@ def dashboard(request):
 
     # Check if this is a POST request to generate a specific wrap
     if request.method == 'POST':
+        wrap_name = ""
         wrap_type = request.POST.get('wrapTypeDropdown')
 
         try:
             # Generate the requested wrap
             if wrap_type == 'top_tracks':
+                wrap_name = 'Top Tracks'
                 wrap_data = (get_user_top_tracks(access_token))
             elif wrap_type == 'top_artists':
+                wrap_name = 'Top Artists'
                 wrap_data = (get_user_top_artists(access_token))
-            # elif wrap_type == 'top_albums':
-            #     wrap_data = get_user_top_albums(access_token)
-            # elif wrap_type == 'top_genres':
-            #     wrap_data = get_user_top_genres(access_token)
-            # elif wrap_type == 'top_playlists':
-            #     wrap_data = get_user_top_playlists(access_token)
+            elif wrap_type == 'top_albums':
+                wrap_name = 'Top Albums'
+                wrap_data = get_user_top_albums(access_token)
+            elif wrap_type == 'top_genres':
+                wrap_name = 'Top Genres'
+                wrap_data = get_user_top_genres(access_token)
+            elif wrap_type == 'top_playlists':
+                wrap_name = 'Top Playlists'
+                wrap_data = get_user_top_playlists(access_token)
             else:
                 wrap_data = {'error': 'Invalid wrap type selected'}
 
             user_wrap = UserWrap.objects.create(
                 user=request.user,  # Save the user object
+                wrap_name=wrap_name,
                 wrap_type=wrap_type,  # Save the wrap type (e.g., 'top_tracks')
                 wrap_data=wrap_data,  # Save the actual data (JSON or text)
             )
@@ -64,6 +75,7 @@ def dashboard(request):
     wraps_with_serialized_data = [
         {
             "id": wrap.id,
+            "wrap_name": wrap.wrap_name,
             "wrap_type": wrap.wrap_type,
             "wrap_data": json.dumps(wrap.wrap_data),  # Convert to valid JSON
             "created_at": wrap.created_at,
@@ -72,7 +84,6 @@ def dashboard(request):
     ]
 
     return render(request, 'frontend/dashboard.html', {'wrap_data': wraps_with_serialized_data})
-    #return render(request, 'frontend/dashboard.html', {'wrap_data': user_wraps})
 
 def delete_wrap(request, wrap_id):
     if request.method == 'POST':
@@ -81,51 +92,3 @@ def delete_wrap(request, wrap_id):
         wrap.delete()  # Delete the wrap
         return redirect('wraps:dashboard')  # Redirect to the dashboard after deletion
     return HttpResponse("Invalid request method", status=405)
-## Write functions to create different kinds of wraps
-def toggle_favorite(request, place_id):
-    # Get or create the restaurant based on place_id
-    # restaurant, created = Restaurants.objects.get_or_create(place_id=place_id, defaults={
-    #     'name': request.POST.get('name'),
-    #     'address': request.POST.get('address'),
-    #     'latitude': request.POST.get('latitude'),
-    #     'longitude': request.POST.get('longitude'),
-    # })
-    #
-    # # Check if the restaurant is already in the user's favorites
-    # favorite = Favorite.objects.filter(user=request.user, restaurant=restaurant).first()
-    #
-    # if favorite:
-    #     # If it is already a favorite, remove it
-    #     favorite.delete()
-    #     message = "Removed from favorites"
-    # else:
-    #     # Otherwise, add it to favorites
-    #     Favorite.objects.create(user=request.user, restaurant=restaurant)
-    #     message = "Added to favorites"
-    #
-    # return JsonResponse({'message': message})
-    pass
-
-
-def create_top_artists_wrap():
-    pass
-
-def create_halloween_wrap():
-    pass
-
-def create_christmas_wrap():
-    pass
-
-
-def process_wrap_data(spotify_data):
-    # Customize how you format data into wraps
-    wraps = []
-    for item in spotify_data['top_tracks']:
-        wrap = {
-            'title': item['name'],
-            'content': item['artists'],
-
-            # Add any other fields you want to display in the wrap
-        }
-        wraps.append(wrap)
-    return wraps

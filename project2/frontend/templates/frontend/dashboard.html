@@ -17,48 +17,99 @@
         <button type="submit" class="logout-button">Logout</button>
       </form>
   </header>
-  <div class="wraps-container">
-    {% for wrap in wrap_data %}
-      <div class="wrap-card {{ wrap.wrap_type }}" data-title="{{ wrap.wrap_type | escape }}" data-details="{{ wrap.wrap_data | escape }}" onclick="showPopup(this)" id="wrap-{{ wrap.id }}" data-id="{{ wrap.id }}">
-        <h3>{{ wrap.wrap_type }}</h3>
-        <p>{{ wrap.created_at }}</p>
-        {% if wrap.wrap_type == "top_tracks" %}
-          {% for track in wrap.wrap_data.content %}
-            <p><strong>Name:</strong> {{ track.name }}</p>
-            <p><strong>Artists:</strong> {{ track.artists }}</p>
-            <p><strong>Album:</strong> {{ track.album }}</p>
-            {% if track.album_cover %}
-              <img src="{{ track.album_cover }}" alt="Album Cover" style="width: 100px; height: auto;">
-            {% endif %}
-            {% if track.preview_url %}
-              <audio controls>
-                <source src="{{ track.preview_url }}" type="audio/mpeg">
-                Your browser does not support the audio element.
-              </audio>
-            {% endif %}
-            <hr> <!-- Divider between tracks -->
-          {% endfor %}
-        {% endif %}
 
-  <!-- Conditional Rendering for Top Artists -->
-        {% if wrap.wrap_type == "top_artists" %}
-          {% for artist in wrap.wrap_data.content %}
-            <p><strong>Artist Name:</strong> {{ artist.artist_name }}</p>
-            <p><strong>Popularity:</strong> {{ artist.popularity }}</p>
-            <p><strong>Genres:</strong> {{ artist.genres|join:", " }}</p>
-            <hr> <!-- Divider between artists -->
-          {% endfor %}
-        {% endif %}
-        <form action="{% url 'wraps:delete_wrap' wrap.id %}" method="post">
-            {% csrf_token %}
-            <button type="submit" class="delete-wrap-button">Delete</button>
-        </form>
-      </div>
-    {% empty %}
+  <div class="wraps-container">
+  {% for wrap in wrap_data %}
+    <div class="wrap-card {{ wrap.wrap_type }}"
+         data-title="{{ wrap.wrap_name | escape }}"
+         data-wrap-type="{{ wrap.wrap_type | escape }}"
+         data-details="{{ wrap.wrap_data | escape }}"
+         onclick="showPopup(this)"
+         id="wrap-{{ wrap.id }}"
+         data-id="{{ wrap.id }}">
+      <h3>{{ wrap.wrap_name }}</h3>
+      <p>{{ wrap.created_at }}</p>
+
+      <!-- Conditional Rendering for Top Tracks -->
+      {% if wrap.wrap_type == "top_tracks" %}
+        {% for track in wrap.wrap_data.content %}
+          <p><strong>Name:</strong> {{ track.name }}</p>
+          <p><strong>Artists:</strong> {{ track.artists }}</p>
+          <p><strong>Album:</strong> {{ track.album }}</p>
+          {% if track.album_cover %}
+            <img src="{{ track.album_cover }}" alt="Album Cover" style="width: 100px; height: auto;">
+          {% endif %}
+          {% if track.preview_url %}
+            <audio controls>
+              <source src="{{ track.preview_url }}" type="audio/mpeg">
+              Your browser does not support the audio element.
+            </audio>
+          {% endif %}
+          <hr> <!-- Divider between tracks -->
+        {% endfor %}
+      {% endif %}
+
+      <!-- Conditional Rendering for Top Artists -->
+      {% if wrap.wrap_type == "top_artists" %}
+        {% for artist in wrap.wrap_data.content %}
+          <p><strong>Artist Name:</strong> {{ artist.artist_name }}</p>
+          <p><strong>Popularity:</strong> {{ artist.popularity }}</p>
+          <p><strong>Genres:</strong> {{ artist.genres|join:", " }}</p>
+          {% if artist.profile_picture %}
+            <img src="{{ artist.profile_picture }}" alt="Artist Profile Picture" style="width: 100px; height: auto;">
+          {% endif %}
+          <hr> <!-- Divider between artists -->
+        {% endfor %}
+      {% endif %}
+
+      <!-- Conditional Rendering for Top Albums -->
+      {% if wrap.wrap_type == "top_albums" %}
+        {% for album in wrap.wrap_data.content %}
+          <p><strong>Album Name:</strong> {{ album.name }}</p>
+          <p><strong>Artists:</strong> {{ album.artists }}</p>
+          <p><strong>Release Date:</strong> {{ album.release_date }}</p>
+          <p><strong>Total Tracks:</strong> {{ album.total_tracks }}</p>
+          {% if album.album_cover %}
+            <img src="{{ album.album_cover }}" alt="Album Cover" style="width: 100px; height: auto;">
+          {% endif %}
+          <hr> <!-- Divider between albums -->
+        {% endfor %}
+      {% endif %}
+
+      <!-- Conditional Rendering for Top Genres -->
+      {% if wrap.wrap_type == "top_genres" %}
+        {% for genre in wrap.wrap_data.content %}
+          <p><strong>Genre:</strong> {{ genre.genre }}</p>
+          <p><strong>Count:</strong> {{ genre.count }}</p>
+          <hr> <!-- Divider between genres -->
+        {% endfor %}
+      {% endif %}
+
+      <!-- Conditional Rendering for Top Playlists -->
+      {% if wrap.wrap_type == "top_playlists" %}
+        {% for playlist in wrap.wrap_data.content %}
+          <p><strong>Playlist Name:</strong> {{ playlist.name }}</p>
+          <p><strong>Description:</strong> {{ playlist.description }}</p>
+          <p><strong>Owner:</strong> {{ playlist.owner }}</p>
+          <p><strong>Total Tracks:</strong> {{ playlist.tracks_count }}</p>
+          {% if playlist.playlist_cover %}
+            <img src="{{ playlist.playlist_cover }}" alt="Playlist Cover" style="width: 100px; height: auto;">
+          {% endif %}
+          <hr> <!-- Divider between playlists -->
+        {% endfor %}
+      {% endif %}
+
+      <!-- Delete Wrap Button -->
+      <form action="{% url 'wraps:delete_wrap' wrap.id %}" method="post">
+        {% csrf_token %}
+        <button type="submit" class="delete-wrap-button">Delete</button>
+      </form>
+    </div>
+  {% empty %}
     <div class="empty-wrap">
       <p>You don't have any saved wraps yet.</p>
     </div>
-    {% endfor %}
+  {% endfor %}
 </div>
 
   <!-- Popup Modal -->

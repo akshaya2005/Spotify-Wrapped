@@ -1,6 +1,7 @@
 let currentSlideIndex = 0;
 let slides = [];
 let currentWrapTitle = ""; // Store the current wrap title globally
+let currentWrapType = "";
 
 function showPopup(element) {
     if (event.target.classList.contains('delete-wrap-button')) {
@@ -10,17 +11,19 @@ function showPopup(element) {
   const modal = document.getElementById("popupModal");
   const modalTitle = document.getElementById("modalTitle");
   const slideContent = document.getElementById("slideContent");
-    console.log("Raw JSON String:", element.getAttribute("data-details"))
-    // Get the data attributes
-    currentWrapTitle = element.getAttribute("data-title");
-    const details = JSON.parse(element.getAttribute("data-details"));
+  console.log("Raw JSON String:", element.getAttribute("data-details"));
+
+  const details = JSON.parse(element.getAttribute("data-details"));
+
+  currentWrapType = element.getAttribute("data-wrap-type");
+  currentWrapTitle = element.getAttribute("data-title");
 
 
   slides = details.content; // Example: Use '|' as a delimiter for multiple slides
   currentSlideIndex = 0; // Start at the first slide
+
   // Set the modal title and initial slide content
   modalTitle.textContent = currentWrapTitle;
-  //slideContent.textContent = slides[currentSlideIndex];
   renderCurrentSlide()
 
 
@@ -45,7 +48,6 @@ function changeSlide(direction) {
   }
 
   // Update the slide content
-  //slideContent.textContent = slides[currentSlideIndex];
 
   renderCurrentSlide();
 
@@ -61,7 +63,7 @@ function renderCurrentSlide(title) {
   // Clear previous content
   slideContent.innerHTML = "";
 
-  if (currentWrapTitle === "top_tracks") {
+  if (currentWrapType === "top_tracks") {
     // Render top tracks
     const trackHTML = `
       <div>
@@ -86,18 +88,69 @@ function renderCurrentSlide(title) {
       </div>
     `;
     slideContent.innerHTML = trackHTML;
-  } else if (currentWrapTitle === "top_artists") {
+
+  } else if (currentWrapType === "top_artists") {
     // Render top artists
     const artistHTML = `
       <div>
         <p><strong>Artist Name:</strong> ${currentSlide.artist_name}</p>
         <p><strong>Popularity:</strong> ${currentSlide.popularity}</p>
         <p><strong>Genres:</strong> ${currentSlide.genres.join(", ")}</p>
+        ${
+          currentSlide.profile_picture
+            ? `<img src="${currentSlide.profile_picture}" alt="Artist Profile Picture" style="width: 100px; height: auto;">`
+            : ""
+        }
       </div>
     `;
     slideContent.innerHTML = artistHTML;
+
+  } else if (currentWrapType === "top_albums") {
+    // Render top albums
+    const albumHTML = `
+      <div>
+        <p><strong>Album Name:</strong> ${currentSlide.name}</p>
+        <p><strong>Artists:</strong> ${currentSlide.artists.join(", ")}</p>
+        <p><strong>Release Date:</strong> ${currentSlide.release_date}</p>
+        <p><strong>Total Tracks:</strong> ${currentSlide.total_tracks}</p>
+        ${
+          currentSlide.album_cover
+            ? `<img src="${currentSlide.album_cover}" alt="Album Cover" style="width: 100px; height: auto;">`
+            : ""
+        }
+      </div>
+    `;
+    slideContent.innerHTML = albumHTML;
+
+  } else if (currentWrapType === "top_genres") {
+    // Render top genres
+    const genreHTML = `
+      <div>
+        <p><strong>Genre:</strong> ${currentSlide.genre}</p>
+        <p><strong>Count:</strong> ${currentSlide.count}</p>
+      </div>
+    `;
+    slideContent.innerHTML = genreHTML;
+
+  } else if (currentWrapType === "top_playlists") {
+    // Render top playlists
+    const playlistHTML = `
+      <div>
+        <p><strong>Playlist Name:</strong> ${currentSlide.name}</p>
+        <p><strong>Description:</strong> ${currentSlide.description}</p>
+        <p><strong>Owner:</strong> ${currentSlide.owner}</p>
+        <p><strong>Total Tracks:</strong> ${currentSlide.tracks_count}</p>
+        ${
+          currentSlide.playlist_cover
+            ? `<img src="${currentSlide.playlist_cover}" alt="Playlist Cover" style="width: 100px; height: auto;">`
+            : ""
+        }
+      </div>
+    `;
+    slideContent.innerHTML = playlistHTML;
+
   } else {
-    slideContent.innerHTML = `<p>Unknown wrap type: ${currentWrapTitle}</p>`;
+    slideContent.innerHTML = `<p>Unknown wrap type: ${currentWrapType}</p>`;
   }
 }
 
@@ -145,24 +198,3 @@ themeToggle.addEventListener('click', () => {
   localStorage.setItem('theme', isDarkMode ? 'dark' : 'light');
 });
 
-
-/*
-function createWrap() {
-    // Get the selected wrap type
-    const wrapDropdown = document.getElementById("wrapTypeDropdown");
-    const selectedWrap = wrapDropdown.value;
-
-    // Get the selected time period
-    const timeDropdown = document.getElementById("timePeriodDropdown");
-    const selectedTimePeriod = timeDropdown.value;
-
-    // Add logic to handle the wrap creation
-    console.log(`Creating wrap for: ${selectedWrap}, Time Period: ${selectedTimePeriod}`);
-
-    // Close the modal
-    closeOptionsPopup();
-
-    // Optionally, provide feedback to the user
-    alert(`Wrap for ${wrapDropdown.options[wrapDropdown.selectedIndex].text} over ${timeDropdown.options[timeDropdown.selectedIndex].text} is being created!`);
-}
-*/

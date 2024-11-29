@@ -6,6 +6,7 @@ from django.contrib import messages
 
 
 
+
 # Create your views here.
 
 @login_required
@@ -21,6 +22,7 @@ def intro_view(request):
 def register_view(request):
     if request.method == 'POST':
         form = UserCreationForm(request.POST)
+        errors = []  # List to hold error messages
 
         # Check if the checkbox was checked
         has_spotify_account = request.POST.get('has_spotify_account')
@@ -28,36 +30,48 @@ def register_view(request):
         if form.is_valid():
             if not has_spotify_account:
                 # Add error if the checkbox is not checked
-                form.add_error('has_spotify_account', 'You must have a Spotify account to register.')
+                errors.append('You must have a Spotify account to register.')
             else:
                 # Save the new user if the form is valid and checkbox is checked
                 form.save()
-                return redirect('frontend:login')  # Redirect to login page after successful registration
+                messages.success(request, "Registration successful! Please log in.")
+                return redirect('frontend:login')
         else:
-            # If the form is invalid, add a general error message
-            messages.error(request, 'Please correct the errors below.')
+            # Add form errors to the errors list
+            for field, field_errors in form.errors.items():
+                for error in field_errors:
+                    errors.append(f"{field.capitalize()}: {error}")
 
-        return render(request, 'frontend/register.html', {'form': form})
+        return render(request, 'frontend/register.html', {'form': form, 'errors': errors})
 
     else:
         form = UserCreationForm()
-    return render(request, 'frontend/register.html', {'form': form})
+    return render(request, 'frontend/register.html', {'form': form, 'errors': []})
 
 
 # Login view
 def login_view(request):
-    print("login_view called")
     if request.method == 'POST':
         form = AuthenticationForm(data=request.POST)
+        errors = []  # List to hold error messages
+
         if form.is_valid():
             user = form.get_user()
             login(request, user)
-            print("redirecting to index")
-            # Redirect to index (Spotify connection page) after login
+            messages.success(request, "Login successful!")
             return redirect('frontend:dashboard')
+        else:
+            # Add form errors to the errors list
+            for field, field_errors in form.errors.items():
+                for error in field_errors:
+                    errors.append(error)
+
+        return render(request, 'frontend/login.html', {'form': form, 'errors': errors})
+
     else:
         form = AuthenticationForm()
-    return render(request, 'frontend/login.html', {'form': form})
+    return render(request, 'frontend/login.html', {'form': form, 'errors': []})
+
 
 # Logout view
 def logout_view(request):
@@ -66,3 +80,14 @@ def logout_view(request):
 
     # Render a template that logs out of Spotify and redirects to login
     return render(request, 'frontend/spotify_logout.html')
+
+
+def spotify_logout_redirect(request):
+    # Redirect the user to Spotify's logout URL
+    logout_url = "https://accounts.spotify.com/logout"
+
+    # You can optionally add a message here, if you want to show one before redirecting
+    messages.error(request, "Your Spotify session was logged out. Please log in again.")
+
+    # Now redirect the user to Spotify logout and immediately back to your app's login page
+    return redirect(logout_url)  # This will log the user out of Spotify
