@@ -1,5 +1,4 @@
 from .models import SpotifyToken
-from django.utils import timezone
 from .credentials import *
 from requests import post
 

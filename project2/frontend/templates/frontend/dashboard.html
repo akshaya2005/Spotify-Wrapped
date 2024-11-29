@@ -10,49 +10,159 @@
 </head>
 <body>
   <header class="heading-bar">
-      <h2>My Dashboard</h2>
+      <h1>Spotify Wrapped</h1>
+      <button id="theme-toggle" class="theme-toggle">🌙 Dark Mode</button>
+      <form action="{% url 'frontend:logout' %}" method="post" class="logout-form">
+        {% csrf_token %}
+        <button type="submit" class="logout-button">Logout</button>
+      </form>
   </header>
+
   <div class="wraps-container">
-    {% for wrap in wrap_data %}
-      <div class="wrap-card" data-title="{{ wrap.name | escape }}" data-details="{{ wrap.content | escape }}" onclick="showPopup(this)">
-        <h3>{{ wrap.name }}</h3>
-      </div>
-    {% endfor %}
-  </div>
+  {% for wrap in wrap_data %}
+    <div class="wrap-card {{ wrap.wrap_type }}"
+         data-title="{{ wrap.wrap_name | escape }}"
+         data-wrap-type="{{ wrap.wrap_type | escape }}"
+         data-details="{{ wrap.wrap_data | escape }}"
+         onclick="showPopup(this)"
+         id="wrap-{{ wrap.id }}"
+         data-id="{{ wrap.id }}">
+      <h3>{{ wrap.wrap_name }}</h3>
+      <p>{{ wrap.created_at }}</p>
+
+      <!-- Conditional Rendering for Top Tracks -->
+      {% if wrap.wrap_type == "top_tracks" %}
+        {% for track in wrap.wrap_data.content %}
+          <p><strong>Name:</strong> {{ track.name }}</p>
+          <p><strong>Artists:</strong> {{ track.artists }}</p>
+          <p><strong>Album:</strong> {{ track.album }}</p>
+          {% if track.album_cover %}
+            <img src="{{ track.album_cover }}" alt="Album Cover" style="width: 100px; height: auto;">
+          {% endif %}
+          {% if track.preview_url %}
+            <audio controls>
+              <source src="{{ track.preview_url }}" type="audio/mpeg">
+              Your browser does not support the audio element.
+            </audio>
+          {% endif %}
+          <hr> <!-- Divider between tracks -->
+        {% endfor %}
+      {% endif %}
+
+      <!-- Conditional Rendering for Top Artists -->
+      {% if wrap.wrap_type == "top_artists" %}
+        {% for artist in wrap.wrap_data.content %}
+          <p><strong>Artist Name:</strong> {{ artist.artist_name }}</p>
+          <p><strong>Popularity:</strong> {{ artist.popularity }}</p>
+          <p><strong>Genres:</strong> {{ artist.genres|join:", " }}</p>
+          {% if artist.profile_picture %}
+            <img src="{{ artist.profile_picture }}" alt="Artist Profile Picture" style="width: 100px; height: auto;">
+          {% endif %}
+          <hr> <!-- Divider between artists -->
+        {% endfor %}
+      {% endif %}
+
+      <!-- Conditional Rendering for Top Albums -->
+      {% if wrap.wrap_type == "top_albums" %}
+        {% for album in wrap.wrap_data.content %}
+          <p><strong>Album Name:</strong> {{ album.name }}</p>
+          <p><strong>Artists:</strong> {{ album.artists }}</p>
+          <p><strong>Release Date:</strong> {{ album.release_date }}</p>
+          <p><strong>Total Tracks:</strong> {{ album.total_tracks }}</p>
+          {% if album.album_cover %}
+            <img src="{{ album.album_cover }}" alt="Album Cover" style="width: 100px; height: auto;">
+          {% endif %}
+          <hr> <!-- Divider between albums -->
+        {% endfor %}
+      {% endif %}
+
+      <!-- Conditional Rendering for Top Genres -->
+      {% if wrap.wrap_type == "top_genres" %}
+        {% for genre in wrap.wrap_data.content %}
+          <p><strong>Genre:</strong> {{ genre.genre }}</p>
+          <p><strong>Count:</strong> {{ genre.count }}</p>
+          <hr> <!-- Divider between genres -->
+        {% endfor %}
+      {% endif %}
+
+      <!-- Conditional Rendering for Top Playlists -->
+      {% if wrap.wrap_type == "top_playlists" %}
+        {% for playlist in wrap.wrap_data.content %}
+          <p><strong>Playlist Name:</strong> {{ playlist.name }}</p>
+          <p><strong>Description:</strong> {{ playlist.description }}</p>
+          <p><strong>Owner:</strong> {{ playlist.owner }}</p>
+          <p><strong>Total Tracks:</strong> {{ playlist.tracks_count }}</p>
+          {% if playlist.playlist_cover %}
+            <img src="{{ playlist.playlist_cover }}" alt="Playlist Cover" style="width: 100px; height: auto;">
+          {% endif %}
+          <hr> <!-- Divider between playlists -->
+        {% endfor %}
+      {% endif %}
+
+      <!-- Delete Wrap Button -->
+      <form action="{% url 'wraps:delete_wrap' wrap.id %}" method="post">
+        {% csrf_token %}
+        <button type="submit" class="delete-wrap-button">Delete</button>
+      </form>
+    </div>
+  {% empty %}
+    <div class="empty-wrap">
+      <p>You don't have any saved wraps yet.</p>
+    </div>
+  {% endfor %}
+</div>
 
   <!-- Popup Modal -->
-  <div id="popupModal" class="modal">
+  <div id="popupModal" class="modal" style="display: none;">
     <div class="modal-content">
       <span class="close-button" onclick="closePopup()">&times;</span>
-
       <h3 id="modalTitle"></h3>
-      <p id="modalDetails"></p>
+      <!-- Slide Content -->
+      <div id="slideContent"></div>
+
+    <!-- Navigation Buttons -->
+      <div class="slide-controls">
+        <button id="prevSlide" onclick="changeSlide(-1)">Previous</button>
+        <button id="nextSlide" onclick="changeSlide(1)">Next</button>
+      </div>
     </div>
   </div>
 
-  <!-- Create wrap button -->
+  <!-- Create Wrap Modal -->
+  <div id="options-modal" class="modal" style="display: none;">
+  <div class="modal-content">
+    <span class="close-button" onclick="closeOptionsPopup()">&times;</span>
+    <h2>Select Wrap Type</h2>
+    <!-- Dropdown Menu -->
+    <form method="post" action="{% url 'wraps:dashboard' %}">
+    {% csrf_token %}
+    <select id="wrapTypeDropdown" name="wrapTypeDropdown" class="dropdown-menu">
+        <option value="top_artists">Top Artists</option>
+        <option value="top_tracks">Top Tracks</option>
+        <option value="top_albums">Top Albums</option>
+        <option value="top_genres">Top Genres</option>
+        <option value="top_playlists">Top Playlists</option>
+    </select>
+    <h2>Select Time Period</h2>
+    <select id="timePeriodDropdown" class="dropdown-menu">
+      <option value="short_term">Short-Term</option>
+      <option value="medium_term">Medium-Term</option>
+      <option value="long_term">Long-Term</option>
+    </select>
+    <button class="submit-wrap-button" type="submit">Generate Wrap</button>
+</form>
+
+  </div>
+</div>
+
+
+  <!-- Create Wrap Button -->
   <div class="create-wrap-button" onclick="showOptions()">Create Wrap</div>
 
-  <div id="options-modal" class="modal-content">
-    <span class="close-button" onclick="closeOptionsPopup()">&times;</span>
-    <h2>What Kind of Wrap?</h2>
-    <div class="dropdown-button"></div>
-    <h2>Time Period</h2>
-    <h3>Dropdown</h3>
-  </div>
-
-
-
-
-
-
-
   <!-- Logout button -->
-  <form action="{% url 'frontend:logout' %}" method="post" style="display: inline;">
-    {% csrf_token %}
-    <button type="submit" class="logout-button">Logout</button>
-  </form>
+
   <!-- Use Django's static tag for loading JavaScript -->
   <script src="{% static 'frontend/Dashboard.js' %}"></script>
+
 </body>
 </html>

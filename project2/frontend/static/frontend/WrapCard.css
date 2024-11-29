@@ -1,13 +1,30 @@
 /* General body styling for center alignment and background color */
 body {
-    font-family: Arial, sans-serif;
-    background-color: #f3f4f6;
+    overflow-x: hidden;
+    font-family: 'Montserrat', sans-serif;
+    background: url('../images/image.png') no-repeat center center fixed;
+    background-size: cover;
     display: flex;
     flex-direction: column;
     align-items: center;
     padding: 20px;
     margin: 0;
 }
+
+body::before {
+    content: '';
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: url('../images/image.png') no-repeat center center fixed;
+    background-size: cover;
+    filter: blur(2px);
+    z-index: -1;
+    transform: scale(1.1);
+}
+
 
 .heading-bar {
   position: fixed; /* Sticks the bar to the top */
@@ -16,16 +33,42 @@ body {
   width: 100%; /* Full width of the screen */
   background-color: #4CAF50; /* Green background color */
   color: white; /* White text */
-  padding: 10px 20px; /* Adds space around the text */
+  display: flex;
+  padding: 20px 20px; /* Adds space around the text */
   box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2); /* Adds a subtle shadow */
   z-index: 1000; /* Ensures it stays on top of other elements */
+  box-sizing: border-box;
+  align-items: center;
+  justify-content: space-between;
 }
 
 /* Heading Bar Text */
 .heading-bar h1 {
-  margin: 0; /* Removes default margin */
-  font-size: 24px; /* Adjusts text size */
-  text-align: center; /* Centers the heading text */
+  margin: 0; /* Remove default margins */
+  font-size: 24px; /* Adjust font size */
+  font-weight: bold; /* Make the text bold */
+  color: white; /* Ensure text color is white */
+  background: none; /* Remove any background */
+  text-align: left;
+}
+
+.logout-form {
+  margin: 0; /* Remove default margins */
+  justify-content: flex-end;
+  display: inline-block;
+}
+
+/* Logout button styling */
+.logout-button {
+  background-color: #fff;
+  color: #1DB954;
+  border: 2px solid #1DB954;
+  padding: 8px 16px;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 16px;
+  font-weight: bold;
+  transition: background-color 0.3s ease, color 0.3s ease;
 }
 
 /* Heading styling */
@@ -44,7 +87,7 @@ h1 {
     padding: 20px;
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
-    gap: 20px;
+    gap: 175px;
     justify-content: center;
     max-width: 1200px;
     width: 100%;
@@ -55,10 +98,12 @@ h1 {
     background-color: #f4f4f4;
     padding: 20px;
     text-align: center;
-    border-radius: 8px;
+    border-radius: 10px;
     box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
     transition: transform 0.3s ease, box-shadow 0.3s ease;
     cursor: pointer;
+    width: 200px;
+    height: 250px;
 }
 
 .wrap-card:hover {
@@ -86,6 +131,7 @@ h1 {
     overflow-y: auto;
     transition: transform 0.3s ease;
 }
+
 /* Modal Styling */
 .modal {
   display: none; /* Hidden by default */
@@ -129,36 +175,169 @@ h1 {
   cursor: pointer;
 }
 
-.create-wrap-button{
-    background-color: #f4f4f4;
-    padding: 20px;
-    text-align: center;
+.create-wrap-button {
+    background-color: white;
+    color: black;
+    padding: 10px 20px;
     border-radius: 8px;
-    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
-    transition: transform 0.3s ease, box-shadow 0.3s ease;
     cursor: pointer;
-}
-/* Dropdown Button */
-.dropdown-button {
-  background-color: #4CAF50; /* Green background */
-  color: white; /* White text */
-  padding: 10px 20px; /* Spacing */
-  border: none;
-  border-radius: 4px;
-  cursor: pointer;
-  font-size: 16px;
+    margin-top: 20px;
+    transition: background-color 0.3s ease;
 }
 
-    /* Dropdown Content */
-.dropdown-content {
-    display: none; /* Hidden by default */
-    position: absolute;
-    background-color: white; /* Dropdown background */
-    min-width: 160px; /* Minimum width */
-    box-shadow: 0px 8px 16px rgba(0, 0, 0, 0.2); /* Shadow for the dropdown */
-    z-index: 1; /* Ensures it appears on top */
-    border-radius: 4px;
-    overflow: hidden;
+.create-wrap-button:hover {
+    background-color: #3e8e41;
 }
+
+.dropdown-menu {
+    width: 100%;
+    padding: 10px;
+    margin: 15px 0;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    font-size: 16px;
+    background-color: #f9f9f9;
+    color: #333;
+    cursor: pointer;
+}
+
+
+
+/* Submit button styling */
+.submit-wrap-button {
+    background-color: #007bff;
+    color: white;
+    padding: 10px 20px;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    border: none;
+}
+
+.submit-wrap-button:hover {
+    background-color: #0056b3;
+}
+
+.slide-controls {
+  margin-top: 20px;
+  display: flex;
+  justify-content: space-between;
+}
+
+/* Dark Mode Styles */
+body.dark-mode {
+    background: #121212; /* Dark background for the entire dashboard */
+    background: url('../images/dashboard.png') no-repeat center center fixed;
+    background-size: cover;
+    color: #ffffff; /* Light text for general content */
+}
+
+body.dark-mode::before {
+    content: '';
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: url('../images/dashboard.png') no-repeat center center fixed;
+    background-size: cover;
+    filter: blur(2px); /* Adjust blur intensity here */
+    z-index: -1; /* Ensures the blurred background stays behind other content */
+    transform: scale(1.1); /* Optional: Slightly enlarges the background to prevent edges from being visible */
+}
+
+/* Header in Dark Mode */
+body.dark-mode .heading-bar {
+    background-color: #333333; /* Darker header background */
+    color: #ffffff; /* Light text */
+}
+
+/* Wrap Cards in Dark Mode */
+body.dark-mode .wrap-card {
+    background-color: #1e1e1e; /* Dark card background */
+    color: #ffffff; /* Light text for cards */
+    box-shadow: 0px 4px 10px rgba(255, 255, 255, 0.1); /* Softer shadow */
+}
+body.dark-mode .wrap-card h3 {
+    color: #ffffff; /* White text */
+}
+
+body.dark-mode .wrap-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0px 6px 15px rgba(255, 255, 255, 0.15); /* Softer hover shadow */
+}
+
+/* Modal in Dark Mode */
+body.dark-mode .modal-content {
+    background-color: #1e1e1e; /* Dark modal background */
+    color: #ffffff; /* Light text for modal */
+    box-shadow: 0px 4px 15px rgba(255, 255, 255, 0.2); /* Softer modal shadow */
+}
+
+/* Close Button in Dark Mode */
+body.dark-mode .close-button {
+    color: #ffffff; /* White close button */
+}
+
+/* Dropdown Button in Dark Mode */
+body.dark-mode .dropdown-button {
+    background-color: #333333; /* Dark dropdown background */
+    color: #ffffff; /* Light dropdown text */
+}
+
+/* Create Wrap Button in Dark Mode */
+body.dark-mode .create-wrap-button {
+    background-color: #1e1e1e; /* Dark button background */
+    color: #ffffff; /* Light button text */
+    box-shadow: 0px 4px 10px rgba(255, 255, 255, 0.1); /* Softer button shadow */
+}
+
+/* Slide Controls in Dark Mode */
+body.dark-mode .slide-controls {
+    color: #ffffff; /* Light text for controls */
+}
+
+body.dark-mode .empty-wrap {
+  background-color: #1e1e1e; /* Dark background color */
+  color: #ffffff; /* Light text color */
+  border: 1px solid #333333; /* Optional: Border for better contrast */
+  box-shadow: 0px 4px 10px rgba(255, 255, 255, 0.1); /* Softer shadow */
+}
+
+
+.theme-toggle {
+  background-color: #fff;
+  color: #1DB954;
+  border: 2px solid #1DB954;
+  padding: 8px 16px;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 16px;
+  font-weight: bold;
+  transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+.delete-wrap-button {
+  background-color: #ff4d4d;
+  color: white;
+  border: none;
+  padding: 10px 15px;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.delete-wrap-button:hover {
+  background-color: #ff1a1a;
+}
+
+.empty-wrap {
+  background-color: white;
+  color: black;
+  padding: 10px;
+  border-radius: 5px;
+  z-index: 1;
+}
+
+
 
 

@@ -1,21 +1,16 @@
-from urllib.parse import urlencode
-
-from pyexpat.errors import messages
 from rest_framework.views import APIView
 from rest_framework import status
 from rest_framework.response import Response
 from .utils import *
-from django.shortcuts import render, redirect
+from django.shortcuts import render
 from django.contrib.auth import authenticate, login
 from django.views.decorators.csrf import csrf_protect
-from django.http import HttpResponseRedirect, HttpResponse
-from django.urls import reverse
+from django.http import HttpResponseRedirect
 from requests import Request
 from .credentials import SPOTIPY_CLIENT_ID, SPOTIPY_REDIRECT_URI
 from django.shortcuts import redirect
 from requests import post
 from .utils import update_or_create_user_tokens
-from .models import UserSpotifyLink
 
 # Create your views here.
 @csrf_protect
@@ -27,7 +22,7 @@ def login_and_connect_spotify(request):
         user = authenticate(request, username=username, password=password)
         if user is not None:
             login(request, user)
-            scopes = 'user-read-playback-state user-modify-playback-state user-read-currently-playing user-read-private user-top-read'
+            scopes = 'user-read-playback-state user-modify-playback-state user-read-currently-playing user-read-private user-top-read user-library-read'
             url = Request(
                 'GET',
                 'https://accounts.spotify.com/authorize',
