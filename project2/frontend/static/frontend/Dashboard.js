@@ -1,6 +1,7 @@
 let currentSlideIndex = 0;
 let slides = [];
 let currentWrapTitle = ""; // Store the current wrap title globally
+let currentWrapType = "";
 
 function showPopup(element) {
     if (event.target.classList.contains('delete-wrap-button')) {
@@ -10,17 +11,19 @@ function showPopup(element) {
   const modal = document.getElementById("popupModal");
   const modalTitle = document.getElementById("modalTitle");
   const slideContent = document.getElementById("slideContent");
-    console.log("Raw JSON String:", element.getAttribute("data-details"))
-    // Get the data attributes
-    currentWrapTitle = element.getAttribute("data-title");
-    const details = JSON.parse(element.getAttribute("data-details"));
+  console.log("Raw JSON String:", element.getAttribute("data-details"));
+
+  const details = JSON.parse(element.getAttribute("data-details"));
+
+  currentWrapType = element.getAttribute("data-wrap-type");
+  currentWrapTitle = element.getAttribute("data-title");
 
 
   slides = details.content; // Example: Use '|' as a delimiter for multiple slides
   currentSlideIndex = 0; // Start at the first slide
+
   // Set the modal title and initial slide content
   modalTitle.textContent = currentWrapTitle;
-  //slideContent.textContent = slides[currentSlideIndex];
   renderCurrentSlide()
 
 
@@ -45,7 +48,6 @@ function changeSlide(direction) {
   }
 
   // Update the slide content
-  //slideContent.textContent = slides[currentSlideIndex];
 
   renderCurrentSlide();
 
@@ -61,7 +63,7 @@ function renderCurrentSlide(title) {
   // Clear previous content
   slideContent.innerHTML = "";
 
-  if (currentWrapTitle === "top_tracks") {
+  if (currentWrapType === "top_tracks") {
     // Render top tracks
     const trackHTML = `
       <div>
@@ -87,7 +89,7 @@ function renderCurrentSlide(title) {
     `;
     slideContent.innerHTML = trackHTML;
 
-  } else if (currentWrapTitle === "top_artists") {
+  } else if (currentWrapType === "top_artists") {
     // Render top artists
     const artistHTML = `
       <div>
@@ -98,7 +100,7 @@ function renderCurrentSlide(title) {
     `;
     slideContent.innerHTML = artistHTML;
 
-  } else if (currentWrapTitle === "top_albums") {
+  } else if (currentWrapType === "top_albums") {
     // Render top albums
     const albumHTML = `
       <div>
@@ -115,7 +117,7 @@ function renderCurrentSlide(title) {
     `;
     slideContent.innerHTML = albumHTML;
 
-  } else if (currentWrapTitle === "top_genres") {
+  } else if (currentWrapType === "top_genres") {
     // Render top genres
     const genreHTML = `
       <div>
@@ -125,7 +127,7 @@ function renderCurrentSlide(title) {
     `;
     slideContent.innerHTML = genreHTML;
 
-  } else if (currentWrapTitle === "top_playlists") {
+  } else if (currentWrapType === "top_playlists") {
     // Render top playlists
     const playlistHTML = `
       <div>
@@ -143,7 +145,7 @@ function renderCurrentSlide(title) {
     slideContent.innerHTML = playlistHTML;
 
   } else {
-    slideContent.innerHTML = `<p>Unknown wrap type: ${currentWrapTitle}</p>`;
+    slideContent.innerHTML = `<p>Unknown wrap type: ${currentWrapType}</p>`;
   }
 }
 

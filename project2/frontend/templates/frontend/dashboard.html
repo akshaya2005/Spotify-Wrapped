@@ -20,8 +20,14 @@
 
   <div class="wraps-container">
   {% for wrap in wrap_data %}
-    <div class="wrap-card {{ wrap.wrap_type }}" data-title="{{ wrap.wrap_type | escape }}" data-details="{{ wrap.wrap_data | escape }}" onclick="showPopup(this)" id="wrap-{{ wrap.id }}" data-id="{{ wrap.id }}">
-      <h3>{{ wrap.wrap_type }}</h3>
+    <div class="wrap-card {{ wrap.wrap_type }}"
+         data-title="{{ wrap.wrap_name | escape }}"
+         data-wrap-type="{{ wrap.wrap_type | escape }}"
+         data-details="{{ wrap.wrap_data | escape }}"
+         onclick="showPopup(this)"
+         id="wrap-{{ wrap.id }}"
+         data-id="{{ wrap.id }}">
+      <h3>{{ wrap.wrap_name }}</h3>
       <p>{{ wrap.created_at }}</p>
 
       <!-- Conditional Rendering for Top Tracks -->
