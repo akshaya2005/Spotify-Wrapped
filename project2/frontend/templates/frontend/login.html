@@ -13,6 +13,17 @@
             <img src="../../static/frontend/Primary_Logo_Green_RGB.svg" alt="Spotify Logo" class="logo">
             Login
         </h2>
+
+        {% if errors %}
+            <div class="error-container">
+                <ul>
+                    {% for error in errors %}
+                        <li>{{ error }}</li>
+                    {% endfor %}
+                </ul>
+            </div>
+        {% endif %}
+
         <form action="{% url 'spotify:login_and_connect_spotify' %}" method="post">
             {% csrf_token %}
             {% if request.GET.error %}

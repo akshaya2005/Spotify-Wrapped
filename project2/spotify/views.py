@@ -1,9 +1,13 @@
+import spotipy
+from django.contrib import messages
 from rest_framework.views import APIView
 from rest_framework import status
 from rest_framework.response import Response
+
+from .models import UserSpotifyLink
 from .utils import *
 from django.shortcuts import render
-from django.contrib.auth import authenticate, login
+from django.contrib.auth import authenticate, login, logout
 from django.views.decorators.csrf import csrf_protect
 from django.http import HttpResponseRedirect
 from requests import Request
@@ -37,11 +41,11 @@ def login_and_connect_spotify(request):
             return HttpResponseRedirect(url)
         else:
             # Show an error message if authentication failed
-            return render(request, 'frontend/login.html', {'error': 'Invalid username or password.'})
+            error_message = "Invalid username or password. Please check your credentials and try again."
+            return render(request, 'frontend/login.html', {'error': error_message})
 
     # Render the login page if the request is not POST
     return render(request, 'frontend/login.html')
-
 
 
 class AuthURL(APIView):
@@ -54,20 +58,17 @@ class AuthURL(APIView):
         return Response({'url': url}, status = 200)
 
 
-
-
-
 def spotify_callback(request):
-    # print("Received response:")  # Logs response from Spotify
+    # Extract code and error from the Spotify redirect response
     code = request.GET.get('code')
     error = request.GET.get('error')
 
-    # Handle error if exists
     if error:
-        print("Error in Spotify callback:", error)  # Log the error for debugging
-        return redirect('frontend:login')  # Redirect to the index or an error page
+        error_message = f"Spotify authorization failed: {error}"
+        messages.error(request, error_message)
+        return redirect('frontend:login')
 
-    # Exchange the authorization code for an access token
+    # Exchange authorization code for access token
     response = post('https://accounts.spotify.com/api/token', data={
         'grant_type': 'authorization_code',
         'code': code,
@@ -76,7 +77,7 @@ def spotify_callback(request):
         'client_secret': SPOTIPY_CLIENT_SECRET
     })
 
-    # Extract tokens and expiration info
+    # Parse the response
     response_data = response.json()
     access_token = response_data.get('access_token')
     token_type = response_data.get('token_type')
@@ -88,19 +89,87 @@ def spotify_callback(request):
         print("Error: 'expires_in' is missing or not an integer:", expires_in)
         return redirect('frontend:index')  # Handle the case where expires_in is missing
 
-    # Create session if it doesn't exist
-    if not request.session.exists(request.session.session_key):
-        request.session.create()
+    if not access_token:
+        # Handle token exchange failure
+        error_message = "Failed to obtain access token from Spotify. Please try again."
+        messages.error(request, error_message)
+        return redirect('frontend:login')
 
-    update_or_create_user_tokens(request.session.session_key, access_token, token_type, expires_in, refresh_token)
-    # Save access token and link the Spotify user ID with the authenticated Django user
+    try:
+        # Use Spotipy to fetch the Spotify user ID
+        sp = spotipy.Spotify(auth=access_token)
+        spotify_user_id = sp.current_user()['id']
 
+        # Check if Spotify account is already linked
+        existing_link = UserSpotifyLink.objects.filter(spotify_user_id=spotify_user_id).first()
 
-    # Redirect to the intro page after successful login
-    return redirect('wraps:dashboard')  # Change this to match your intro page URL name
+        if existing_link:
+            if existing_link.user == request.user:
+                # If the Spotify account is already linked to the current user, allow login
+                messages.success(request, "Spotify account successfully linked!")
+                # Create session if it doesn't exist
+                if not request.session.exists(request.session.session_key):
+                    request.session.create()
+                update_or_create_user_tokens(request.session.session_key, access_token, token_type, expires_in,
+                                             refresh_token)
+                return redirect('wraps:dashboard')  # Redirect to the user's dashboard
+            else:
+                # If the Spotify account is linked to a different user
+                error_message = "This Spotify account is already linked to another user."
+                # request.user.delete()
+                messages.error(request, error_message)
+                return redirect('frontend:logout')
+
+        # Link the Spotify account to the current user if it's not already linked
+        UserSpotifyLink.objects.create(user=request.user, spotify_user_id=spotify_user_id)
+        messages.success(request, "Spotify account successfully linked!")
+        # Create session if it doesn't exist
+        if not request.session.exists(request.session.session_key):
+            request.session.create()
+        update_or_create_user_tokens(request.session.session_key, access_token, token_type, expires_in, refresh_token)
+        return redirect('wraps:dashboard')  # Redirect to the user's dashboard
+
+    except spotipy.SpotifyException as e:
+        # Handle Spotipy-specific errors
+        error_message = f"An error occurred while linking your Spotify account: {str(e)}"
+        messages.error(request, error_message)
+        return redirect('frontend:login')
+
+    except Exception as e:
+        # Catch any other unexpected errors
+        error_message = f"An unexpected error occurred: {str(e)}"
+        messages.error(request, error_message)
+        return redirect('frontend:login')
 
 
 class IsAuthenticated(APIView):
     def get(self, request, format=None):
         is_authenticated = is_spotify_authenticated(self.request.session.session_key)
         return Response({'status': is_authenticated}, status = status.HTTP_200_OK)
+
+
+def spotify_logout(request):
+    # Check if the user is authenticated with Spotify (i.e., if they have a valid session)
+    session_key = request.session.session_key
+
+    if not session_key:
+        messages.error(request, "You are not logged in with Spotify.")
+        return redirect('frontend:login')
+
+    # Log out of Django (if the user is authenticated)
+    if request.user.is_authenticated:
+        logout(request)
+        messages.success(request, "You have successfully logged out of Django.")
+
+    # Prepare the Spotify logout URL
+    logout_url = "https://accounts.spotify.com/logout"
+
+    # After logging out from Spotify, redirect the user to the login page
+    redirect_url = request.build_absolute_uri('/accounts/login/')  # Replace this with the actual URL of your login page.
+
+    # Redirect the user to Spotify's logout URL first
+    response = redirect(logout_url)
+
+    # After Spotify logout, redirect the user to the login page
+    response['Location'] += f"?redirect_to={redirect_url}"
+    return response

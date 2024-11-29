@@ -1,5 +1,7 @@
 import spotify
 import json
+
+from django.contrib import messages
 from django.shortcuts import render
 from .spotify_service import *
 from django.http import JsonResponse
@@ -12,6 +14,11 @@ from django.http import HttpResponse
 
 
 def dashboard(request):
+
+    if not hasattr(request.user, 'userspotifylink'):
+        messages.error(request, "Please link your Spotify account to proceed.")
+        return redirect('spotify:login_and_connect_spotify')
+
     # Ensure the session exists
     session_id = request.session.session_key
     if not session_id:

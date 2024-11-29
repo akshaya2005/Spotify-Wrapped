@@ -81,3 +81,20 @@ a {
 a:hover {
     text-decoration: underline; /* Add underline on hover */
 }
+
+.error-container {
+    background-color: #ffe0e0;
+    color: #d8000c;
+    border: 1px solid #d8000c;
+    padding: 10px;
+    margin-bottom: 15px;
+    border-radius: 5px;
+}
+.error-container ul {
+    margin: 0;
+    padding: 0;
+    list-style-type: none;
+}
+.error-container li {
+    margin: 5px 0;
+}
