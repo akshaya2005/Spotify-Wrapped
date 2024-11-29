@@ -6,7 +6,7 @@ from django.utils.timezone import now
 
 class UserWrap(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)  # Link to the user
-    wrap_name = models.CharField(max_length=100)
+    wrap_name = models.CharField(max_length=255, null=True, blank=True)
     wrap_type = models.CharField(max_length=100)  # Type of wrap (e.g., 'top_tracks', 'top_artists')
     wrap_data = models.JSONField()  # Store wrap data as a JSON object
     created_at = models.DateTimeField(default=now)  # Timestamp for when the wrap was created

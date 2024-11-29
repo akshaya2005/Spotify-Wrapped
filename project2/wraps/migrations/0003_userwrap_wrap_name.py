@@ -13,7 +13,6 @@ class Migration(migrations.Migration):
         migrations.AddField(
             model_name='userwrap',
             name='wrap_name',
-            field=models.CharField(default='', max_length=100),
-            preserve_default=False,
+            field=models.CharField(max_length=255, null=True, blank=True),
         ),
     ]
