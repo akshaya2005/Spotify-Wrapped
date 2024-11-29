@@ -96,6 +96,11 @@ function renderCurrentSlide(title) {
         <p><strong>Artist Name:</strong> ${currentSlide.artist_name}</p>
         <p><strong>Popularity:</strong> ${currentSlide.popularity}</p>
         <p><strong>Genres:</strong> ${currentSlide.genres.join(", ")}</p>
+        ${
+          currentSlide.profile_picture
+            ? `<img src="${currentSlide.profile_picture}" alt="Artist Profile Picture" style="width: 100px; height: auto;">`
+            : ""
+        }
       </div>
     `;
     slideContent.innerHTML = artistHTML;

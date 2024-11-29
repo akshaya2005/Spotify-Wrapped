@@ -35,9 +35,12 @@ def get_user_top_artists(access_token):
     try:
         top_artists_response = sp.current_user_top_artists(limit=5, time_range='medium_term')
         top_artists = [
-            {"artist_name": artist["name"],
-             "popularity": artist["popularity"],
-             "genres": artist["genres"]}
+            {
+                "artist_name": artist["name"],
+                "popularity": artist["popularity"],
+                "genres": artist["genres"],
+                "profile_picture": artist["images"][0]["url"] if artist["images"] else None,
+             }
             for artist in top_artists_response["items"]
         ]
 
@@ -48,30 +51,6 @@ def get_user_top_artists(access_token):
     except spotipy.exceptions.SpotifyException as e:
         print(f"Error fetching top artists: {e}")
 
-
-# def get_user_top_albums(access_token):
-#     sp = spotipy.Spotify(auth=access_token)
-#     try:
-#         # Fetch the user's top albums
-#         saved_albums_response = sp.current_user_saved_albums(limit=5)
-#         top_albums = [
-#             {
-#                 "name": album["album"]["name"],
-#                 "artists": ", ".join([artist["name"] for artist in album["album"]["artists"]]),
-#                 "release_date": album["album"]["release_date"],
-#                 "album_cover": album["album"]["images"][0]["url"] if album["album"]["images"] else None,
-#                 "total_tracks": album["album"]["total_tracks"],
-#             }
-#             for album in saved_albums_response["items"]
-#         ]
-#         spotify_data = {
-#             "name": "Top Albums",
-#             "content": top_albums,
-#         }
-#         print(spotify_data)
-#         return spotify_data
-#     except spotipy.exceptions.SpotifyException as e:
-#         print(f"Error fetching top albums: {e}")
 
 def get_user_top_albums(access_token):
     import collections

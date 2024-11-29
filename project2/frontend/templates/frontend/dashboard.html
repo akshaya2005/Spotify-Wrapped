@@ -55,6 +55,9 @@
           <p><strong>Artist Name:</strong> {{ artist.artist_name }}</p>
           <p><strong>Popularity:</strong> {{ artist.popularity }}</p>
           <p><strong>Genres:</strong> {{ artist.genres|join:", " }}</p>
+          {% if artist.profile_picture %}
+            <img src="{{ artist.profile_picture }}" alt="Artist Profile Picture" style="width: 100px; height: auto;">
+          {% endif %}
           <hr> <!-- Divider between artists -->
         {% endfor %}
       {% endif %}
