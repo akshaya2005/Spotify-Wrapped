@@ -1,24 +1,30 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <title>Logging Out...</title>
+<!--  <meta charset="UTF-8">-->
+<!--  <meta name="viewport" content="width=device-width, initial-scale=1.0">-->
+<!--  <title>Logging Out...</title>-->
   <script>
-    // Redirect to Spotify's logout URL and then back to your login page
-    window.onload = function() {
+    window.onload = function () {
       // Spotify logout URL
-      let spotifyLogoutUrl = "https://www.spotify.com/logout/";
+      const spotifyLogoutUrl = "https://www.spotify.com/logout/";
 
-      // Open Spotify logout in a new tab/window, then close it and redirect
-      let spotifyLogout = window.open(spotifyLogoutUrl, "spotifyLogoutWindow");
+      // Open Spotify logout in a new window
+      const spotifyLogoutWindow = window.open(spotifyLogoutUrl, "_blank", "width=700,height=500");
+
+      // Wait 1 second to ensure logout completes, then close the logout window
       setTimeout(() => {
-        spotifyLogout.close(); // Close Spotify logout window
-        window.location.href = "{% url 'frontend:login' %}"; // Redirect to your login page
-      }, 1000); // Adjust delay as needed to ensure Spotify logout occurs
+        if (spotifyLogoutWindow && !spotifyLogoutWindow.closed) {
+          spotifyLogoutWindow.close();
+        }
+        // Redirect to Django login page
+        window.location.href = "{% url 'frontend:login' %}";
+      }, 500); // 1-second delay (adjust if necessary)
     };
   </script>
 </head>
-<body>
-  <p>Logging you out...</p>
-</body>
-</html>
+<!--<body>-->
+<!--  <p>Logging you out...</p>-->
+<!--</body>-->
+<!--</html>-->
+

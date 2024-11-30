@@ -23,10 +23,20 @@ def login_and_connect_spotify(request):
         username = request.POST.get('username')
         password = request.POST.get('password')
 
+        # Authenticate the user
         user = authenticate(request, username=username, password=password)
         if user is not None:
+            # Log the user in
             login(request, user)
-            scopes = 'user-read-playback-state user-modify-playback-state user-read-currently-playing user-read-private user-top-read user-library-read'
+            # messages.success(request, "Logged in successfully! Redirecting to Spotify for account connection.")
+
+            # Define Spotify scopes
+            scopes = (
+                'user-read-playback-state user-modify-playback-state '
+                'user-read-currently-playing user-read-private user-top-read user-library-read'
+            )
+
+            # Generate the Spotify authorization URL
             url = Request(
                 'GET',
                 'https://accounts.spotify.com/authorize',
@@ -34,17 +44,17 @@ def login_and_connect_spotify(request):
                     'scope': scopes,
                     'response_type': 'code',
                     'redirect_uri': SPOTIPY_REDIRECT_URI,
-                    'client_id': SPOTIPY_CLIENT_ID
+                    'client_id': SPOTIPY_CLIENT_ID,
                 }
             ).prepare().url
 
             return HttpResponseRedirect(url)
         else:
-            # Show an error message if authentication failed
-            error_message = "Invalid username or password. Please check your credentials and try again."
-            return render(request, 'frontend/login.html', {'error': error_message})
+            # If authentication fails, display an error message
+            messages.error(request, "Invalid username or password. Please check your credentials and try again.")
+            return redirect('frontend:login')  # Redirect back to the login page
 
-    # Render the login page if the request is not POST
+    # If the request is not POST, render the login page
     return render(request, 'frontend/login.html')
 
 
@@ -87,7 +97,7 @@ def spotify_callback(request):
     # Ensure expires_in is a valid integer
     if expires_in is None or not isinstance(expires_in, int):
         print("Error: 'expires_in' is missing or not an integer:", expires_in)
-        return redirect('frontend:index')  # Handle the case where expires_in is missing
+        return redirect('frontend:login')  # Handle the case where expires_in is missing
 
     if not access_token:
         # Handle token exchange failure
