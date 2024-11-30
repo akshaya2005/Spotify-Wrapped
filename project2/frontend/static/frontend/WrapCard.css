@@ -436,3 +436,28 @@ body.dark-mode .empty-wrap {
 .delete-account-cancel-btn:hover {
     background-color: #f1f1f1; /* Light gray on hover */
 }
+
+.slide-controls button {
+    width: 48%; /* Equal width for the buttons */
+    padding: 10px;
+    background-color: #28a745; /* Same green color as other buttons */
+    border: none;
+    color: white;
+    border-radius: 5px;
+    font-size: 16px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.slide-controls button:hover {
+    background-color: #218838; /* Slightly darker green on hover */
+}
+
+/* Optional: Add styles for the disabled state */
+.slide-controls button:disabled {
+    background-color: #cccccc; /* Gray background */
+    color: #666666; /* Gray text */
+    cursor: not-allowed; /* Indicate it's not clickable */
+    opacity: 0.7; /* Slightly transparent */
+}
