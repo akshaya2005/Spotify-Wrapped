@@ -4,224 +4,220 @@ let slides = []; // Array to hold slide data
 let currentWrapTitle = ""; // Store the current wrap title globally
 let currentWrapType = ""; // Store the current wrap type globally
 
+/**
+ * Displays a modal popup with slide content.
+ * @param {HTMLElement} element - The HTML element that triggered the popup, containing slide data.
+ */
 function showPopup(element) {
     if (event.target.classList.contains('delete-wrap-button')) {
-        return; // Exit the function, do not expand the wrap card
-  }
-  // Get the modal and modal content elements
-  const modal = document.getElementById("popupModal");
-  const modalTitle = document.getElementById("modalTitle");
-  const slideContent = document.getElementById("slideContent");
-  console.log("Raw JSON String:", element.getAttribute("data-details"));
+        return; // Exit if the delete button is clicked, avoiding modal display
+    }
 
-  const details = JSON.parse(element.getAttribute("data-details"));
+    // Retrieve modal elements
+    const modal = document.getElementById("popupModal");
+    const modalTitle = document.getElementById("modalTitle");
 
-  currentWrapType = element.getAttribute("data-wrap-type");
-  currentWrapTitle = element.getAttribute("data-title");
+    // Debug log for raw JSON data
+    console.log("Raw JSON String:", element.getAttribute("data-details"));
 
+    // Parse details from the triggering element
+    const details = JSON.parse(element.getAttribute("data-details"));
+    currentWrapType = element.getAttribute("data-wrap-type");
+    currentWrapTitle = element.getAttribute("data-title");
 
-  slides = details.content; // Example: Use '|' as a delimiter for multiple slides
-  currentSlideIndex = 0; // Start at the first slide
+    slides = details.content; // Populate slides with content from details
+    currentSlideIndex = 0; // Reset to the first slide
 
-  // Set the modal title and initial slide content
-  modalTitle.textContent = currentWrapTitle;
-  renderCurrentSlide()
+    // Set modal title and display the initial slide
+    modalTitle.textContent = currentWrapTitle;
+    renderCurrentSlide();
 
+    // Show the modal
+    modal.style.display = 'flex';
 
-  // Show the modal
-  modal.style.display = 'flex';
-
-  // Update navigation button visibility
-  updateSlideControls();
-
+    // Update navigation button visibility
+    updateSlideControls();
 }
+
+/**
+ * Changes the current slide by a given direction.
+ * @param {number} direction - The direction to move (1 for next, -1 for previous).
+ */
 function changeSlide(direction) {
-  //const slideContent = document.getElementById("slideContent");
+    currentSlideIndex += direction; // Update the current slide index
 
-  // Update the current slide index
-  currentSlideIndex += direction;
+    // Ensure the index is within bounds
+    if (currentSlideIndex < 0) {
+      currentSlideIndex = 0;
+    } else if (currentSlideIndex >= slides.length) {
+      currentSlideIndex = slides.length - 1;
+    }
 
-  // Ensure the index is within bounds
-  if (currentSlideIndex < 0) {
-    currentSlideIndex = 0;
-  } else if (currentSlideIndex >= slides.length) {
-    currentSlideIndex = slides.length - 1;
-  }
-
-  // Update the slide content
-
-  renderCurrentSlide();
-
-  // Update navigation button visibility
-  updateSlideControls();
+    renderCurrentSlide(); // Render the updated slide
+    updateSlideControls(); // Update navigation controls
 }
 
 
-function renderCurrentSlide(title) {
-  const slideContent = document.getElementById("slideContent");
-  const currentSlide = slides[currentSlideIndex];
+/**
+ * Renders the content of the current slide based on its type.
+ */
+function renderCurrentSlide() {
+    const slideContent = document.getElementById("slideContent");
+    const currentSlide = slides[currentSlideIndex]; // Get the current slide data
 
-  // Clear previous content
-  slideContent.innerHTML = "";
+    // Clear previous content
+    slideContent.innerHTML = "";
 
-  if (currentWrapType === "top_tracks") {
-    // Render top tracks
-    const trackHTML = `
-      <div>
-        <p><strong>Name:</strong> ${currentSlide.name}</p>
-        <p><strong>Artists:</strong> ${currentSlide.artists}</p>
-        <p><strong>Album:</strong> ${currentSlide.album}</p>
-        ${
-          currentSlide.album_cover
-            ? `<img src="${currentSlide.album_cover}" alt="Album Cover" style="width: 100px; height: auto;">`
-            : ""
-        }
-        ${
-          currentSlide.preview_url
-            ? `
-            <audio controls>
-              <source src="${currentSlide.preview_url}" type="audio/mpeg">
-              Your browser does not support the audio element.
-            </audio>
-            `
-            : ""
-        }
-      </div>
-    `;
-    slideContent.innerHTML = trackHTML;
-
-  } else if (currentWrapType === "top_artists") {
-    // Render top artists
-    const artistHTML = `
-      <div>
-        <p><strong>Artist Name:</strong> ${currentSlide.artist_name}</p>
-        <p><strong>Popularity:</strong> ${currentSlide.popularity}</p>
-        <p><strong>Genres:</strong> ${currentSlide.genres.join(", ")}</p>
-        ${
-          currentSlide.profile_picture
-            ? `<img src="${currentSlide.profile_picture}" alt="Artist Profile Picture" style="width: 100px; height: auto;">`
-            : ""
-        }
-      </div>
-    `;
-    slideContent.innerHTML = artistHTML;
-
-  } else if (currentWrapType === "top_albums") {
-    // Render top albums
-    const albumHTML = `
-      <div>
-        <p><strong>Album Name:</strong> ${currentSlide.name}</p>
-        <p><strong>Artists:</strong> ${currentSlide.artists.join(", ")}</p>
-        <p><strong>Release Date:</strong> ${currentSlide.release_date}</p>
-        <p><strong>Total Tracks:</strong> ${currentSlide.total_tracks}</p>
-        ${
-          currentSlide.album_cover
-            ? `<img src="${currentSlide.album_cover}" alt="Album Cover" style="width: 100px; height: auto;">`
-            : ""
-        }
-      </div>
-    `;
-    slideContent.innerHTML = albumHTML;
-
-  } else if (currentWrapType === "top_genres") {
-    // Render top genres
-    const genreHTML = `
-      <div>
-        <p><strong>Genre:</strong> ${currentSlide.genre}</p>
-        <p><strong>Count:</strong> ${currentSlide.count}</p>
-      </div>
-    `;
-    slideContent.innerHTML = genreHTML;
-
-  } else if (currentWrapType === "top_playlists") {
-    // Render top playlists
-    const playlistHTML = `
-      <div>
-        <p><strong>Playlist Name:</strong> ${currentSlide.name}</p>
-        <p><strong>Description:</strong> ${currentSlide.description}</p>
-        <p><strong>Owner:</strong> ${currentSlide.owner}</p>
-        <p><strong>Total Tracks:</strong> ${currentSlide.tracks_count}</p>
-        ${
-          currentSlide.playlist_cover
-            ? `<img src="${currentSlide.playlist_cover}" alt="Playlist Cover" style="width: 100px; height: auto;">`
-            : ""
-        }
-      </div>
-    `;
-    slideContent.innerHTML = playlistHTML;
-
-  } else {
-    slideContent.innerHTML = `<p>Unknown wrap type: ${currentWrapType}</p>`;
-  }
+    // Render based on wrap type
+    if (currentWrapType === "top_tracks") {
+        const trackHTML = `
+            <div>
+                <p><strong>Name:</strong> ${currentSlide.name}</p>
+                <p><strong>Artists:</strong> ${currentSlide.artists}</p>
+                <p><strong>Album:</strong> ${currentSlide.album}</p>
+                ${currentSlide.album_cover ? `<img src="${currentSlide.album_cover}" alt="Album Cover" style="width: 100px; height: auto;">` : ""}
+                ${currentSlide.preview_url ? `
+                    <audio controls>
+                        <source src="${currentSlide.preview_url}" type="audio/mpeg">
+                        Your browser does not support the audio element.
+                    </audio>` : ""}
+            </div>`;
+        slideContent.innerHTML = trackHTML;
+    } else if (currentWrapType === "top_artists") {
+        const artistHTML = `
+            <div>
+                <p><strong>Artist Name:</strong> ${currentSlide.artist_name}</p>
+                <p><strong>Popularity:</strong> ${currentSlide.popularity}</p>
+                <p><strong>Genres:</strong> ${currentSlide.genres.join(", ")}</p>
+                ${currentSlide.profile_picture ? `<img src="${currentSlide.profile_picture}" alt="Artist Profile Picture" style="width: 100px; height: auto;">` : ""}
+            </div>`;
+        slideContent.innerHTML = artistHTML;
+    } else if (currentWrapType === "top_albums") {
+        const albumHTML = `
+            <div>
+                <p><strong>Album Name:</strong> ${currentSlide.name}</p>
+                <p><strong>Artists:</strong> ${currentSlide.artists.join(", ")}</p>
+                <p><strong>Release Date:</strong> ${currentSlide.release_date}</p>
+                <p><strong>Total Tracks:</strong> ${currentSlide.total_tracks}</p>
+                ${currentSlide.album_cover ? `<img src="${currentSlide.album_cover}" alt="Album Cover" style="width: 100px; height: auto;">` : ""}
+            </div>`;
+        slideContent.innerHTML = albumHTML;
+    } else if (currentWrapType === "top_genres") {
+        const genreHTML = `
+            <div>
+                <p><strong>Genre:</strong> ${currentSlide.genre}</p>
+                <p><strong>Count:</strong> ${currentSlide.count}</p>
+            </div>`;
+        slideContent.innerHTML = genreHTML;
+    } else if (currentWrapType === "top_playlists") {
+        const playlistHTML = `
+            <div>
+                <p><strong>Playlist Name:</strong> ${currentSlide.name}</p>
+                <p><strong>Description:</strong> ${currentSlide.description}</p>
+                <p><strong>Owner:</strong> ${currentSlide.owner}</p>
+                <p><strong>Total Tracks:</strong> ${currentSlide.tracks_count}</p>
+                ${currentSlide.playlist_cover ? `<img src="${currentSlide.playlist_cover}" alt="Playlist Cover" style="width: 100px; height: auto;">` : ""}
+            </div>`;
+        slideContent.innerHTML = playlistHTML;
+    } else {
+        slideContent.innerHTML = `<p>Unknown wrap type: ${currentWrapType}</p>`;
+    }
 }
 
+/**
+ * Updates the visibility and state of slide navigation controls.
+ */
 function updateSlideControls() {
-  const prevButton = document.getElementById("prevSlide");
-  const nextButton = document.getElementById("nextSlide");
+    const prevButton = document.getElementById("prevSlide");
+    const nextButton = document.getElementById("nextSlide");
 
-  // Disable/enable buttons based on slide index
-  prevButton.disabled = currentSlideIndex === 0;
-  nextButton.disabled = currentSlideIndex === slides.length - 1;
+    // Enable or disable buttons based on the current slide index
+    prevButton.disabled = currentSlideIndex === 0;
+    nextButton.disabled = currentSlideIndex === slides.length - 1;
 }
 
 
+/**
+ * Closes the modal popup.
+ */
 function closePopup() {
-      // Hide the modal
     document.getElementById('popupModal').style.display = 'none';
 }
 
+/**
+ * Displays the options modal.
+ */
 function showOptions() {
-    const modal = document.getElementById("options-modal")
+    const modal = document.getElementById("options-modal");
     modal.style.display = 'block';
 }
 
+/**
+ * Closes the options modal.
+ */
 function closeOptionsPopup() {
-    document.getElementById('options-modal').style.display ='none';
+    document.getElementById('options-modal').style.display = 'none';
 }
 
-const themeToggle = document.getElementById('theme-toggle');
+const themeToggle = document.getElementById('theme-toggle'); // Get the theme toggle button element
 
 // Check for saved theme in localStorage
 const savedTheme = localStorage.getItem('theme');
 if (savedTheme === 'dark') {
-  document.body.classList.add('dark-mode');
-  themeToggle.textContent = '☀️ Light Mode'; // Update toggle text
+  document.body.classList.add('dark-mode'); // Apply dark mode if saved theme is dark
+  themeToggle.textContent = '☀️ Light Mode'; // Update the button text for light mode
 }
 
-// Add event listener to toggle button
+/**
+ * Toggles between dark mode and light mode when the theme toggle button is clicked.
+ */
 themeToggle.addEventListener('click', () => {
-  const isDarkMode = document.body.classList.toggle('dark-mode');
+  const isDarkMode = document.body.classList.toggle('dark-mode'); // Toggle the dark mode class on the body element
 
-  // Update button text based on mode
+  // Update the toggle button text based on the current mode
   themeToggle.textContent = isDarkMode ? '☀️ Light Mode' : '🌙 Dark Mode';
 
-  // Save the selected theme in localStorage
+  // Save the user's theme preference in localStorage
   localStorage.setItem('theme', isDarkMode ? 'dark' : 'light');
 });
 
+/**
+ * Handles DOM interactions after the document has fully loaded.
+ */
 document.addEventListener("DOMContentLoaded", function () {
-  const userMenuToggle = document.querySelector(".user-menu-toggle");
-  const userMenu = document.querySelector(".user-menu");
-  const deleteAccountButton = document.querySelector(".delete-account-btn");
-  const confirmDeleteModal = document.getElementById("confirm-delete-modal");
+  const userMenuToggle = document.querySelector(".user-menu-toggle"); // Toggle button for the user menu
+  const userMenu = document.querySelector(".user-menu"); // User menu dropdown element
+  const deleteAccountButton = document.querySelector(".delete-account-btn"); // Delete account button
+  const confirmDeleteModal = document.getElementById("confirm-delete-modal"); // Modal for delete account confirmation
 
-  // Toggle dropdown on username click
+  /**
+   * Toggles the visibility of the user menu when the user menu toggle is clicked.
+   */
   userMenuToggle.addEventListener("click", function () {
-    userMenu.classList.toggle("active");
+    userMenu.classList.toggle("active"); // Add or remove the 'active' class for visibility
   });
 
+  /**
+   * Displays the confirmation modal when the delete account button is clicked.
+   */
   deleteAccountButton.addEventListener("click", () => {
-    confirmDeleteModal.style.display = "flex";
+    confirmDeleteModal.style.display = "flex"; // Show the modal with flex display
   });
 
+  /**
+   * Closes the delete confirmation modal.
+   */
   window.closeDeleteModal = function () {
-    confirmDeleteModal.style.display = "none";
+    confirmDeleteModal.style.display = "none"; // Hide the modal
   };
 
-  // Close dropdown if click occurs outside of user menu or dropdown
+  /**
+   * Closes the user menu if the user clicks outside the menu or the toggle button.
+   * @param {MouseEvent} event - The click event.
+   */
   document.addEventListener("click", function (event) {
     if (!userMenu.contains(event.target) && !userMenuToggle.contains(event.target)) {
-      userMenu.classList.remove("active");
+      userMenu.classList.remove("active"); // Hide the user menu by removing the 'active' class
     }
   });
 });
