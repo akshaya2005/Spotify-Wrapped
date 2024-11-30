@@ -1,12 +1,11 @@
 # yourapp/spotify_service.py
 import spotipy
 
-def get_user_top_tracks(access_token):
+def get_user_top_tracks(access_token, time_range):
     # Initialize the Spotipy client with the provided access token
     sp = spotipy.Spotify(auth=access_token)
     try:
-        # Fetch the user's top 10 tracks
-        top_tracks_response = sp.current_user_top_tracks(limit=5, time_range='medium_term')
+        top_tracks_response = sp.current_user_top_tracks(limit=5, time_range=time_range)
         top_tracks = [
             {
                 "name": track["name"],
@@ -18,22 +17,26 @@ def get_user_top_tracks(access_token):
             }
             for track in top_tracks_response["items"]
         ]
+
+        # Sort the artists by popularity in ascending order (5th most to 1st)
+        top_tracks_sorted = top_tracks[::-1]
+
         # Combine user profile and top tracks data in a dictionary to return
         spotify_data = {
             "name" : "Top Tracks",
-            "content": top_tracks,
+            "content": top_tracks_sorted,
         }
         return spotify_data
 
     except spotipy.exceptions.SpotifyException as e:
         print(f"Error fetching top tracks: {e}")
 
-def get_user_top_artists(access_token):
+def get_user_top_artists(access_token, time_range):
     # Initialize Spotify client
     sp = spotipy.Spotify(auth=access_token)
     # Fetch the user's top 5 artists
     try:
-        top_artists_response = sp.current_user_top_artists(limit=5, time_range='medium_term')
+        top_artists_response = sp.current_user_top_artists(limit=5, time_range=time_range)
         top_artists = [
             {
                 "artist_name": artist["name"],
@@ -44,7 +47,10 @@ def get_user_top_artists(access_token):
             for artist in top_artists_response["items"]
         ]
 
-        spotify_data = {"name": "Top Artists", "content" :top_artists}
+        # Sort the artists by popularity in ascending order (5th most to 1st)
+        top_artists_sorted = top_artists[::-1]
+
+        spotify_data = {"name": "Top Artists", "content" :top_artists_sorted}
 
         return spotify_data
 
@@ -52,13 +58,13 @@ def get_user_top_artists(access_token):
         print(f"Error fetching top artists: {e}")
 
 
-def get_user_top_albums(access_token):
+def get_user_top_albums(access_token, time_range):
     import collections
     sp = spotipy.Spotify(auth=access_token)
 
     try:
         # Fetch the user's top tracks
-        top_tracks_response = sp.current_user_top_tracks(limit=50, time_range='medium_term')
+        top_tracks_response = sp.current_user_top_tracks(limit=50, time_range=time_range)
         top_tracks = top_tracks_response["items"]
 
         # Extract album data from the top tracks
@@ -74,7 +80,6 @@ def get_user_top_albums(access_token):
                 "total_tracks": album["total_tracks"],
             }
             album_popularity[album_id].append(track["popularity"])
-            #print(album_data)
         # Calculate average popularity for each album
         sorted_albums = sorted(
             album_popularity.items(),
@@ -95,8 +100,10 @@ def get_user_top_albums(access_token):
                 "average_popularity": sum(popularity_scores) / len(popularity_scores),
             }
             top_albums.append(album_data)
-        print(top_albums)
-        return {"name": "Top Albums", "content": top_albums}
+
+        # Sort the artists by popularity in ascending order (5th most to 1st)
+        top_albums_sorted = top_albums[::-1]
+        return {"name": "Top Albums", "content": top_albums_sorted}
 
     except spotipy.exceptions.SpotifyException as e:
         print(f"Error fetching top albums: {e}")
@@ -105,11 +112,11 @@ def get_user_top_albums(access_token):
         return None
 
 
-def get_user_top_genres(access_token):
+def get_user_top_genres(access_token, time_range):
     sp = spotipy.Spotify(auth=access_token)
     try:
         # Fetch the user's top artists to derive genres
-        top_artists_response = sp.current_user_top_artists(limit=50, time_range='medium_term')
+        top_artists_response = sp.current_user_top_artists(limit=50, time_range=time_range)
         genre_counts = {}
         for artist in top_artists_response["items"]:
             for genre in artist["genres"]:
@@ -117,9 +124,12 @@ def get_user_top_genres(access_token):
         # Sort genres by popularity
         sorted_genres = sorted(genre_counts.items(), key=lambda x: x[1], reverse=True)
         top_genres = [{"genre": genre, "count": count} for genre, count in sorted_genres[:5]]
+
+        # Sort the artists by popularity in ascending order (5th most to 1st)
+        top_genres_sorted = top_genres[::-1]
         spotify_data = {
             "name": "Top Genres",
-            "content": top_genres,
+            "content": top_genres_sorted,
         }
         return spotify_data
     except spotipy.exceptions.SpotifyException as e:
@@ -141,9 +151,12 @@ def get_user_top_playlists(access_token):
             }
             for playlist in playlists_response["items"]
         ]
+
+        top_playlists_sorted = top_playlists[::-1]
+
         spotify_data = {
             "name": "Top Playlists",
-            "content": top_playlists,
+            "content": top_playlists_sorted,
         }
         return spotify_data
     except spotipy.exceptions.SpotifyException as e:

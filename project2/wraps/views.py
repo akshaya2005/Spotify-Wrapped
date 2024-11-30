@@ -37,21 +37,22 @@ def dashboard(request):
     if request.method == 'POST':
         wrap_name = ""
         wrap_type = request.POST.get('wrapTypeDropdown')
+        time_period = request.POST.get("time_period")
 
         try:
             # Generate the requested wrap
             if wrap_type == 'top_tracks':
                 wrap_name = 'Top Tracks'
-                wrap_data = (get_user_top_tracks(access_token))
+                wrap_data = (get_user_top_tracks(access_token, time_range=time_period))
             elif wrap_type == 'top_artists':
                 wrap_name = 'Top Artists'
-                wrap_data = (get_user_top_artists(access_token))
+                wrap_data = (get_user_top_artists(access_token, time_range=time_period))
             elif wrap_type == 'top_albums':
                 wrap_name = 'Top Albums'
-                wrap_data = get_user_top_albums(access_token)
+                wrap_data = get_user_top_albums(access_token, time_range=time_period)
             elif wrap_type == 'top_genres':
                 wrap_name = 'Top Genres'
-                wrap_data = get_user_top_genres(access_token)
+                wrap_data = get_user_top_genres(access_token, time_range=time_period)
             elif wrap_type == 'top_playlists':
                 wrap_name = 'Top Playlists'
                 wrap_data = get_user_top_playlists(access_token)

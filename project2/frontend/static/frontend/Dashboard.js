@@ -3,6 +3,7 @@ let currentSlideIndex = 0; // Index of the currently displayed slide
 let slides = []; // Array to hold slide data
 let currentWrapTitle = ""; // Store the current wrap title globally
 let currentWrapType = ""; // Store the current wrap type globally
+let currentTimePeriod = ""; // Store the current time period globally (default to medium-term)
 
 /**
  * Displays a modal popup with slide content.
@@ -23,6 +24,7 @@ function showPopup(element) {
     // Parse details from the triggering element
     const details = JSON.parse(element.getAttribute("data-details"));
     currentWrapType = element.getAttribute("data-wrap-type");
+    currentTimePeriod = element.getAttribute("time_period")
     currentWrapTitle = element.getAttribute("data-title");
 
     slides = details.content; // Populate slides with content from details
@@ -149,7 +151,7 @@ function closePopup() {
  */
 function showOptions() {
     const modal = document.getElementById("options-modal");
-    modal.style.display = 'block';
+    modal.style.display = 'flex';
 }
 
 /**
