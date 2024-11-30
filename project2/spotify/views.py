@@ -28,7 +28,6 @@ def login_and_connect_spotify(request):
         if user is not None:
             # Log the user in
             login(request, user)
-            # messages.success(request, "Logged in successfully! Redirecting to Spotify for account connection.")
 
             # Define Spotify scopes
             scopes = (
@@ -150,13 +149,6 @@ def spotify_callback(request):
         error_message = f"An unexpected error occurred: {str(e)}"
         messages.error(request, error_message)
         return redirect('frontend:login')
-
-
-class IsAuthenticated(APIView):
-    def get(self, request, format=None):
-        is_authenticated = is_spotify_authenticated(self.request.session.session_key)
-        return Response({'status': is_authenticated}, status = status.HTTP_200_OK)
-
 
 def delete_account_view(request):
     if request.method == "POST":

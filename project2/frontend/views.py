@@ -4,20 +4,6 @@ from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
 from django.shortcuts import render, redirect
 from django.contrib import messages
 
-
-
-
-# Create your views here.
-
-@login_required
-def index(request, *args, **kwargs):
-    return render(request, 'frontend/index.html')
-
-@login_required
-def intro_view(request):
-    return render(request, 'frontend/intro.html')
-
-
 # Register view
 def register_view(request):
     if request.method == 'POST':
