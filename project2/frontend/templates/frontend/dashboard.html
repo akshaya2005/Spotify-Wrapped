@@ -25,16 +25,16 @@
 
   </header>
 
-  <!-- Confirm Delete Modal -->
-  <div id="confirm-delete-modal" class="modal" style="display: none;">
+  <!-- Delete Account Confirmation Modal -->
+  <div id="confirm-delete-modal" class="modal">
     <div class="modal-content">
-      <h3>{% trans "Confirm Account Deletion" %}</h3>
-      <p>{% trans "Are you sure you want to delete your account? This action cannot be undone." %}</p>
-      <form action="{% url 'spotify:delete_account' %}" method="post">
-        {% csrf_token %}
-        <button type="submit" class="confirm-delete-button">{% trans "Yes, Delete My Account" %}</button>
-        <button type="button" class="cancel-delete-button" onclick="closeDeleteModal()">{% trans "Cancel" %}</button>
-      </form>
+      <span class="close-button" onclick="closeDeleteModal()">&times;</span>
+      <h2>Are you sure you want to delete your account?</h2>
+      <p>This action cannot be undone.</p>
+      <div class="modal-actions">
+        <button class="delete-account-confirm-btn" onclick="confirmDeleteAccount()">Confirm</button>
+        <button class="delete-account-cancel-btn" onclick="closeDeleteModal()">Cancel</button>
+      </div>
     </div>
   </div>
 

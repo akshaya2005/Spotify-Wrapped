@@ -402,3 +402,37 @@ body.dark-mode .empty-wrap {
 .user-menu.active .user-dropdown {
   display: block;
 }
+
+/* Confirm Delete Account Button */
+.delete-account-confirm-btn {
+    background-color: #ff4d4d; /* Red color for the confirm button */
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    font-size: 16px;
+    font-weight: bold;
+}
+
+.delete-account-confirm-btn:hover {
+    background-color: #ff1a1a; /* Darker red on hover */
+}
+
+/* Cancel Button (Styled to look like other buttons on the page) */
+.delete-account-cancel-btn {
+    background-color: #fff;
+    color: #333;
+    border: 2px solid #ccc;
+    padding: 10px 20px;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    font-size: 16px;
+    font-weight: bold;
+}
+
+.delete-account-cancel-btn:hover {
+    background-color: #f1f1f1; /* Light gray on hover */
+}
