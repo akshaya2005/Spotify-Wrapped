@@ -197,4 +197,3 @@ themeToggle.addEventListener('click', () => {
   // Save the selected theme in localStorage
   localStorage.setItem('theme', isDarkMode ? 'dark' : 'light');
 });
-

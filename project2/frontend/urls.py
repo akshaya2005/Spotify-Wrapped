@@ -9,5 +9,4 @@ urlpatterns = [
     path('register/', views.register_view, name='register'),  # Registration URL
     path('login/', views.login_view, name='login'),
     path('logout/', views.logout_view, name='logout'),
-    path('spotify/logout-redirect/', views.spotify_logout_redirect, name='spotify_logout_redirect'),
 ]

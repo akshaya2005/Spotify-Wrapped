@@ -80,14 +80,3 @@ def logout_view(request):
 
     # Render a template that logs out of Spotify and redirects to login
     return render(request, 'frontend/spotify_logout.html')
-
-
-def spotify_logout_redirect(request):
-    # Redirect the user to Spotify's logout URL
-    logout_url = "https://accounts.spotify.com/logout"
-
-    # You can optionally add a message here, if you want to show one before redirecting
-    messages.error(request, "Your Spotify session was logged out. Please log in again.")
-
-    # Now redirect the user to Spotify logout and immediately back to your app's login page
-    return redirect(logout_url)  # This will log the user out of Spotify

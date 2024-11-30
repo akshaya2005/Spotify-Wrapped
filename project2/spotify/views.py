@@ -158,28 +158,18 @@ class IsAuthenticated(APIView):
         return Response({'status': is_authenticated}, status = status.HTTP_200_OK)
 
 
-def spotify_logout(request):
-    # Check if the user is authenticated with Spotify (i.e., if they have a valid session)
-    session_key = request.session.session_key
+def delete_account_view(request):
+    if request.method == "POST":
+        user = request.user
+        if user.is_authenticated:
+            # Delete the user's account
+            user.delete()
 
-    if not session_key:
-        messages.error(request, "You are not logged in with Spotify.")
-        return redirect('frontend:login')
+            # Log out the user
+            logout(request)
 
-    # Log out of Django (if the user is authenticated)
-    if request.user.is_authenticated:
-        logout(request)
-        messages.success(request, "You have successfully logged out of Django.")
+            # Add a success message (optional)
+            messages.success(request, "Your account has been deleted successfully.")
+            return render(request, 'frontend/spotify_logout.html')
 
-    # Prepare the Spotify logout URL
-    logout_url = "https://accounts.spotify.com/logout"
-
-    # After logging out from Spotify, redirect the user to the login page
-    redirect_url = request.build_absolute_uri('/accounts/login/')  # Replace this with the actual URL of your login page.
-
-    # Redirect the user to Spotify's logout URL first
-    response = redirect(logout_url)
-
-    # After Spotify logout, redirect the user to the login page
-    response['Location'] += f"?redirect_to={redirect_url}"
-    return response
+    return redirect('frontend:dashboard')  # Prevent access via GET
