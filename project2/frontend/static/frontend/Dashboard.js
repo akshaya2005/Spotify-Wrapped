@@ -159,65 +159,49 @@ function closeOptionsPopup() {
     document.getElementById('options-modal').style.display = 'none';
 }
 
-const themeToggle = document.getElementById('theme-toggle'); // Get the theme toggle button element
+const themeToggle = document.getElementById('theme-toggle');
 
 // Check for saved theme in localStorage
 const savedTheme = localStorage.getItem('theme');
 if (savedTheme === 'dark') {
-  document.body.classList.add('dark-mode'); // Apply dark mode if saved theme is dark
-  themeToggle.textContent = '☀️ Light Mode'; // Update the button text for light mode
+  document.body.classList.add('dark-mode');
+  themeToggle.textContent = '☀️ Light Mode'; // Update toggle text
 }
 
-/**
- * Toggles between dark mode and light mode when the theme toggle button is clicked.
- */
+// Add event listener to toggle button
 themeToggle.addEventListener('click', () => {
-  const isDarkMode = document.body.classList.toggle('dark-mode'); // Toggle the dark mode class on the body element
+  const isDarkMode = document.body.classList.toggle('dark-mode');
 
-  // Update the toggle button text based on the current mode
+  // Update button text based on mode
   themeToggle.textContent = isDarkMode ? '☀️ Light Mode' : '🌙 Dark Mode';
 
-  // Save the user's theme preference in localStorage
+  // Save the selected theme in localStorage
   localStorage.setItem('theme', isDarkMode ? 'dark' : 'light');
 });
 
-/**
- * Handles DOM interactions after the document has fully loaded.
- */
 document.addEventListener("DOMContentLoaded", function () {
-  const userMenuToggle = document.querySelector(".user-menu-toggle"); // Toggle button for the user menu
-  const userMenu = document.querySelector(".user-menu"); // User menu dropdown element
-  const deleteAccountButton = document.querySelector(".delete-account-btn"); // Delete account button
-  const confirmDeleteModal = document.getElementById("confirm-delete-modal"); // Modal for delete account confirmation
+  const userMenuToggle = document.querySelector(".user-menu-toggle");
+  const userMenu = document.querySelector(".user-menu");
+  const deleteAccountButton = document.querySelector(".delete-account-btn");
+  const confirmDeleteModal = document.getElementById("confirm-delete-modal");
 
-  /**
-   * Toggles the visibility of the user menu when the user menu toggle is clicked.
-   */
+  // Toggle dropdown on username click
   userMenuToggle.addEventListener("click", function () {
-    userMenu.classList.toggle("active"); // Add or remove the 'active' class for visibility
+    userMenu.classList.toggle("active");
   });
 
-  /**
-   * Displays the confirmation modal when the delete account button is clicked.
-   */
   deleteAccountButton.addEventListener("click", () => {
-    confirmDeleteModal.style.display = "flex"; // Show the modal with flex display
+    confirmDeleteModal.style.display = "flex";
   });
 
-  /**
-   * Closes the delete confirmation modal.
-   */
   window.closeDeleteModal = function () {
-    confirmDeleteModal.style.display = "none"; // Hide the modal
+    confirmDeleteModal.style.display = "none";
   };
 
-  /**
-   * Closes the user menu if the user clicks outside the menu or the toggle button.
-   * @param {MouseEvent} event - The click event.
-   */
+  // Close dropdown if click occurs outside of user menu or dropdown
   document.addEventListener("click", function (event) {
     if (!userMenu.contains(event.target) && !userMenuToggle.contains(event.target)) {
-      userMenu.classList.remove("active"); // Hide the user menu by removing the 'active' class
+      userMenu.classList.remove("active");
     }
   });
 });
