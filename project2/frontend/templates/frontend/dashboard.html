@@ -10,7 +10,10 @@
 <body>
   <header class="heading-bar">
     <h1>{% trans "Spotify Wrapped" %}</h1>
-    <button id="theme-toggle" class="theme-toggle">🌙 {% trans "Dark Mode" %}</button>
+    <!-- Theme Toggle Button -->
+    <div class="theme-toggle-container">
+      <button id="theme-toggle" class="theme-toggle">🌙 {% trans "Dark Mode" %}</button>
+    </div>
     <!-- Inside the heading-bar -->
     <div class="user-menu">
       <button class="user-menu-toggle">{{ request.user.username }}</button>

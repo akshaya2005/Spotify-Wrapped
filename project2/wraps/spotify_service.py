@@ -148,10 +148,3 @@ def get_user_top_playlists(access_token):
         return spotify_data
     except spotipy.exceptions.SpotifyException as e:
         print(f"Error fetching top playlists: {e}")
-
-
-def get_christmas_wrap(access_token):
-    pass
-
-
-

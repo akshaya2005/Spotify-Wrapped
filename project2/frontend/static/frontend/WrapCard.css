@@ -85,13 +85,14 @@ h1 {
 .wraps-container {
     margin-top: 60px; /* Pushes content below the fixed header */
     padding: 20px;
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
-    gap: 175px;
-    justify-content: center;
+    display: flex;
+    flex-wrap: wrap; /* Ensures cards wrap to new lines */
+    justify-content: center; /* Centers the cards horizontally */
+    gap: 20px 75px; /* Adjusted spacing between cards */
     max-width: 1200px;
     width: 100%;
 }
+
 
 /* Wrap card styling with hover effect */
 .wrap-card {
@@ -244,6 +245,7 @@ body.dark-mode::before {
     filter: blur(2px); /* Adjust blur intensity here */
     z-index: -1; /* Ensures the blurred background stays behind other content */
     transform: scale(1.1); /* Optional: Slightly enlarges the background to prevent edges from being visible */
+
 }
 
 /* Header in Dark Mode */
@@ -305,6 +307,7 @@ body.dark-mode .empty-wrap {
 }
 
 
+/* Theme Toggle Button Styling */
 .theme-toggle {
   background-color: #fff;
   color: #1DB954;
@@ -316,6 +319,70 @@ body.dark-mode .empty-wrap {
   font-weight: bold;
   transition: background-color 0.3s ease, color 0.3s ease;
 }
+
+/* Centering the theme-toggle button in the header */
+.theme-toggle-container {
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%); /* Center the button */
+  top: 50%; /* Center vertically */
+  transform: translate(-50%, -50%); /* Ensure the button is centered properly */
+}
+
+/* Media query for mobile screens */
+@media (max-width: 600px) {
+  .heading-bar {
+    display: flex;
+    flex-direction: row; /* Keep items in one row */
+    justify-content: space-between; /* Ensure space between title and user menu */
+    align-items: center; /* Vertically align the items */
+    padding: 10px 15px; /* Adjust padding for mobile */
+    height: auto; /* Allow the header height to expand based on content */
+    flex-wrap: wrap; /* Allow items to wrap to the next line if needed */
+  }
+
+  .heading-bar h1 {
+    font-size: 20px; /* Keep the title font size consistent */
+    margin: 0; /* Remove margins */
+    text-align: center; /* Center the title text */
+    width: 100%; /* Ensure the title takes up the full width */
+    display: block; /* Stack the words vertically */
+    line-height: 1.2; /* Adjust line height for better spacing */
+    margin-bottom: 20px; /* Add space below the heading */
+  }
+
+  .heading-bar h1 span {
+    display: block; /* Stack each word in its own line */
+    text-align: center; /* Center each word */
+  }
+
+  /* User menu positioned to the right */
+  .user-menu {
+    position: relative; /* Default positioning to stay in the same row */
+    margin-left: auto; /* Push the user menu to the far right */
+    flex: 0 1 auto; /* Ensure the user menu does not stretch */
+  }
+
+  /* Theme toggle container now centered in the header */
+  .theme-toggle-container {
+    display: flex;
+    justify-content: center; /* Center the toggle button */
+    align-items: center; /* Vertically align the button */
+    width: 100%; /* Ensure the toggle button takes full width */
+    margin-top: 10px; /* Space between the header and the theme toggle button */
+  }
+
+  .theme-toggle {
+    padding: 6px 12px; /* Smaller button size for mobile */
+    font-size: 14px; /* Adjust font size */
+  }
+
+  .wraps-container {
+      margin-top: 75px;
+  }
+}
+
+
 
 .delete-wrap-button {
   background-color: #ff4d4d;
