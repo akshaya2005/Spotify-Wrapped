@@ -1,7 +1,8 @@
-let currentSlideIndex = 0;
-let slides = [];
+// Global variables to manage slides and modal content
+let currentSlideIndex = 0; // Index of the currently displayed slide
+let slides = []; // Array to hold slide data
 let currentWrapTitle = ""; // Store the current wrap title globally
-let currentWrapType = "";
+let currentWrapType = ""; // Store the current wrap type globally
 
 function showPopup(element) {
     if (event.target.classList.contains('delete-wrap-button')) {
