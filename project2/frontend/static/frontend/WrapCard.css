@@ -355,6 +355,50 @@ body.dark-mode .empty-wrap {
     border-color: #d6e9c6;
 }
 
+/* User Menu Dropdown */
+.user-menu {
+  position: relative;
+  display: inline-block;
+}
 
+.user-menu-toggle {
+  background: none;
+  border: none;
+  font-size: 16px;
+  font-weight: bold;
+  color: white;
+  cursor: pointer;
+  padding: 5px 10px;
+}
 
+.user-dropdown {
+  display: none;  /* Initially hidden */
+  position: absolute;
+  right: 0;
+  background-color: white;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  border-radius: 4px;
+  z-index: 1000;
+  padding: 10px 0;
+  width: 150px;
+}
 
+.user-dropdown .dropdown-item {
+  padding: 10px 20px;
+  background: none;
+  border: none;
+  width: 100%;
+  text-align: left;
+  cursor: pointer;
+  font-size: 14px;
+  color: #333;
+}
+
+.user-dropdown .dropdown-item:hover {
+  background-color: #f0f0f0;
+}
+
+/* Show dropdown when 'active' class is added */
+.user-menu.active .user-dropdown {
+  display: block;
+}

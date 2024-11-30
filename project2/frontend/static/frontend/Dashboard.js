@@ -197,3 +197,30 @@ themeToggle.addEventListener('click', () => {
   // Save the selected theme in localStorage
   localStorage.setItem('theme', isDarkMode ? 'dark' : 'light');
 });
+
+document.addEventListener("DOMContentLoaded", function () {
+  const userMenuToggle = document.querySelector(".user-menu-toggle");
+  const userMenu = document.querySelector(".user-menu");
+  const deleteAccountButton = document.querySelector(".delete-account-btn");
+  const confirmDeleteModal = document.getElementById("confirm-delete-modal");
+
+  // Toggle dropdown on username click
+  userMenuToggle.addEventListener("click", function () {
+    userMenu.classList.toggle("active");
+  });
+
+  deleteAccountButton.addEventListener("click", () => {
+    confirmDeleteModal.style.display = "flex";
+  });
+
+  window.closeDeleteModal = function () {
+    confirmDeleteModal.style.display = "none";
+  };
+
+  // Close dropdown if click occurs outside of user menu or dropdown
+  document.addEventListener("click", function (event) {
+    if (!userMenu.contains(event.target) && !userMenuToggle.contains(event.target)) {
+      userMenu.classList.remove("active");
+    }
+  });
+});

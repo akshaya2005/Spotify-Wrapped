@@ -11,16 +11,32 @@
   <header class="heading-bar">
     <h1>{% trans "Spotify Wrapped" %}</h1>
     <button id="theme-toggle" class="theme-toggle">🌙 {% trans "Dark Mode" %}</button>
-    <form action="{% url 'frontend:logout' %}" method="post" class="logout-form">
-      {% csrf_token %}
-      <button type="submit" class="logout-button">{% trans "Logout" %}</button>
-    </form>
+    <!-- Inside the heading-bar -->
+    <div class="user-menu">
+      <button class="user-menu-toggle">{{ request.user.username }}</button>
+      <div class="user-dropdown">
+        <form action="{% url 'frontend:logout' %}" method="post" class="logout-form">
+          {% csrf_token %}
+          <button type="submit" class="dropdown-item">{% trans "Logout" %}</button>
+        </form>
+        <button class="dropdown-item delete-account-btn">{% trans "Delete Account" %}</button>
+      </div>
+    </div>
 
-    <form action="{% url 'spotify:delete_account' %}" method="post" class="delete-account-form">
-      {% csrf_token %}
-      <button type="submit" class="delete-account-button">{% trans "Delete Account" %}</button>
-    </form>
   </header>
+
+  <!-- Confirm Delete Modal -->
+  <div id="confirm-delete-modal" class="modal" style="display: none;">
+    <div class="modal-content">
+      <h3>{% trans "Confirm Account Deletion" %}</h3>
+      <p>{% trans "Are you sure you want to delete your account? This action cannot be undone." %}</p>
+      <form action="{% url 'spotify:delete_account' %}" method="post">
+        {% csrf_token %}
+        <button type="submit" class="confirm-delete-button">{% trans "Yes, Delete My Account" %}</button>
+        <button type="button" class="cancel-delete-button" onclick="closeDeleteModal()">{% trans "Cancel" %}</button>
+      </form>
+    </div>
+  </div>
 
     {% if messages %}
         <div class="messages">
