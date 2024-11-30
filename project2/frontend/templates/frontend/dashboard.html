@@ -32,7 +32,10 @@
       <h2>Are you sure you want to delete your account?</h2>
       <p>This action cannot be undone.</p>
       <div class="modal-actions">
-        <button class="delete-account-confirm-btn" onclick="confirmDeleteAccount()">Confirm</button>
+        <form action="{% url 'spotify:delete_account' %}" method="post" style="display:inline;">
+          {% csrf_token %}
+          <button type="submit" class="delete-account-confirm-btn">Confirm</button>
+        </form>
         <button class="delete-account-cancel-btn" onclick="closeDeleteModal()">Cancel</button>
       </div>
     </div>
