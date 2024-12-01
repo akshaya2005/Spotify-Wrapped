@@ -32,7 +32,7 @@ SECRET_KEY = 'django-insecure-lzv9$dqw@a(@qn28hv&#xxs(&1yyb@evp(ejgjp95xfq_0&a@+
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = False
 
-ALLOWED_HOSTS = ['*']
+ALLOWED_HOSTS = ['spotify-wrapped-5qfu.onrender.com']
 
 SESSION_EXPIRE_AT_BROWSER_CLOSE = True
 
