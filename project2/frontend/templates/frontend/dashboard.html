@@ -55,9 +55,9 @@
             <div class="modal-actions">
                 <form action="{% url 'spotify:delete_account' %}" method="post" style="display:inline;">
                     {% csrf_token %}
-                    <button type="submit" class="delete-account-confirm-btn">Confirm</button>
+                    <button type="submit" class="delete-account-confirm-btn">{% trans "Confirm" %}</button>
                 </form>
-                <button class="delete-account-cancel-btn" onclick="closeDeleteModal()">Cancel</button>
+                <button class="delete-account-cancel-btn" onclick="closeDeleteModal()">{% trans "Cancel" %}</button>
             </div>
         </div>
     </div>
