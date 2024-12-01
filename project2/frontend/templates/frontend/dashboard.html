@@ -1,119 +1,209 @@
 <!DOCTYPE html>
-{% load static %}
+{% load static i18n %}
 <html lang="en">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Dashboard</title>
-  <!-- Use Django's static tag for loading CSS -->
+  <title>{% trans "Dashboard" %}</title>
   <link rel="stylesheet" href="{% static 'frontend/WrapCard.css' %}">
+  <style>
+        footer {
+            background-color: #282828;
+            color: white;
+            text-align: center;
+            font-size: 12px;
+            padding: 10px 0;
+            position: fixed;
+            width: 100%;
+            bottom: 0;
+        }
+        footer a {
+            color: #1DB954;
+            text-decoration: none;
+        }
+        footer a:hover {
+            text-decoration: underline;
+        }
+    </style>
 </head>
 <body>
   <header class="heading-bar">
-      <h1>Spotify Wrapped</h1>
-      <button id="theme-toggle" class="theme-toggle">🌙 Dark Mode</button>
-      <form action="{% url 'frontend:logout' %}" method="post" class="logout-form">
-        {% csrf_token %}
-        <button type="submit" class="logout-button">Logout</button>
-      </form>
+    <h1>{% trans "Spotify Wrapped" %}</h1>
+    <!-- Theme Toggle Button -->
+    <div class="theme-toggle-container">
+      <button id="theme-toggle" class="theme-toggle">🌙 {% trans "Dark Mode" %}</button>
+    </div>
+    <!-- Inside the heading-bar -->
+    <div class="user-menu">
+      <button class="user-menu-toggle">{{ request.user.username }}</button>
+      <div class="user-dropdown">
+        <form action="{% url 'frontend:logout' %}" method="post" class="logout-form">
+          {% csrf_token %}
+          <button type="submit" class="dropdown-item">{% trans "Logout" %}</button>
+        </form>
+        <button class="dropdown-item delete-account-btn">{% trans "Delete Account" %}</button>
+      </div>
+    </div>
+
   </header>
+
+  <!-- Delete Account Confirmation Modal -->
+  <div id="confirm-delete-modal" class="modal">
+    <div class="modal-content">
+      <span class="close-button" onclick="closeDeleteModal()">&times;</span>
+      <h2>Are you sure you want to delete your account?</h2>
+      <p>This action cannot be undone.</p>
+      <div class="modal-actions">
+        <form action="{% url 'spotify:delete_account' %}" method="post" style="display:inline;">
+          {% csrf_token %}
+          <button type="submit" class="delete-account-confirm-btn">Confirm</button>
+        </form>
+        <button class="delete-account-cancel-btn" onclick="closeDeleteModal()">Cancel</button>
+      </div>
+    </div>
+  </div>
+
   <div class="wraps-container">
     {% for wrap in wrap_data %}
-      <div class="wrap-card {{ wrap.wrap_type }}" data-title="{{ wrap.wrap_type | escape }}" data-details="{{ wrap.wrap_data | escape }}" onclick="showPopup(this)" id="wrap-{{ wrap.id }}" data-id="{{ wrap.id }}">
-        <h3>{{ wrap.wrap_type }}</h3>
+      <div class="wrap-card {{ wrap.wrap_type }}"
+           data-title="{{ wrap.wrap_name | escape }}"
+           data-wrap-type="{{ wrap.wrap_type | escape }}"
+           data-details="{{ wrap.wrap_data | escape }}"
+           onclick="showPopup(this)"
+           id="wrap-{{ wrap.id }}"
+           data-id="{{ wrap.id }}">
+        <h3>{{ wrap.wrap_name }}</h3>
         <p>{{ wrap.created_at }}</p>
+
         {% if wrap.wrap_type == "top_tracks" %}
           {% for track in wrap.wrap_data.content %}
-            <p><strong>Name:</strong> {{ track.name }}</p>
-            <p><strong>Artists:</strong> {{ track.artists }}</p>
-            <p><strong>Album:</strong> {{ track.album }}</p>
+            <p><strong>{% trans "Name" %}:</strong> {{ track.name }}</p>
+            <p><strong>{% trans "Artists" %}:</strong> {{ track.artists }}</p>
+            <p><strong>{% trans "Album" %}:</strong> {{ track.album }}</p>
             {% if track.album_cover %}
-              <img src="{{ track.album_cover }}" alt="Album Cover" style="width: 100px; height: auto;">
+              <img src="{{ track.album_cover }}" alt="{% trans 'Album Cover' %}" style="width: 100px; height: auto;">
             {% endif %}
             {% if track.preview_url %}
               <audio controls>
                 <source src="{{ track.preview_url }}" type="audio/mpeg">
-                Your browser does not support the audio element.
+                {% trans "Your browser does not support the audio element." %}
               </audio>
             {% else %}
               <p>No audio preview available.</p>
             {% endif %}
-            <hr> <!-- Divider between tracks -->
+            <hr>
           {% endfor %}
         {% endif %}
 
-  <!-- Conditional Rendering for Top Artists -->
         {% if wrap.wrap_type == "top_artists" %}
           {% for artist in wrap.wrap_data.content %}
-            <p><strong>Artist Name:</strong> {{ artist.artist_name }}</p>
-            <p><strong>Popularity:</strong> {{ artist.popularity }}</p>
-            <p><strong>Genres:</strong> {{ artist.genres|join:", " }}</p>
-            <hr> <!-- Divider between artists -->
+            <p><strong>{% trans "Artist Name" %}:</strong> {{ artist.artist_name }}</p>
+            <p><strong>{% trans "Popularity" %}:</strong> {{ artist.popularity }}</p>
+            <p><strong>{% trans "Genres" %}:</strong> {{ artist.genres|join:", " }}</p>
+            {% if artist.profile_picture %}
+              <img src="{{ artist.profile_picture }}" alt="{% trans 'Artist Profile Picture' %}" style="width: 100px; height: auto;">
+            {% endif %}
+            <hr>
           {% endfor %}
         {% endif %}
+
+        {% if wrap.wrap_type == "top_albums" %}
+          {% for album in wrap.wrap_data.content %}
+            <p><strong>{% trans "Album Name" %}:</strong> {{ album.name }}</p>
+            <p><strong>{% trans "Artists" %}:</strong> {{ album.artists }}</p>
+            <p><strong>{% trans "Release Date" %}:</strong> {{ album.release_date }}</p>
+            <p><strong>{% trans "Total Tracks" %}:</strong> {{ album.total_tracks }}</p>
+            {% if album.album_cover %}
+              <img src="{{ album.album_cover }}" alt="{% trans 'Album Cover' %}" style="width: 100px; height: auto;">
+            {% endif %}
+            <hr>
+          {% endfor %}
+        {% endif %}
+
+        {% if wrap.wrap_type == "top_genres" %}
+          {% for genre in wrap.wrap_data.content %}
+            <p><strong>{% trans "Genre" %}:</strong> {{ genre.genre }}</p>
+            <p><strong>{% trans "Count" %}:</strong> {{ genre.count }}</p>
+            <hr>
+          {% endfor %}
+        {% endif %}
+
+        {% if wrap.wrap_type == "top_playlists" %}
+          {% for playlist in wrap.wrap_data.content %}
+            <p><strong>{% trans "Playlist Name" %}:</strong> {{ playlist.name }}</p>
+            <p><strong>{% trans "Description" %}:</strong> {{ playlist.description }}</p>
+            <p><strong>{% trans "Owner" %}:</strong> {{ playlist.owner }}</p>
+            <p><strong>{% trans "Total Tracks" %}:</strong> {{ playlist.tracks_count }}</p>
+            {% if playlist.playlist_cover %}
+              <img src="{{ playlist.playlist_cover }}" alt="{% trans 'Playlist Cover' %}" style="width: 100px; height: auto;">
+            {% endif %}
+            <hr>
+          {% endfor %}
+        {% endif %}
+
+        <!-- Delete Wrap Button -->
         <form action="{% url 'wraps:delete_wrap' wrap.id %}" method="post">
-            {% csrf_token %}
-            <button type="submit" class="delete-wrap-button">Delete</button>
+          {% csrf_token %}
+          <button type="submit" class="delete-wrap-button">{% trans "Delete" %}</button>
         </form>
       </div>
     {% empty %}
-    <div class="empty-wrap">
-      <p>You don't have any saved wraps yet.</p>
-    </div>
+      <div class="empty-wrap">
+        <p>{% trans "You don't have any saved wraps yet." %}</p>
+      </div>
     {% endfor %}
-</div>
+  </div>
 
   <!-- Popup Modal -->
   <div id="popupModal" class="modal" style="display: none;">
     <div class="modal-content">
       <span class="close-button" onclick="closePopup()">&times;</span>
       <h3 id="modalTitle"></h3>
-      <!-- Slide Content -->
       <div id="slideContent"></div>
-
-    <!-- Navigation Buttons -->
       <div class="slide-controls">
-        <button id="prevSlide" onclick="changeSlide(-1)">Previous</button>
-        <button id="nextSlide" onclick="changeSlide(1)">Next</button>
+        <button id="prevSlide" onclick="changeSlide(-1)" class="prev-button">{% trans "Previous" %}</button>
+        <button id="nextSlide" onclick="changeSlide(1)" class="next-button">{% trans "Next" %}</button>
       </div>
     </div>
   </div>
 
   <!-- Create Wrap Modal -->
   <div id="options-modal" class="modal" style="display: none;">
-  <div class="modal-content">
-    <span class="close-button" onclick="closeOptionsPopup()">&times;</span>
-    <h2>Select Wrap Type</h2>
-    <!-- Dropdown Menu -->
-    <form method="post" action="{% url 'wraps:dashboard' %}">
-    {% csrf_token %}
-    <select id="wrapTypeDropdown" name="wrapTypeDropdown" class="dropdown-menu">
-        <option value="top_artists">Top Artists</option>
-        <option value="top_tracks">Top Tracks</option>
-        <option value="top_albums">Top Albums</option>
-        <option value="top_genres">Top Genres</option>
-        <option value="top_playlists">Top Playlists</option>
-    </select>
-    <h2>Select Time Period</h2>
-    <select id="timePeriodDropdown" class="dropdown-menu">
-      <option value="short_term">Short-Term</option>
-      <option value="medium_term">Medium-Term</option>
-      <option value="long_term">Long-Term</option>
-    </select>
-    <button class="submit-wrap-button" type="submit">Generate Wrap</button>
-</form>
-
+    <div class="modal-content">
+      <span class="close-button" onclick="closeOptionsPopup()">&times;</span>
+      <h2>{% trans "Select Wrap Type" %}</h2>
+      <form method="post" action="{% url 'wraps:dashboard' %}">
+        {% csrf_token %}
+        <select id="wrapTypeDropdown" name="wrapTypeDropdown" class="dropdown-menu">
+            <option value="top_artists">{% trans "Top Artists" %}</option>
+            <option value="top_tracks">{% trans "Top Tracks" %}</option>
+            <option value="top_albums">{% trans "Top Albums" %}</option>
+            <option value="top_genres">{% trans "Top Genres" %}</option>
+            <option value="top_playlists">{% trans "Top Playlists" %}</option>
+        </select>
+        <h2>{% trans "Select Time Period" %}</h2>
+        <select id="timePeriodDropdown" name="time_period" class="dropdown-menu">
+          <option value="short_term">{% trans "Short-Term" %}</option>
+          <option value="medium_term">{% trans "Medium-Term" %}</option>
+          <option value="long_term">{% trans "Long-Term" %}</option>
+        </select>
+        <button class="submit-wrap-button" type="submit">{% trans "Generate Wrap" %}</button>
+      </form>
+    </div>
   </div>
-</div>
 
+  <div class="create-wrap-button" onclick="showOptions()">{% trans "Create Wrap" %}</div>
 
-  <!-- Create Wrap Button -->
-  <div class="create-wrap-button" onclick="showOptions()">Create Wrap</div>
-
-  <!-- Logout button -->
-
-  <!-- Use Django's static tag for loading JavaScript -->
   <script src="{% static 'frontend/Dashboard.js' %}"></script>
+<footer>
+    <p>Developers:
+        <a href="mailto:akshayaminnasa@gmail.com">Akshaya Arun</a>,
+        <a href="mailto:dylankimwang@gmail.com">Dylan Wang</a>,
+        <a href="mailto:akshajevuru@gmail.com">Akshaj Evuru</a>,
+        <a href="mailto:rohit.vivek.ramaswamy@gmail.com">Rohit Vivek</a>,
+        <a href="mailto:arnav0829@gmail.com">Arnav Mohnalkar</a>
+    </p>
+</footer>
 
 </body>
 </html>

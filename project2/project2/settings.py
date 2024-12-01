@@ -48,6 +48,7 @@ MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
+    'django.middleware.locale.LocaleMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
@@ -109,6 +110,12 @@ AUTH_PASSWORD_VALIDATORS = [
 # https://docs.djangoproject.com/en/5.1/topics/i18n/
 
 LANGUAGE_CODE = 'en-us'
+LANGUAGES = [
+    ('en', 'English'),
+    ('es', 'Spanish'),
+    ('fr', 'French'),
+    # Add any other languages you want
+]
 
 TIME_ZONE = 'UTC'
 
@@ -127,16 +134,6 @@ STATIC_URL = '/static/'
 # https://docs.djangoproject.com/en/5.1/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
-
-# Akshaya
-# SPOTIPY_CLIENT_ID = 'cd6b9651745b4329962c82234b0064c3'
-# SPOTIPY_CLIENT_SECRET = '1feec18903eb4a8eba79f1b5d16b2d56'
-# SPOTIPY_REDIRECT_URI = 'http://127.0.0.1:8000/spotify/callback'
-
-# Arnav
-# SPOTIPY_CLIENT_ID = 'cd6b9651745b4329962c82234b0064c3'
-# SPOTIPY_CLIENT_SECRET = '1feec18903eb4a8eba79f1b5d16b2d56'
-# SPOTIPY_REDIRECT_URI = 'http://127.0.0.1:8000/spotify/redirect/'
 
 # LOGIN_URL = '/accounts/login/'
 
