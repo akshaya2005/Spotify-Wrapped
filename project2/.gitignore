@@ -9,4 +9,7 @@ db.sqlite3
 spotify/credentials.py
 
 project2/settings.py
+project2/frontend/static
 
+
+/frontend/static/
