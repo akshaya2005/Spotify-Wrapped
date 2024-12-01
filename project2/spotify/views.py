@@ -9,7 +9,7 @@ from django.contrib.auth import authenticate, login, logout
 from django.views.decorators.csrf import csrf_protect
 from django.http import HttpResponseRedirect
 from requests import Request
-from ..project2.settings import SPOTIPY_CLIENT_ID, SPOTIPY_CLIENT_SECRET, SPOTIPY_REDIRECT_URI
+from django.conf import settings
 from django.shortcuts import redirect
 from requests import post
 from .utils import update_or_create_user_tokens
@@ -40,8 +40,8 @@ def login_and_connect_spotify(request):
                 params={
                     'scope': scopes,
                     'response_type': 'code',
-                    'redirect_uri': SPOTIPY_REDIRECT_URI,
-                    'client_id': SPOTIPY_CLIENT_ID,
+                    'redirect_uri': settings.SPOTIPY_REDIRECT_URI,
+                    'client_id': settings.SPOTIPY_CLIENT_ID,
                     'show_dialog': True
                 }
             ).prepare().url
@@ -64,7 +64,7 @@ class AuthURL(APIView):
             'user-read-currently-playing user-read-private user-top-read user-library-read'
         )
         url = Request('GET', 'https://accounts.spotify.com/authorize',
-        params={'scope': scopes, 'response_type':'code', 'redirect_uri': SPOTIPY_REDIRECT_URI, 'client_id':SPOTIPY_CLIENT_ID}).prepare().url
+        params={'scope': scopes, 'response_type':'code', 'redirect_uri': settings.SPOTIPY_REDIRECT_URI, 'client_id':settings.SPOTIPY_CLIENT_ID}).prepare().url
 
         return Response({'url': url}, status = 200)
 
@@ -83,9 +83,9 @@ def spotify_callback(request):
     response = post('https://accounts.spotify.com/api/token', data={
         'grant_type': 'authorization_code',
         'code': code,
-        'redirect_uri': SPOTIPY_REDIRECT_URI,
-        'client_id': SPOTIPY_CLIENT_ID,
-        'client_secret': SPOTIPY_CLIENT_SECRET
+        'redirect_uri': settings.SPOTIPY_REDIRECT_URI,
+        'client_id': settings.SPOTIPY_CLIENT_ID,
+        'client_secret': settings.SPOTIPY_CLIENT_SECRET
     })
 
     # Parse the response
