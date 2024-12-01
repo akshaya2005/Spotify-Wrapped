@@ -44,6 +44,7 @@ def login_and_connect_spotify(request):
                     'response_type': 'code',
                     'redirect_uri': SPOTIPY_REDIRECT_URI,
                     'client_id': SPOTIPY_CLIENT_ID,
+                    'show_dialog': True
                 }
             ).prepare().url
 
