@@ -27,8 +27,35 @@ function showPopup(element) {
     currentTimePeriod = element.getAttribute("time_period")
     currentWrapTitle = element.getAttribute("data-title");
 
-    slides = details.content; // Populate slides with content from details
-    currentSlideIndex = 0; // Reset to the first slide
+
+    // Convert wrap type to singular form
+    const singularWrapType = (() => {
+        switch (currentWrapType) {
+            case "top_tracks":
+                return "top track";
+            case "top_artists":
+                return "top artist";
+            case "top_albums":
+                return "top album";
+            case "top_genres":
+                return "top genre";
+            case "top_playlists":
+                return "top playlist";
+            default:
+                return currentWrapType.replace("_", " "); // Fallback
+        }
+    })();
+
+    // Build slides with transitions
+    const originalSlides = details.content;
+    slides = [];
+    originalSlides.forEach((item, index) => {
+        slides.push({
+            type: "transition",
+            text: `Your #${originalSlides.length - index} most-listened-to ${singularWrapType} is...`,
+        });
+        slides.push(item); // Add the actual item after the transition
+    });    currentSlideIndex = 0; // Reset to the first slide
 
     // Set modal title and display the initial slide
     modalTitle.textContent = currentWrapTitle;
@@ -71,7 +98,11 @@ function renderCurrentSlide() {
     slideContent.innerHTML = "";
 
     // Render based on wrap type
-    if (currentWrapType === "top_tracks") {
+    if (currentSlide.type === "transition") {
+        slideContent.innerHTML = `<div style="text-align: center; font-size: 1.5em;">
+            <p>${currentSlide.text}</p>
+        </div>`;
+    } else if (currentWrapType === "top_tracks") {
         const trackHTML = `
             <div>
                 <p><strong>Name:</strong> ${currentSlide.name}</p>
