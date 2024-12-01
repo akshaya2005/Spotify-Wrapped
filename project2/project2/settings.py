@@ -133,7 +133,7 @@ LANGUAGES = [
     # Add any other languages you want
 ]
 
-TIME_ZONE = 'UTC'
+TIME_ZONE = 'EST'
 
 USE_I18N = True
 
