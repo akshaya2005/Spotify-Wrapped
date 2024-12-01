@@ -44,16 +44,6 @@
     </div>
   </div>
 
-    {% if messages %}
-        <div class="messages">
-            {% for message in messages %}
-                <div class="alert {{ message.tags }}">
-                    {% blocktrans %}{{ message }}{% endblocktrans %}
-                </div>
-            {% endfor %}
-        </div>
-    {% endif %}
-
   <div class="wraps-container">
     {% for wrap in wrap_data %}
       <div class="wrap-card {{ wrap.wrap_type }}"
