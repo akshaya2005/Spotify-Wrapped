@@ -513,3 +513,21 @@ body.dark-mode .empty-wrap {
     cursor: not-allowed; /* Indicate it's not clickable */
     opacity: 0.7; /* Slightly transparent */
 }
+
+footer {
+    background-color: #282828;
+    color: white;
+    text-align: center;
+    font-size: 12px;
+    padding: 10px 0;
+    position: fixed;
+    width: 100%;
+    bottom: 0;
+}
+footer a {
+    color: #1DB954;
+    text-decoration: none;
+}
+footer a:hover {
+    text-decoration: underline;
+}

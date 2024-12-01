@@ -137,3 +137,21 @@ a:hover {
     background-color: #dff0d8; /* Light green background color */
     border-color: #d6e9c6; /* Light green border color */
 }
+
+footer {
+    background-color: #282828;
+    color: white;
+    text-align: center;
+    font-size: 12px;
+    padding: 10px 0;
+    position: fixed;
+    width: 100%;
+    bottom: 0;
+}
+footer a {
+    color: #1DB954;
+    text-decoration: none;
+}
+footer a:hover {
+    text-decoration: underline;
+}
