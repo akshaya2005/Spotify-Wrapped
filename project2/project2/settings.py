@@ -135,16 +135,6 @@ STATIC_URL = '/static/'
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
-# Akshaya
-# SPOTIPY_CLIENT_ID = 'cd6b9651745b4329962c82234b0064c3'
-# SPOTIPY_CLIENT_SECRET = '1feec18903eb4a8eba79f1b5d16b2d56'
-# SPOTIPY_REDIRECT_URI = 'http://127.0.0.1:8000/spotify/callback'
-
-# Arnav
-# SPOTIPY_CLIENT_ID = 'cd6b9651745b4329962c82234b0064c3'
-# SPOTIPY_CLIENT_SECRET = '1feec18903eb4a8eba79f1b5d16b2d56'
-# SPOTIPY_REDIRECT_URI = 'http://127.0.0.1:8000/spotify/redirect/'
-
 # LOGIN_URL = '/accounts/login/'
 
 LOGIN_URL = 'frontend:login'
