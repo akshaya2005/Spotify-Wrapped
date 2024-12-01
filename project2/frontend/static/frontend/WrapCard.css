@@ -17,12 +17,14 @@ body::before {
     top: 0;
     left: 0;
     width: 100%;
+    height: 100%;
     background: url('../images/image.png') no-repeat center center fixed;
     background-size: cover;
     filter: blur(2px);
     z-index: -1;
     transform: scale(1.1);
 }
+
 
 
 .heading-bar {
@@ -41,6 +43,7 @@ body::before {
     justify-content: space-between;
 }
 
+
 /* Heading Bar Text */
 .heading-bar h1 {
     margin: 0; /* Remove default margins */
@@ -50,6 +53,7 @@ body::before {
     background: none; /* Remove any background */
     text-align: left;
 }
+
 
 .logout-form {
     margin: 0; /* Remove default margins */
@@ -90,8 +94,8 @@ h1 {
     gap: 20px 75px; /* Adjusted spacing between cards */
     max-width: 1200px;
     width: 100%;
-    flex: 1;
 }
+
 
 /* Wrap card styling with hover effect */
 .wrap-card {
