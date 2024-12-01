@@ -5,12 +5,12 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Login Page</title>
     {% load static %}
-    <link rel="stylesheet" href="../../static/frontend/index_login.css?v=2">
+    <link rel="stylesheet" href="{% static 'frontend/index_login.css' %}">
 </head>
 <body>
     <div class="login-container">
         <h2>
-            <img src="../../static/frontend/Primary_Logo_Green_RGB.svg" alt="Spotify Logo" class="logo">
+            <img src="{% static 'images/Primary_Logo_Green_RGB.svg' %}" alt="Spotify Logo" class="logo">
             Login
         </h2>
         {% if messages %}
