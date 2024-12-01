@@ -90,6 +90,7 @@ h1 {
     gap: 20px 75px; /* Adjusted spacing between cards */
     max-width: 1200px;
     width: 100%;
+    flex: 1;
 }
 
 /* Wrap card styling with hover effect */
