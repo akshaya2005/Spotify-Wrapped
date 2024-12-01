@@ -60,7 +60,10 @@ def login_and_connect_spotify(request):
 class AuthURL(APIView):
     #returns the API endpoint that allows us to authenticate
     def get(self, request, format=None):
-        scopes = 'user-read-private user-top-read'
+        scopes = (
+            'user-read-playback-state user-modify-playback-state '
+            'user-read-currently-playing user-read-private user-top-read user-library-read'
+        )
         url = Request('GET', 'https://accounts.spotify.com/authorize',
         params={'scope': scopes, 'response_type':'code', 'redirect_uri': SPOTIPY_REDIRECT_URI, 'client_id':SPOTIPY_CLIENT_ID}).prepare().url
 
