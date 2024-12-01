@@ -11,9 +11,16 @@ https://docs.djangoproject.com/en/5.1/ref/settings/
 """
 
 from pathlib import Path
+import environ
+
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
+
+env = environ.Env()
+environ.Env.read_env()
+
+
 
 
 # Quick-start development settings - unsuitable for production
@@ -23,9 +30,9 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = 'django-insecure-lzv9$dqw@a(@qn28hv&#xxs(&1yyb@evp(ejgjp95xfq_0&a@+'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = False
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['*']
 
 SESSION_EXPIRE_AT_BROWSER_CLOSE = True
 
@@ -42,6 +49,7 @@ INSTALLED_APPS = [
     'frontend.apps.FrontendConfig',
     'spotify.apps.SpotifyConfig',
     'wraps.apps.WrapsConfig',
+    'storages',
 ]
 
 MIDDLEWARE = [
@@ -78,13 +86,20 @@ WSGI_APPLICATION = 'project2.wsgi.application'
 
 # Database
 # https://docs.djangoproject.com/en/5.1/ref/settings/#databases
-
+"""
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.sqlite3',
         'NAME': BASE_DIR / 'db.sqlite3',
     }
 }
+"""
+# Render Database Stuff
+import dj_database_url
+DATABASES = {
+    'default': dj_database_url.parse(env('DATABASE_URL'))
+}
+
 
 
 # Password validation
@@ -127,13 +142,36 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/5.1/howto/static-files/
 
-STATIC_URL = '/static/'
+STATIC_URL = 'https://spotify-wrapped.s3.amazonaws.com/static/'
 # STATICFILES_DIRS = [BASE_DIR / "static"]
+
+#AWS Configuration
+AWS_ACCESS_KEY_ID = env('AWS_ACCESS_KEY')
+AWS_SECRET_ACCESS_KEY =  env('AWS_SECRET_ACCESS_KEY')
+
+AWS_STORAGE_BUCKET_NAME = 'spotify-wrapped'
+AWS_S3_CUSTOM_DOMAIN = '%s.s3.amazonaws.com' % AWS_STORAGE_BUCKET_NAME
+AWS_S3_FILE_OVERWRITE = False
+
+
+STORAGES = {
+    #Media files
+    "default" : {
+        "BACKEND" : "storages.backends.s3boto3.S3StaticStorage",
+    },
+    #CSS and JS file management
+    "staticfiles": {
+        "BACKEND" : "storages.backends.s3boto3.S3StaticStorage",
+    },
+}
+
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/5.1/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+
 
 # Akshaya
 # SPOTIPY_CLIENT_ID = 'cd6b9651745b4329962c82234b0064c3'
