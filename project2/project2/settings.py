@@ -146,7 +146,7 @@ STATIC_URL = 'https://spotify-wrapped.s3.amazonaws.com/static/'
 # STATICFILES_DIRS = [BASE_DIR / "static"]
 
 #AWS Configuration
-AWS_ACCESS_KEY_ID = env('AWS_ACCESS_KEY')
+AWS_ACCESS_KEY_ID = env('AWS_ACCESS_KEY_ID')
 AWS_SECRET_ACCESS_KEY =  env('AWS_SECRET_ACCESS_KEY')
 
 AWS_STORAGE_BUCKET_NAME = 'spotify-wrapped'
