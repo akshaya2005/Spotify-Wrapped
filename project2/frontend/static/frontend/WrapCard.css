@@ -1,0 +1,550 @@
+/* General body styling for center alignment and background color */
+body {
+    overflow-x: hidden;
+    font-family: 'Montserrat', sans-serif;
+    background: url('../images/image.png') no-repeat center center fixed;
+    background-size: cover;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 20px;
+    margin: 0;
+}
+
+body::before {
+    content: '';
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: url('../images/image.png') no-repeat center center fixed;
+    background-size: cover;
+    filter: blur(2px);
+    z-index: -1;
+    transform: scale(1.1);
+}
+
+
+
+.heading-bar {
+    position: fixed; /* Sticks the bar to the top */
+    top: 0;
+    left: 0;
+    width: 100%; /* Full width of the screen */
+    background-color: #4CAF50; /* Green background color */
+    color: white; /* White text */
+    display: flex;
+    padding: 20px 20px; /* Adds space around the text */
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2); /* Adds a subtle shadow */
+    z-index: 1000; /* Ensures it stays on top of other elements */
+    box-sizing: border-box;
+    align-items: center;
+    justify-content: space-between;
+}
+
+
+/* Heading Bar Text */
+.heading-bar h1 {
+    margin: 0; /* Remove default margins */
+    font-size: 24px; /* Adjust font size */
+    font-weight: bold; /* Make the text bold */
+    color: white; /* Ensure text color is white */
+    background: none; /* Remove any background */
+    text-align: left;
+}
+
+
+.logout-form {
+    margin: 0; /* Remove default margins */
+    justify-content: flex-end;
+    display: inline-block;
+}
+
+/* Logout button styling */
+.logout-button {
+    background-color: #fff;
+    color: #1DB954;
+    border: 2px solid #1DB954;
+    padding: 8px 16px;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 16px;
+    font-weight: bold;
+    transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+/* Heading styling */
+h1 {
+    font-size: 2.5rem;
+    background-color: #f3f4f6;
+    margin-bottom: 20px;
+    color: #1DB954; /* Spotify green */
+    text-align: center;
+
+}
+
+/* Wraps container with responsive grid layout */
+.wraps-container {
+    margin-top: 60px; /* Pushes content below the fixed header */
+    padding: 20px;
+    display: flex;
+    flex-wrap: wrap; /* Ensures cards wrap to new lines */
+    justify-content: center; /* Centers the cards horizontally */
+    gap: 20px 75px; /* Adjusted spacing between cards */
+    max-width: 1200px;
+    width: 100%;
+}
+
+
+/* Wrap card styling with hover effect */
+.wrap-card {
+    background-color: #f4f4f4;
+    padding: 20px;
+    text-align: center;
+    border-radius: 10px;
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    cursor: pointer;
+    width: 200px;
+    height: 250px;
+}
+
+.wrap-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0px 6px 15px rgba(0, 0, 0, 0.15);
+}
+
+/* Title inside wrap cards */
+.wrap-card h3 {
+    margin: 0;
+    font-size: 1.2rem;
+    color: #333;
+}
+
+/* Modal Styling */
+.modal {
+    display: none; /* Hidden by default */
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background-color: rgba(0, 0, 0, 0.5); /* Semi-transparent overlay */
+    justify-content: center;
+    align-items: center;
+    z-index: 1000; /* Ensure it appears above other content */
+}
+
+.modal-content {
+    background-color: #fff;
+    padding: 20px;
+    border-radius: 8px;
+    width: 80%;
+    max-width: 500px;
+    text-align: center;
+    position: relative;
+    box-shadow: 0px 4px 15px rgba(0, 0, 0, 0.2);
+}
+
+.close-button {
+    position: absolute;
+    top: 10px;
+    right: 15px;
+    font-size: 24px;
+    cursor: pointer;
+}
+
+.close-button {
+    position: absolute;
+    top: 10px;
+    right: 15px;
+    font-size: 24px;
+    cursor: pointer;
+}
+
+.create-wrap-button {
+    background-color: white;
+    color: black;
+    padding: 10px 20px;
+    border-radius: 8px;
+    cursor: pointer;
+    margin-top: 20px;
+    transition: background-color 0.3s ease;
+}
+
+.create-wrap-button:hover {
+    background-color: #3e8e41;
+}
+
+.dropdown-menu {
+    width: 100%;
+    padding: 10px;
+    margin: 15px 0;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    font-size: 16px;
+    background-color: #f9f9f9;
+    color: #333;
+    cursor: pointer;
+}
+
+
+
+/* Submit button styling */
+.submit-wrap-button {
+    background-color: #007bff;
+    color: white;
+    padding: 10px 20px;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    border: none;
+}
+
+.submit-wrap-button:hover {
+    background-color: #0056b3;
+}
+
+.slide-controls {
+    margin-top: 20px;
+    display: flex;
+    justify-content: space-between;
+}
+
+/* Dark Mode Styles */
+body.dark-mode {
+    background: #121212; /* Dark background for the entire dashboard */
+    background: url('../images/dashboard.png') no-repeat center center fixed;
+    background-size: cover;
+    color: #ffffff; /* Light text for general content */
+}
+
+body.dark-mode::before {
+    content: '';
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: url('../images/dashboard.png') no-repeat center center fixed;
+    background-size: cover;
+    filter: blur(2px); /* Adjust blur intensity here */
+    z-index: -1; /* Ensures the blurred background stays behind other content */
+    transform: scale(1.1); /* Optional: Slightly enlarges the background to prevent edges from being visible */
+
+}
+
+/* Header in Dark Mode */
+body.dark-mode .heading-bar {
+    background-color: #333333; /* Darker header background */
+    color: #ffffff; /* Light text */
+}
+
+/* Wrap Cards in Dark Mode */
+body.dark-mode .wrap-card {
+    background-color: #1e1e1e; /* Dark card background */
+    color: #ffffff; /* Light text for cards */
+    box-shadow: 0px 4px 10px rgba(255, 255, 255, 0.1); /* Softer shadow */
+}
+body.dark-mode .wrap-card h3 {
+    color: #ffffff; /* White text */
+}
+
+body.dark-mode .wrap-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0px 6px 15px rgba(255, 255, 255, 0.15); /* Softer hover shadow */
+}
+
+/* Modal in Dark Mode */
+body.dark-mode .modal-content {
+    background-color: #1e1e1e; /* Dark modal background */
+    color: #ffffff; /* Light text for modal */
+    box-shadow: 0px 4px 15px rgba(255, 255, 255, 0.2); /* Softer modal shadow */
+}
+
+/* Close Button in Dark Mode */
+body.dark-mode .close-button {
+    color: #ffffff; /* White close button */
+}
+
+/* Dropdown Button in Dark Mode */
+body.dark-mode .dropdown-button {
+    background-color: #333333; /* Dark dropdown background */
+    color: #ffffff; /* Light dropdown text */
+}
+
+/* Create Wrap Button in Dark Mode */
+body.dark-mode .create-wrap-button {
+    background-color: #1e1e1e; /* Dark button background */
+    color: #ffffff; /* Light button text */
+    box-shadow: 0px 4px 10px rgba(255, 255, 255, 0.1); /* Softer button shadow */
+}
+
+/* Slide Controls in Dark Mode */
+body.dark-mode .slide-controls {
+    color: #ffffff; /* Light text for controls */
+}
+
+body.dark-mode .empty-wrap {
+    background-color: #1e1e1e; /* Dark background color */
+    color: #ffffff; /* Light text color */
+    border: 1px solid #333333; /* Optional: Border for better contrast */
+    box-shadow: 0px 4px 10px rgba(255, 255, 255, 0.1); /* Softer shadow */
+}
+
+
+/* Theme Toggle Button Styling */
+.theme-toggle {
+    background-color: #fff;
+    color: #1DB954;
+    border: 2px solid #1DB954;
+    padding: 8px 16px;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 16px;
+    font-weight: bold;
+    transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+/* Centering the theme-toggle button in the header */
+.theme-toggle-container {
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%); /* Center the button */
+    top: 50%; /* Center vertically */
+    transform: translate(-50%, -50%); /* Ensure the button is centered properly */
+}
+
+/* Media query for mobile screens */
+@media (max-width: 600px) {
+    .heading-bar {
+        display: flex;
+        flex-direction: row; /* Keep items in one row */
+        justify-content: space-between; /* Ensure space between title and user menu */
+        align-items: center; /* Vertically align the items */
+        padding: 10px 15px; /* Adjust padding for mobile */
+        height: auto; /* Allow the header height to expand based on content */
+        flex-wrap: wrap; /* Allow items to wrap to the next line if needed */
+    }
+
+    .heading-bar h1 {
+        font-size: 20px; /* Keep the title font size consistent */
+        margin: 0; /* Remove margins */
+        text-align: center; /* Center the title text */
+        width: 100%; /* Ensure the title takes up the full width */
+        display: block; /* Stack the words vertically */
+        line-height: 1.2; /* Adjust line height for better spacing */
+        margin-bottom: 20px; /* Add space below the heading */
+    }
+
+    .heading-bar h1 span {
+        display: block; /* Stack each word in its own line */
+        text-align: center; /* Center each word */
+    }
+
+    /* User menu positioned to the right */
+    .user-menu {
+        position: relative; /* Default positioning to stay in the same row */
+        margin-left: auto; /* Push the user menu to the far right */
+        flex: 0 1 auto; /* Ensure the user menu does not stretch */
+    }
+
+    /* Theme toggle container now centered in the header */
+    .theme-toggle-container {
+        display: flex;
+        justify-content: center; /* Center the toggle button */
+        align-items: center; /* Vertically align the button */
+        width: 100%; /* Ensure the toggle button takes full width */
+        margin-top: 10px; /* Space between the header and the theme toggle button */
+    }
+
+    .theme-toggle {
+        padding: 6px 12px; /* Smaller button size for mobile */
+        font-size: 14px; /* Adjust font size */
+    }
+
+    .wraps-container {
+        margin-top: 75px;
+    }
+}
+
+.delete-wrap-button {
+    background-color: #ff4d4d;
+    color: white;
+    border: none;
+    padding: 10px 15px;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.delete-wrap-button:hover {
+    background-color: #ff1a1a;
+}
+
+.empty-wrap {
+    background-color: white;
+    color: black;
+    padding: 10px;
+    border-radius: 5px;
+    z-index: 1;
+}
+
+.alert {
+    padding: 10px;
+    margin-bottom: 10px;
+    border: 1px solid transparent;
+    border-radius: 4px;
+}
+.alert.error {
+    color: #a94442;
+    background-color: #f2dede;
+    border-color: #ebccd1;
+}
+.alert.success {
+    color: #3c763d;
+    background-color: #dff0d8;
+    border-color: #d6e9c6;
+}
+
+/* User Menu Dropdown */
+.user-menu {
+    position: relative;
+    display: inline-block;
+}
+
+.user-menu-toggle {
+    background: none;
+    border: none;
+    font-size: 16px;
+    font-weight: bold;
+    color: white;
+    cursor: pointer;
+    padding: 5px 10px;
+}
+
+.user-dropdown {
+    display: none;  /* Initially hidden */
+    position: absolute;
+    right: 0;
+    background-color: white;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    border-radius: 4px;
+    z-index: 1000;
+    padding: 10px 0;
+    width: 150px;
+}
+
+.user-dropdown .dropdown-item {
+    padding: 10px 20px;
+    background: none;
+    border: none;
+    width: 100%;
+    text-align: left;
+    cursor: pointer;
+    font-size: 14px;
+    color: #333;
+}
+
+.user-dropdown .dropdown-item:hover {
+  background-color: #f0f0f0;
+}
+
+/* Show dropdown when 'active' class is added */
+.user-menu.active .user-dropdown {
+  display: block;
+}
+
+/* Confirm Delete Account Button */
+.delete-account-confirm-btn {
+    background-color: #ff4d4d; /* Red color for the confirm button */
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    font-size: 16px;
+    font-weight: bold;
+}
+
+.delete-account-confirm-btn:hover {
+    background-color: #ff1a1a; /* Darker red on hover */
+}
+
+/* Cancel Button (Styled to look like other buttons on the page) */
+.delete-account-cancel-btn {
+    background-color: #fff;
+    color: #333;
+    border: 2px solid #ccc;
+    padding: 10px 20px;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    font-size: 16px;
+    font-weight: bold;
+}
+
+.delete-account-cancel-btn:hover {
+    background-color: #f1f1f1; /* Light gray on hover */
+}
+
+.slide {
+    min-height: 275px; /* Same minimum height */
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.transition-slide {
+    font-size: 1.5em; /* Adjust for transition text */
+    text-align: center;
+}
+
+.main-slide {
+    font-size: 1em; /* Standard size for main slides */
+}
+
+.slide-controls button {
+    width: 48%; /* Equal width for the buttons */
+    padding: 10px;
+    background-color: #28a745; /* Same green color as other buttons */
+    border: none;
+    color: white;
+    border-radius: 5px;
+    font-size: 16px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.slide-controls button:hover {
+    background-color: #218838; /* Slightly darker green on hover */
+}
+
+/* Optional: Add styles for the disabled state */
+.slide-controls button:disabled {
+    background-color: #cccccc; /* Gray background */
+    color: #666666; /* Gray text */
+    cursor: not-allowed; /* Indicate it's not clickable */
+    opacity: 0.7; /* Slightly transparent */
+}
+
+footer {
+    background-color: #282828;
+    color: white;
+    text-align: center;
+    font-size: 12px;
+    padding: 10px 0;
+    position: fixed;
+    width: 100%;
+    bottom: 0;
+}
+footer a {
+    color: #1DB954;
+    text-decoration: none;
+}
+footer a:hover {
+    text-decoration: underline;
+}

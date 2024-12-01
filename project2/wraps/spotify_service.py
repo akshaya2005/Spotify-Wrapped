@@ -152,11 +152,10 @@ def get_user_top_playlists(access_token):
             for playlist in playlists_response["items"]
         ]
 
-        top_playlists_sorted = top_playlists[::-1]
 
         spotify_data = {
             "name": "Top Playlists",
-            "content": top_playlists_sorted,
+            "content": top_playlists,
         }
         return spotify_data
     except spotipy.exceptions.SpotifyException as e:

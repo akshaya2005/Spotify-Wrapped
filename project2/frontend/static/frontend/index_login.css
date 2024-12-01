@@ -1,0 +1,157 @@
+/* General reset for full height */
+html, body {
+    height: 100%; /* Ensures the html and body elements span the full height of the viewport */
+    margin: 0; /* Removes default margin from html and body for consistent layout */
+}
+
+/* Base styling for the body */
+body {
+    font-family: Arial, sans-serif; /* Sets the font for the entire page */
+    background-image: url('../images/authentication_background.png'); /* Sets a background image for the page */
+    background-size: 100% 100%; /* Ensures the image covers the entire viewport */
+    background-position: center; /* Centers the background image */
+    background-repeat: no-repeat; /* Prevents the background image from repeating */
+    display: flex; /* Enables flexbox for centering child elements */
+    justify-content: center; /* Horizontally centers content inside the body */
+    align-items: center; /* Vertically centers content inside the body */
+    height: 100vh; /* Sets the body height to fill the entire viewport height */
+}
+
+/* Container for the login form */
+.login-container {
+    background-color: #121212; /* Dark background color for the login form */
+    padding: 40px 30px; /* Adds space inside the container */
+    border-radius: 10px; /* Rounds the corners of the container */
+    box-shadow: 0 0 15px rgba(0, 0, 0, 0.3); /* Adds a subtle shadow effect */
+    width: 100%; /* Ensures the container is responsive */
+    max-width: 400px; /* Limits the maximum width for readability */
+}
+
+/* Heading styling */
+h2 {
+    margin-bottom: 20px; /* Adds space below the heading */
+    font-size: 28px; /* Sets the size of the heading */
+    text-align: center; /* Centers the text inside the container */
+    color: #1DB954; /* Spotify green color for the heading text */
+}
+
+/* Styling for a logo (if included near text) */
+.logo {
+    width: 28px; /* Sets the width of the logo image */
+    height: auto; /* Maintains the aspect ratio of the logo */
+    margin-right: 8px; /* Adds space between the logo and text */
+}
+
+/* Form group container styling */
+.form-group {
+    margin-bottom: 15px; /* Adds space between form fields */
+}
+
+/* Label styling */
+label {
+    display: block; /* Ensures the label is on its own line */
+    margin-bottom: 5px; /* Adds space below the label */
+    font-size: 14px; /* Sets the font size for labels */
+    color: #B3B3B3; /* Light gray color for labels */
+}
+
+/* Input field styling */
+input[type="text"],
+input[type="password"] {
+    width: 100%; /* Makes the input fields take up the full width of the container */
+    padding: 10px; /* Adds inner padding for better usability */
+    border: 1px solid #ccc; /* Light gray border around the input */
+    border-radius: 4px; /* Slightly rounded corners for input fields */
+    font-size: 14px; /* Sets font size inside input fields */
+    box-sizing: border-box; /* Ensures padding and border are included in the total width/height */
+}
+
+/* Button styling */
+button {
+    width: 100%; /* Makes the button span the full width of its container */
+    padding: 10px; /* Adds inner padding for better usability */
+    background-color: #28a745; /* Green background color for the button */
+    border: none; /* Removes the default border */
+    color: white; /* Sets the text color to white */
+    border-radius: 4px; /* Rounds the corners of the button */
+    font-size: 16px; /* Sets font size for button text */
+    cursor: pointer; /* Changes the cursor to a pointer on hover */
+}
+
+/* Hover effect for buttons */
+button:hover {
+    background-color: #218838; /* Darkens the button background on hover */
+}
+
+/* Styling for anchor (link) elements */
+a {
+    color: #007bff; /* Blue color for links */
+    text-decoration: none; /* Removes underline from links */
+}
+
+/* Hover effect for links */
+a:hover {
+    text-decoration: underline; /* Underlines the link text on hover */
+}
+
+/* Error message container styling */
+.error-container {
+    background-color: #ffe0e0; /* Light red background for error messages */
+    color: #d8000c; /* Dark red text color */
+    border: 1px solid #d8000c; /* Dark red border for the error container */
+    padding: 10px; /* Adds padding inside the error container */
+    margin-bottom: 15px; /* Adds space below the error container */
+    border-radius: 5px; /* Slightly rounded corners for the container */
+}
+
+/* Error message list inside the error container */
+.error-container ul {
+    margin: 0; /* Removes margin for the list */
+    padding: 0; /* Removes padding for the list */
+    list-style-type: none; /* Removes bullet points from the list */
+}
+
+/* Individual error list items */
+.error-container li {
+    margin: 5px 0; /* Adds spacing between error messages */
+}
+
+/* Alert box base styling */
+.alert {
+    padding: 10px; /* Adds padding inside the alert box */
+    margin-bottom: 10px; /* Adds space below each alert */
+    border: 1px solid transparent; /* Transparent border by default */
+    border-radius: 4px; /* Slightly rounded corners for the alert box */
+}
+
+/* Error alert styling */
+.alert.error {
+    color: #a94442; /* Dark red text color */
+    background-color: #f2dede; /* Light red background color */
+    border-color: #ebccd1; /* Light red border color */
+}
+
+/* Success alert styling */
+.alert.success {
+    color: #3c763d; /* Dark green text color */
+    background-color: #dff0d8; /* Light green background color */
+    border-color: #d6e9c6; /* Light green border color */
+}
+
+footer {
+    background-color: #282828;
+    color: white;
+    text-align: center;
+    font-size: 12px;
+    padding: 10px 0;
+    position: fixed;
+    width: 100%;
+    bottom: 0;
+}
+footer a {
+    color: #1DB954;
+    text-decoration: none;
+}
+footer a:hover {
+    text-decoration: underline;
+}
