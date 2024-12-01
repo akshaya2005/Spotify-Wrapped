@@ -99,12 +99,12 @@ function renderCurrentSlide() {
 
     // Render based on wrap type
     if (currentSlide.type === "transition") {
-        slideContent.innerHTML = `<div style="text-align: center; font-size: 1.5em;">
+        slideContent.innerHTML = `<div class="slide transition-slide" style="text-align: center; font-size: 1.5em;">
             <p>${currentSlide.text}</p>
         </div>`;
     } else if (currentWrapType === "top_tracks") {
         const trackHTML = `
-            <div>
+            <div class="slide main-slide">
                 <p><strong>Name:</strong> ${currentSlide.name}</p>
                 <p><strong>Artists:</strong> ${currentSlide.artists}</p>
                 <p><strong>Album:</strong> ${currentSlide.album}</p>
@@ -118,7 +118,7 @@ function renderCurrentSlide() {
         slideContent.innerHTML = trackHTML;
     } else if (currentWrapType === "top_artists") {
         const artistHTML = `
-            <div>
+            <div class="slide main-slide">
                 <p><strong>Artist Name:</strong> ${currentSlide.artist_name}</p>
                 <p><strong>Popularity:</strong> ${currentSlide.popularity}</p>
                 <p><strong>Genres:</strong> ${currentSlide.genres.join(", ")}</p>
@@ -127,7 +127,7 @@ function renderCurrentSlide() {
         slideContent.innerHTML = artistHTML;
     } else if (currentWrapType === "top_albums") {
         const albumHTML = `
-            <div>
+            <div class="slide main-slide">
                 <p><strong>Album Name:</strong> ${currentSlide.name}</p>
                 <p><strong>Artists:</strong> ${currentSlide.artists.join(", ")}</p>
                 <p><strong>Release Date:</strong> ${currentSlide.release_date}</p>
@@ -137,14 +137,14 @@ function renderCurrentSlide() {
         slideContent.innerHTML = albumHTML;
     } else if (currentWrapType === "top_genres") {
         const genreHTML = `
-            <div>
+            <div class="slide main-slide">
                 <p><strong>Genre:</strong> ${currentSlide.genre}</p>
                 <p><strong>Count:</strong> ${currentSlide.count}</p>
             </div>`;
         slideContent.innerHTML = genreHTML;
     } else if (currentWrapType === "top_playlists") {
         const playlistHTML = `
-            <div>
+            <div class="slide main-slide">
                 <p><strong>Playlist Name:</strong> ${currentSlide.name}</p>
                 <p><strong>Description:</strong> ${currentSlide.description}</p>
                 <p><strong>Owner:</strong> ${currentSlide.owner}</p>

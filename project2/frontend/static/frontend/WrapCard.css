@@ -489,6 +489,23 @@ body.dark-mode .empty-wrap {
     background-color: #f1f1f1; /* Light gray on hover */
 }
 
+.slide {
+    min-height: 275px; /* Same minimum height */
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.transition-slide {
+    font-size: 1.5em; /* Adjust for transition text */
+    text-align: center;
+}
+
+.main-slide {
+    font-size: 1em; /* Standard size for main slides */
+}
+
 .slide-controls button {
     width: 48%; /* Equal width for the buttons */
     padding: 10px;
