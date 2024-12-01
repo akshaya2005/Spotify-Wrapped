@@ -13,14 +13,15 @@ https://docs.djangoproject.com/en/5.1/ref/settings/
 from pathlib import Path
 import environ
 
-
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
 env = environ.Env()
 environ.Env.read_env()
 
-
+SPOTIPY_CLIENT_ID=env('SPOTIPY_CLIENT_ID')
+SPOTIPY_CLIENT_SECRET=env('SPOTIPY_CLIENT_SECRET')
+SPOTIPY_REDIRECT_URI=env('SPOTIPY_REDIRECT_URI')
 
 
 # Quick-start development settings - unsuitable for production

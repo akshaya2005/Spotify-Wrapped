@@ -1,17 +1,15 @@
 import spotipy
 from django.contrib import messages
 from rest_framework.views import APIView
-from rest_framework import status
 from rest_framework.response import Response
 
 from .models import UserSpotifyLink
-from .utils import *
 from django.shortcuts import render
 from django.contrib.auth import authenticate, login, logout
 from django.views.decorators.csrf import csrf_protect
 from django.http import HttpResponseRedirect
 from requests import Request
-from .credentials import SPOTIPY_CLIENT_ID, SPOTIPY_REDIRECT_URI
+from ..project2.settings import SPOTIPY_CLIENT_ID, SPOTIPY_CLIENT_SECRET, SPOTIPY_REDIRECT_URI
 from django.shortcuts import redirect
 from requests import post
 from .utils import update_or_create_user_tokens

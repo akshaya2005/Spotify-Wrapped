@@ -1,6 +1,4 @@
 from .models import SpotifyToken
-from .credentials import *
-from requests import post
 from django.utils import timezone
 
 def update_or_create_user_tokens(session_id, access_token, token_type, expires_in, refresh_token):
