@@ -9,14 +9,13 @@ body {
     color: #333;
     overflow: hidden;
     display: flex;
-    justify-content: center;
-    align-items: center;
-    height: 100vh;
+    justify-content: center; /* Centers horizontally */
+    align-items: center; /* Centers vertically */
+    height: 100vh; /* Ensures the body occupies full viewport height */
 }
 
 .form-container {
-    margin: auto;
-    margin-top: 10vh;
+    margin: 0; /* Removes extra margins */
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
     background-color: #121212; /* Dark background for the container */
     padding: 40px 30px;
