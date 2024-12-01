@@ -27,7 +27,4 @@ urlpatterns = [
     path('spotify/', include('spotify.urls')),
     path('wraps/', include('wraps.urls', namespace='wraps')),
 ]
-urlpatterns += i18n_patterns(
-    path('set_language/', include('django.conf.urls.i18n')),
-    # Other i18n related paths
-)
+

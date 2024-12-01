@@ -1,5 +1,5 @@
+{% load static %}
 <!DOCTYPE html>
-{% load static i18n %}
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -9,7 +9,6 @@
     <link rel="stylesheet" href="{% static 'frontend/index_login.css' %}">
 </head>
 <body>
-
     <div class="login-container">
         <h2>
             <img src="{% static 'images/Primary_Logo_Green_RGB.svg' %}" alt="Spotify Logo" class="logo">
@@ -33,14 +32,7 @@
                 </ul>
             </div>
         {% endif %}
-        <form action="{% url 'set_language' %}" method="post">
-        {% csrf_token %}
-          <select name="language" onchange="this.form.submit()">
-              <option value="en" {% if LANGUAGE_CODE == 'en' %}selected{% endif %}>English</option>
-              <option value="es" {% if LANGUAGE_CODE == 'es' %}selected{% endif %}>Español</option>
-              <option value="fr" {% if LANGUAGE_CODE == 'fr' %}selected{% endif %}>Français</option>
-          </select>
-        </form>
+
         <form action="{% url 'spotify:login_and_connect_spotify' %}" method="post">
             {% csrf_token %}
             {% if request.GET.error %}
