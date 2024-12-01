@@ -17,7 +17,6 @@ body::before {
     top: 0;
     left: 0;
     width: 100%;
-    height: 100%;
     background: url('../images/image.png') no-repeat center center fixed;
     background-size: cover;
     filter: blur(2px);
@@ -27,48 +26,48 @@ body::before {
 
 
 .heading-bar {
-  position: fixed; /* Sticks the bar to the top */
-  top: 0;
-  left: 0;
-  width: 100%; /* Full width of the screen */
-  background-color: #4CAF50; /* Green background color */
-  color: white; /* White text */
-  display: flex;
-  padding: 20px 20px; /* Adds space around the text */
-  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2); /* Adds a subtle shadow */
-  z-index: 1000; /* Ensures it stays on top of other elements */
-  box-sizing: border-box;
-  align-items: center;
-  justify-content: space-between;
+    position: fixed; /* Sticks the bar to the top */
+    top: 0;
+    left: 0;
+    width: 100%; /* Full width of the screen */
+    background-color: #4CAF50; /* Green background color */
+    color: white; /* White text */
+    display: flex;
+    padding: 20px 20px; /* Adds space around the text */
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2); /* Adds a subtle shadow */
+    z-index: 1000; /* Ensures it stays on top of other elements */
+    box-sizing: border-box;
+    align-items: center;
+    justify-content: space-between;
 }
 
 /* Heading Bar Text */
 .heading-bar h1 {
-  margin: 0; /* Remove default margins */
-  font-size: 24px; /* Adjust font size */
-  font-weight: bold; /* Make the text bold */
-  color: white; /* Ensure text color is white */
-  background: none; /* Remove any background */
-  text-align: left;
+    margin: 0; /* Remove default margins */
+    font-size: 24px; /* Adjust font size */
+    font-weight: bold; /* Make the text bold */
+    color: white; /* Ensure text color is white */
+    background: none; /* Remove any background */
+    text-align: left;
 }
 
 .logout-form {
-  margin: 0; /* Remove default margins */
-  justify-content: flex-end;
-  display: inline-block;
+    margin: 0; /* Remove default margins */
+    justify-content: flex-end;
+    display: inline-block;
 }
 
 /* Logout button styling */
 .logout-button {
-  background-color: #fff;
-  color: #1DB954;
-  border: 2px solid #1DB954;
-  padding: 8px 16px;
-  border-radius: 5px;
-  cursor: pointer;
-  font-size: 16px;
-  font-weight: bold;
-  transition: background-color 0.3s ease, color 0.3s ease;
+    background-color: #fff;
+    color: #1DB954;
+    border: 2px solid #1DB954;
+    padding: 8px 16px;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 16px;
+    font-weight: bold;
+    transition: background-color 0.3s ease, color 0.3s ease;
 }
 
 /* Heading styling */
@@ -92,7 +91,6 @@ h1 {
     max-width: 1200px;
     width: 100%;
 }
-
 
 /* Wrap card styling with hover effect */
 .wrap-card {
@@ -121,27 +119,27 @@ h1 {
 
 /* Modal Styling */
 .modal {
-  display: none; /* Hidden by default */
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100vw;
-  height: 100vh;
-  background-color: rgba(0, 0, 0, 0.5); /* Semi-transparent overlay */
-  justify-content: center;
-  align-items: center;
-  z-index: 1000; /* Ensure it appears above other content */
+    display: none; /* Hidden by default */
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background-color: rgba(0, 0, 0, 0.5); /* Semi-transparent overlay */
+    justify-content: center;
+    align-items: center;
+    z-index: 1000; /* Ensure it appears above other content */
 }
 
 .modal-content {
-  background-color: #fff;
-  padding: 20px;
-  border-radius: 8px;
-  width: 80%;
-  max-width: 500px;
-  text-align: center;
-  position: relative;
-  box-shadow: 0px 4px 15px rgba(0, 0, 0, 0.2);
+    background-color: #fff;
+    padding: 20px;
+    border-radius: 8px;
+    width: 80%;
+    max-width: 500px;
+    text-align: center;
+    position: relative;
+    box-shadow: 0px 4px 15px rgba(0, 0, 0, 0.2);
 }
 
 .close-button {
@@ -153,11 +151,11 @@ h1 {
 }
 
 .close-button {
-  position: absolute;
-  top: 10px;
-  right: 15px;
-  font-size: 24px;
-  cursor: pointer;
+    position: absolute;
+    top: 10px;
+    right: 15px;
+    font-size: 24px;
+    cursor: pointer;
 }
 
 .create-wrap-button {
@@ -204,9 +202,9 @@ h1 {
 }
 
 .slide-controls {
-  margin-top: 20px;
-  display: flex;
-  justify-content: space-between;
+    margin-top: 20px;
+    display: flex;
+    justify-content: space-between;
 }
 
 /* Dark Mode Styles */
@@ -284,109 +282,107 @@ body.dark-mode .slide-controls {
 }
 
 body.dark-mode .empty-wrap {
-  background-color: #1e1e1e; /* Dark background color */
-  color: #ffffff; /* Light text color */
-  border: 1px solid #333333; /* Optional: Border for better contrast */
-  box-shadow: 0px 4px 10px rgba(255, 255, 255, 0.1); /* Softer shadow */
+    background-color: #1e1e1e; /* Dark background color */
+    color: #ffffff; /* Light text color */
+    border: 1px solid #333333; /* Optional: Border for better contrast */
+    box-shadow: 0px 4px 10px rgba(255, 255, 255, 0.1); /* Softer shadow */
 }
 
 
 /* Theme Toggle Button Styling */
 .theme-toggle {
-  background-color: #fff;
-  color: #1DB954;
-  border: 2px solid #1DB954;
-  padding: 8px 16px;
-  border-radius: 5px;
-  cursor: pointer;
-  font-size: 16px;
-  font-weight: bold;
-  transition: background-color 0.3s ease, color 0.3s ease;
+    background-color: #fff;
+    color: #1DB954;
+    border: 2px solid #1DB954;
+    padding: 8px 16px;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 16px;
+    font-weight: bold;
+    transition: background-color 0.3s ease, color 0.3s ease;
 }
 
 /* Centering the theme-toggle button in the header */
 .theme-toggle-container {
-  position: absolute;
-  left: 50%;
-  transform: translateX(-50%); /* Center the button */
-  top: 50%; /* Center vertically */
-  transform: translate(-50%, -50%); /* Ensure the button is centered properly */
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%); /* Center the button */
+    top: 50%; /* Center vertically */
+    transform: translate(-50%, -50%); /* Ensure the button is centered properly */
 }
 
 /* Media query for mobile screens */
 @media (max-width: 600px) {
-  .heading-bar {
-    display: flex;
-    flex-direction: row; /* Keep items in one row */
-    justify-content: space-between; /* Ensure space between title and user menu */
-    align-items: center; /* Vertically align the items */
-    padding: 10px 15px; /* Adjust padding for mobile */
-    height: auto; /* Allow the header height to expand based on content */
-    flex-wrap: wrap; /* Allow items to wrap to the next line if needed */
-  }
+    .heading-bar {
+        display: flex;
+        flex-direction: row; /* Keep items in one row */
+        justify-content: space-between; /* Ensure space between title and user menu */
+        align-items: center; /* Vertically align the items */
+        padding: 10px 15px; /* Adjust padding for mobile */
+        height: auto; /* Allow the header height to expand based on content */
+        flex-wrap: wrap; /* Allow items to wrap to the next line if needed */
+    }
 
-  .heading-bar h1 {
-    font-size: 20px; /* Keep the title font size consistent */
-    margin: 0; /* Remove margins */
-    text-align: center; /* Center the title text */
-    width: 100%; /* Ensure the title takes up the full width */
-    display: block; /* Stack the words vertically */
-    line-height: 1.2; /* Adjust line height for better spacing */
-    margin-bottom: 20px; /* Add space below the heading */
-  }
+    .heading-bar h1 {
+        font-size: 20px; /* Keep the title font size consistent */
+        margin: 0; /* Remove margins */
+        text-align: center; /* Center the title text */
+        width: 100%; /* Ensure the title takes up the full width */
+        display: block; /* Stack the words vertically */
+        line-height: 1.2; /* Adjust line height for better spacing */
+        margin-bottom: 20px; /* Add space below the heading */
+    }
 
-  .heading-bar h1 span {
-    display: block; /* Stack each word in its own line */
-    text-align: center; /* Center each word */
-  }
+    .heading-bar h1 span {
+        display: block; /* Stack each word in its own line */
+        text-align: center; /* Center each word */
+    }
 
-  /* User menu positioned to the right */
-  .user-menu {
-    position: relative; /* Default positioning to stay in the same row */
-    margin-left: auto; /* Push the user menu to the far right */
-    flex: 0 1 auto; /* Ensure the user menu does not stretch */
-  }
+    /* User menu positioned to the right */
+    .user-menu {
+        position: relative; /* Default positioning to stay in the same row */
+        margin-left: auto; /* Push the user menu to the far right */
+        flex: 0 1 auto; /* Ensure the user menu does not stretch */
+    }
 
-  /* Theme toggle container now centered in the header */
-  .theme-toggle-container {
-    display: flex;
-    justify-content: center; /* Center the toggle button */
-    align-items: center; /* Vertically align the button */
-    width: 100%; /* Ensure the toggle button takes full width */
-    margin-top: 10px; /* Space between the header and the theme toggle button */
-  }
+    /* Theme toggle container now centered in the header */
+    .theme-toggle-container {
+        display: flex;
+        justify-content: center; /* Center the toggle button */
+        align-items: center; /* Vertically align the button */
+        width: 100%; /* Ensure the toggle button takes full width */
+        margin-top: 10px; /* Space between the header and the theme toggle button */
+    }
 
-  .theme-toggle {
-    padding: 6px 12px; /* Smaller button size for mobile */
-    font-size: 14px; /* Adjust font size */
-  }
+    .theme-toggle {
+        padding: 6px 12px; /* Smaller button size for mobile */
+        font-size: 14px; /* Adjust font size */
+    }
 
-  .wraps-container {
-      margin-top: 75px;
-  }
+    .wraps-container {
+        margin-top: 75px;
+    }
 }
 
-
-
 .delete-wrap-button {
-  background-color: #ff4d4d;
-  color: white;
-  border: none;
-  padding: 10px 15px;
-  border-radius: 5px;
-  cursor: pointer;
+    background-color: #ff4d4d;
+    color: white;
+    border: none;
+    padding: 10px 15px;
+    border-radius: 5px;
+    cursor: pointer;
 }
 
 .delete-wrap-button:hover {
-  background-color: #ff1a1a;
+    background-color: #ff1a1a;
 }
 
 .empty-wrap {
-  background-color: white;
-  color: black;
-  padding: 10px;
-  border-radius: 5px;
-  z-index: 1;
+    background-color: white;
+    color: black;
+    padding: 10px;
+    border-radius: 5px;
+    z-index: 1;
 }
 
 .alert {
@@ -408,41 +404,41 @@ body.dark-mode .empty-wrap {
 
 /* User Menu Dropdown */
 .user-menu {
-  position: relative;
-  display: inline-block;
+    position: relative;
+    display: inline-block;
 }
 
 .user-menu-toggle {
-  background: none;
-  border: none;
-  font-size: 16px;
-  font-weight: bold;
-  color: white;
-  cursor: pointer;
-  padding: 5px 10px;
+    background: none;
+    border: none;
+    font-size: 16px;
+    font-weight: bold;
+    color: white;
+    cursor: pointer;
+    padding: 5px 10px;
 }
 
 .user-dropdown {
-  display: none;  /* Initially hidden */
-  position: absolute;
-  right: 0;
-  background-color: white;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-  border-radius: 4px;
-  z-index: 1000;
-  padding: 10px 0;
-  width: 150px;
+    display: none;  /* Initially hidden */
+    position: absolute;
+    right: 0;
+    background-color: white;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    border-radius: 4px;
+    z-index: 1000;
+    padding: 10px 0;
+    width: 150px;
 }
 
 .user-dropdown .dropdown-item {
-  padding: 10px 20px;
-  background: none;
-  border: none;
-  width: 100%;
-  text-align: left;
-  cursor: pointer;
-  font-size: 14px;
-  color: #333;
+    padding: 10px 20px;
+    background: none;
+    border: none;
+    width: 100%;
+    text-align: left;
+    cursor: pointer;
+    font-size: 14px;
+    color: #333;
 }
 
 .user-dropdown .dropdown-item:hover {
