@@ -152,8 +152,8 @@ input[type="checkbox"] {
 body.dark-mode input[type="text"],
 body.dark-mode input[type="password"],
 body.dark-mode input[type="checkbox"] {
-    background-color: #333333; /* Darker input background */
-    color: white; /* White text */
+    background-color: white; /* Darker input background */
+    color: black; /* White text */
     border: 1px solid #555555; /* Subtle border for visibility */
 }
 

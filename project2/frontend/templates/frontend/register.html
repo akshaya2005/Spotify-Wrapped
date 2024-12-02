@@ -95,12 +95,18 @@
         </p>
     </footer>
 <script>
-        const toggleButton = document.getElementById('theme-toggle');
-        const body = document.body;
+    const toggleButton = document.getElementById('theme-toggle');
+    const body = document.body;
 
-        toggleButton.addEventListener('click', () => {
-            body.classList.toggle('dark-mode');
-        });
+    // Set initial button text
+    toggleButton.textContent = body.classList.contains('dark-mode') ? 'Toggle Dark Mode' : 'Toggle Light Mode';
+
+    toggleButton.addEventListener('click', () => {
+        body.classList.toggle('dark-mode');
+
+        // Update button text based on the current mode
+        toggleButton.textContent = body.classList.contains('dark-mode') ? 'Toggle Dark Mode' : 'Toggle Light Mode';
+    });
     </script>
 </body>
 </html>
