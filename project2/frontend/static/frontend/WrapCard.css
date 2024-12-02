@@ -490,7 +490,7 @@ body.dark-mode .empty-wrap {
 }
 
 .slide {
-    min-height: 275px; /* Same minimum height */
+    min-height: 300px; /* Same minimum height */
     display: flex;
     flex-direction: column;
     justify-content: center;
@@ -498,16 +498,16 @@ body.dark-mode .empty-wrap {
 }
 
 .transition-slide {
-    font-size: 1.5em; /* Adjust for transition text */
+    font-size: 3em; /* Adjust for transition text */
     text-align: center;
 }
 
 .main-slide {
-    font-size: 1em; /* Standard size for main slides */
+    font-size: 1.5em; /* Standard size for main slides */
 }
 
 .slide-controls button {
-    width: 48%; /* Equal width for the buttons */
+    width: 33%; /* Equal width for the buttons */
     padding: 10px;
     background-color: #28a745; /* Same green color as other buttons */
     border: none;
