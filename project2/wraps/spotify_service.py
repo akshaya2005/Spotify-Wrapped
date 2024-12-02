@@ -16,7 +16,9 @@ def get_user_top_tracks(access_token, time_range):
                 "popularity": track["popularity"],
             }
             for track in top_tracks_response["items"]
+
         ]
+        print(top_tracks_response["items"][0])
 
         # Sort the artists by popularity in ascending order (5th most to 1st)
         top_tracks_sorted = top_tracks[::-1]

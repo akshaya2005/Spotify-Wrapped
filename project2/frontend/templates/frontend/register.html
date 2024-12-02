@@ -31,6 +31,7 @@
             <img src="../../static/images/Primary_Logo_Green_RGB.svg" alt="Spotify Logo" class="logo">
             Register
         </h2>
+        <button id="theme-toggle" style="margin: 10px;">Toggle Dark Mode</button>
         {% if errors %}
             <div class="error-container">
                 <ul>
@@ -93,5 +94,13 @@
             <a href="mailto:arnav0829@gmail.com">Arnav Mohnalkar</a>
         </p>
     </footer>
+<script>
+        const toggleButton = document.getElementById('theme-toggle');
+        const body = document.body;
+
+        toggleButton.addEventListener('click', () => {
+            body.classList.toggle('dark-mode');
+        });
+    </script>
 </body>
 </html>

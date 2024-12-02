@@ -1,23 +1,30 @@
+/* General body styling */
 body {
-    background-image: url('../images/authentication_background.png'); /* Ensure this path is correct */
-    background-size: 100% 100%; /* Scales the image to cover the full background */
+    background-image: url('../images/authentication_background.png');
+    background-size: 100% 100%;
     background-repeat: no-repeat;
     background-attachment: fixed;
     background-position: center;
-    min-height: 100vh; /* Ensures body height is at least the screen height */
+    min-height: 100vh;
     font-family: Arial, sans-serif;
     color: #333;
     overflow: hidden;
     display: flex;
-    justify-content: center; /* Centers horizontally */
-    align-items: center; /* Centers vertically */
-    height: 100vh; /* Ensures the body occupies full viewport height */
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
 }
 
+/* Dark mode styling for the body */
+body.dark-mode {
+    background-image: url('../images/authentication_background.png');
+}
+
+/* Form container */
 .form-container {
-    margin: 0; /* Removes extra margins */
+    margin: 0;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-    background-color: #121212; /* Dark background for the container */
+    background-color: #121212; /* Dark background for container */
     padding: 40px 30px;
     border-radius: 10px;
     box-shadow: 0 0 15px rgba(0, 0, 0, 0.3);
@@ -26,6 +33,13 @@ body {
     color: white;
 }
 
+/* Dark mode styling for the form container */
+body.dark-mode .form-container {
+    background-color: white; /* Slightly lighter dark background */
+    color: black;/* Keep text white */
+}
+
+/* Heading */
 h2 {
     margin-bottom: 20px;
     font-size: 28px;
@@ -33,12 +47,14 @@ h2 {
     color: #1DB954;
 }
 
+/* Logo */
 .logo {
-    width: 28px; /* Adjust size as needed */
+    width: 28px;
     height: auto;
-    margin-right: 8px; /* Space between the logo and text */
+    margin-right: 8px;
 }
 
+/* Buttons */
 button {
     width: 100%;
     padding: 10px;
@@ -54,15 +70,32 @@ button:hover {
     background-color: #218838;
 }
 
+/* Dark mode styling for buttons */
+body.dark-mode button {
+    background-color: #1DB954; /* Spotify green */
+    color: black; /* Black text for contrast */
+}
+
+body.dark-mode button:hover {
+    background-color: #17a554; /* Darker green on hover */
+}
+
+/* Links */
 a {
-    color: #007bff; /* Change link color */
-    text-decoration: none; /* Remove underline */
+    color: #007bff;
+    text-decoration: none;
 }
 
 a:hover {
-    text-decoration: underline; /* Add underline on hover */
+    text-decoration: underline;
 }
 
+/* Dark mode styling for links */
+body.dark-mode a {
+    color: #1DB954; /* Spotify green links */
+}
+
+/* Error container */
 .error-container {
     background-color: #ffe0e0;
     color: #d8000c;
@@ -71,11 +104,59 @@ a:hover {
     margin-bottom: 15px;
     border-radius: 5px;
 }
+
 .error-container ul {
     margin: 0;
     padding: 0;
     list-style-type: none;
 }
+
 .error-container li {
     margin: 5px 0;
+}
+
+/* Dark mode styling for error container */
+body.dark-mode .error-container {
+    background-color: #3b1f1f; /* Darker red background */
+    color: #ffcccc; /* Lighter red text */
+    border: 1px solid #ff6666; /* Light red border */
+}
+
+/* Labels */
+label {
+    display: block;
+    margin-bottom: 5px;
+    font-size: 14px;
+    color: #B3B3B3;
+}
+
+/* Dark mode styling for labels */
+body.dark-mode label {
+    color: black; /* White text for better visibility */
+}
+
+/* Input fields */
+input[type="text"],
+input[type="password"],
+input[type="checkbox"] {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 15px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    font-size: 14px;
+    box-sizing: border-box;
+}
+
+/* Dark mode styling for input fields */
+body.dark-mode input[type="text"],
+body.dark-mode input[type="password"],
+body.dark-mode input[type="checkbox"] {
+    background-color: #333333; /* Darker input background */
+    color: white; /* White text */
+    border: 1px solid #555555; /* Subtle border for visibility */
+}
+
+body.dark-mode .form-field {
+    color: black;
 }

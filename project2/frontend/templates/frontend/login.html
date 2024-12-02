@@ -24,6 +24,7 @@
         footer a:hover {
             text-decoration: underline;
         }
+
     </style>
 </head>
 <body>
@@ -32,6 +33,7 @@
             <img src="../../static/images/Primary_Logo_Green_RGB.svg" alt="Spotify Logo" class="logo">
             Login
         </h2>
+        <button id="theme-toggle" style="margin: 10px;">Toggle Dark Mode</button>
         {% if messages %}
         <div class="messages">
             {% for message in messages %}
@@ -83,7 +85,7 @@
         </form>
 
         <!-- Link to register page -->
-        <p style="text-align: center; margin-top: 10px; color: white">
+        <p class="account-text" style="text-align: center; margin-top: 10px; color: white">
             Don't have an account? <a href="{% url 'frontend:register' %}">Register here</a>
         </p>
     </div>
@@ -96,5 +98,13 @@
             <a href="mailto:arnav0829@gmail.com">Arnav Mohnalkar</a>
         </p>
     </footer>
+<script>
+        const toggleButton = document.getElementById('theme-toggle');
+        const body = document.body;
+
+        toggleButton.addEventListener('click', () => {
+            body.classList.toggle('dark-mode');
+        });
+    </script>
 </body>
 </html>
