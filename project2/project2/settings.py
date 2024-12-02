@@ -143,8 +143,9 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/5.1/howto/static-files/
 
+
 STATIC_URL = 'https://spotify-wrapped.s3.amazonaws.com/static/'
-# STATICFILES_DIRS = [BASE_DIR / "static"]
+STATICFILES_DIRS = [BASE_DIR / "static"]
 
 #AWS Configuration
 AWS_ACCESS_KEY_ID = env('AWS_ACCESS_KEY_ID')

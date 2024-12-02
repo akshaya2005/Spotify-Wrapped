@@ -9,13 +9,19 @@ body {
     color: #333;
     overflow: hidden;
     display: flex;
-    justify-content: center; /* Centers horizontally */
-    align-items: center; /* Centers vertically */
-    height: 100vh; /* Ensures the body occupies full viewport height */
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+}
+
+/* Dark mode styling for the body */
+body.dark-mode {
+    background-image: url('../images/authentication_background.png');
 }
 
 .form-container {
-    margin: 0; /* Removes extra margins */
+    margin: auto;
+    margin-top: 10vh;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
     background-color: #121212; /* Dark background for the container */
     padding: 40px 30px;
@@ -24,6 +30,12 @@ body {
     width: 100%;
     max-width: 400px;
     color: white;
+}
+
+/* Dark mode styling for the form container */
+body.dark-mode .form-container {
+    background-color: white; /* Slightly lighter dark background */
+    color: black;/* Keep text white */
 }
 
 h2 {
@@ -50,6 +62,16 @@ button {
     cursor: pointer;
 }
 
+/* Dark mode styling for buttons */
+body.dark-mode button {
+    background-color: #1DB954; /* Spotify green */
+    color: black; /* Black text for contrast */
+}
+
+body.dark-mode button:hover {
+    background-color: #17a554; /* Darker green on hover */
+}
+
 button:hover {
     background-color: #218838;
 }
@@ -57,6 +79,11 @@ button:hover {
 a {
     color: #007bff; /* Change link color */
     text-decoration: none; /* Remove underline */
+}
+
+/* Dark mode styling for links */
+body.dark-mode a {
+    color: #1DB954; /* Spotify green links */
 }
 
 a:hover {
@@ -71,6 +98,14 @@ a:hover {
     margin-bottom: 15px;
     border-radius: 5px;
 }
+
+/* Dark mode styling for error container */
+body.dark-mode .error-container {
+    background-color: #3b1f1f; /* Darker red background */
+    color: #ffcccc; /* Lighter red text */
+    border: 1px solid #ff6666; /* Light red border */
+}
+
 .error-container ul {
     margin: 0;
     padding: 0;
@@ -80,20 +115,41 @@ a:hover {
     margin: 5px 0;
 }
 
-footer {
-    background-color: #282828;
-    color: white;
-    text-align: center;
-    font-size: 12px;
-    padding: 10px 0;
-    position: fixed;
+/* Labels */
+label {
+    display: block;
+    margin-bottom: 5px;
+    font-size: 14px;
+    color: #B3B3B3;
+}
+
+/* Dark mode styling for labels */
+body.dark-mode label {
+    color: black; /* White text for better visibility */
+}
+
+/* Input fields */
+input[type="text"],
+input[type="password"],
+input[type="checkbox"] {
     width: 100%;
-    bottom: 0;
+    padding: 10px;
+    margin-bottom: 15px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    font-size: 14px;
+    box-sizing: border-box;
 }
-footer a {
-    color: #1DB954;
-    text-decoration: none;
+
+/* Dark mode styling for input fields */
+body.dark-mode input[type="text"],
+body.dark-mode input[type="password"],
+body.dark-mode input[type="checkbox"] {
+    background-color: white; /* Darker input background */
+    color: black; /* White text */
+    border: 1px solid #555555; /* Subtle border for visibility */
 }
-footer a:hover {
-    text-decoration: underline;
+
+body.dark-mode .form-field {
+    color: black;
 }

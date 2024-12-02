@@ -152,3 +152,4 @@ function showOptions() {
 function closeOptionsPopup() {
     document.getElementById('options-modal').style.display = 'none';
 }
+
