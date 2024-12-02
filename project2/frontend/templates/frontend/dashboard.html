@@ -63,14 +63,13 @@
                 <h3>{{ wrap.wrap_name }}</h3>
                 <p>{{ wrap.created_at }}</p>
 
-                <!-- Conditional rendering based on wrap type -->
                 {% if wrap.wrap_type == "top_tracks" %}
                     {% for track in wrap.wrap_data.content %}
                         <p><strong>{% trans "Name" %}:</strong> {{ track.name }}</p>
                         <p><strong>{% trans "Artists" %}:</strong> {{ track.artists }}</p>
                         <p><strong>{% trans "Album" %}:</strong> {{ track.album }}</p>
                         {% if track.album_cover %}
-                            <img src="{{ track.album_cover }}" alt="{% trans 'Album Cover' %}" style="width: 100px; height: auto;">
+                            <img src="{{ track.album_cover }}" alt="{% trans 'Album Cover' %}" style="width: 150px; height: auto;">
                         {% endif %}
                         {% if track.preview_url %}
                             <audio controls>
@@ -82,20 +81,51 @@
                     {% endfor %}
                 {% endif %}
 
-                <!-- Similar conditional blocks for other wrap types -->
                 {% if wrap.wrap_type == "top_artists" %}
                     {% for artist in wrap.wrap_data.content %}
                         <p><strong>{% trans "Artist Name" %}:</strong> {{ artist.artist_name }}</p>
                         <p><strong>{% trans "Popularity" %}:</strong> {{ artist.popularity }}</p>
                         <p><strong>{% trans "Genres" %}:</strong> {{ artist.genres|join:", " }}</p>
                         {% if artist.profile_picture %}
-                            <img src="{{ artist.profile_picture }}" alt="{% trans 'Artist Profile Picture' %}" style="width: 100px; height: auto;">
+                            <img src="{{ artist.profile_picture }}" alt="{% trans 'Artist Profile Picture' %}" style="width: 150px; height: auto;">
                         {% endif %}
                         <hr>
                     {% endfor %}
                 {% endif %}
 
-                <!-- Other conditional blocks for wrap types -->
+                {% if wrap.wrap_type == "top_albums" %}
+                    {% for album in wrap.wrap_data.content %}
+                        <p><strong>{% trans "Album Name" %}:</strong> {{ album.name }}</p>
+                        <p><strong>{% trans "Artists" %}:</strong> {{ album.artists }}</p>
+                        <p><strong>{% trans "Release Date" %}:</strong> {{ album.release_date }}</p>
+                        <p><strong>{% trans "Total Tracks" %}:</strong> {{ album.total_tracks }}</p>
+                        {% if album.album_cover %}
+                            <img src="{{ album.album_cover }}" alt="{% trans 'Album Cover' %}" style="width: 150px; height: auto;">
+                        {% endif %}
+                        <hr>
+                    {% endfor %}
+                {% endif %}
+
+                {% if wrap.wrap_type == "top_genres" %}
+                    {% for genre in wrap.wrap_data.content %}
+                      <p><strong>{% trans "Genre" %}:</strong> {{ genre.genre }}</p>
+                      <p><strong>{% trans "Count" %}:</strong> {{ genre.count }}</p>
+                      <hr>
+                    {% endfor %}
+                {% endif %}
+
+                {% if wrap.wrap_type == "top_playlists" %}
+                    {% for playlist in wrap.wrap_data.content %}
+                        <p><strong>{% trans "Playlist Name" %}:</strong> {{ playlist.name }}</p>
+                        <p><strong>{% trans "Description" %}:</strong> {{ playlist.description }}</p>
+                        <p><strong>{% trans "Owner" %}:</strong> {{ playlist.owner }}</p>
+                        <p><strong>{% trans "Total Tracks" %}:</strong> {{ playlist.tracks_count }}</p>
+                        {% if playlist.playlist_cover %}
+                            <img src="{{ playlist.playlist_cover }}" alt="{% trans 'Playlist Cover' %}" style="width: 150px; height: auto;">
+                        {% endif %}
+                        <hr>
+                    {% endfor %}
+                {% endif %}
 
                 <!-- Form to delete a wrap -->
                 <form action="{% url 'wraps:delete_wrap' wrap.id %}" method="post">
