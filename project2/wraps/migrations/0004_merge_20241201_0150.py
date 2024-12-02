@@ -6,7 +6,6 @@ from django.db import migrations
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('wraps', '0003_merge_20241127_2251'),
         ('wraps', '0003_userwrap_wrap_name'),
     ]
 

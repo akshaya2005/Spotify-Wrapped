@@ -1,3 +1,4 @@
+from django.utils.translation import gettext as _
 import spotipy
 from django.contrib import messages
 from rest_framework.views import APIView
@@ -51,7 +52,7 @@ def login_and_connect_spotify(request):
             return HttpResponseRedirect(url)
         else:
             # If authentication fails, display an error message
-            messages.error(request, "Invalid username or password. Please check your credentials and try again.")
+            messages.error(request, _("Invalid username or password. Please check your credentials and try again."))
             return redirect('frontend:login')  # Redirect back to the login page
 
     # If the request is not POST, render the login page
@@ -59,7 +60,7 @@ def login_and_connect_spotify(request):
 
 
 class AuthURL(APIView):
-    #returns the API endpoint that allows us to authenticate
+    # Returns the API endpoint that allows us to authenticate
     def get(self, request, format=None):
         scopes = (
             'user-read-playback-state user-modify-playback-state '
@@ -77,7 +78,7 @@ def spotify_callback(request):
     error = request.GET.get('error')
 
     if error:
-        error_message = f"Spotify authorization failed: {error}"
+        error_message = _("Spotify authorization failed: {}").format(error)
         messages.error(request, error_message)
         return redirect('frontend:login')
 
@@ -99,12 +100,12 @@ def spotify_callback(request):
 
     # Ensure expires_in is a valid integer
     if expires_in is None or not isinstance(expires_in, int):
-        print("Error: 'expires_in' is missing or not an integer:", expires_in)
+        print(_("Error: 'expires_in' is missing or not an integer:"), expires_in)
         return redirect('frontend:login')  # Handle the case where expires_in is missing
 
     if not access_token:
         # Handle token exchange failure
-        error_message = "Failed to obtain access token from Spotify. Please try again."
+        error_message = _("Failed to obtain access token from Spotify. Please try again.")
         messages.error(request, error_message)
         return redirect('frontend:login')
 
@@ -119,7 +120,7 @@ def spotify_callback(request):
         if existing_link:
             if existing_link.user == request.user:
                 # If the Spotify account is already linked to the current user, allow login
-                messages.success(request, "Spotify account successfully linked!")
+                messages.success(request, _("Spotify account successfully linked!"))
                 # Create session if it doesn't exist
                 if not request.session.exists(request.session.session_key):
                     request.session.create()
@@ -128,14 +129,13 @@ def spotify_callback(request):
                 return redirect('wraps:dashboard')  # Redirect to the user's dashboard
             else:
                 # If the Spotify account is linked to a different user
-                error_message = "This Spotify account is already linked to another user."
-                # request.user.delete()
+                error_message = _("This Spotify account is already linked to another user.")
                 messages.error(request, error_message)
                 return redirect('frontend:logout')
 
         # Link the Spotify account to the current user if it's not already linked
         UserSpotifyLink.objects.create(user=request.user, spotify_user_id=spotify_user_id)
-        messages.success(request, "Spotify account successfully linked!")
+        messages.success(request, _("Spotify account successfully linked!"))
         # Create session if it doesn't exist
         if not request.session.exists(request.session.session_key):
             request.session.create()
@@ -144,13 +144,13 @@ def spotify_callback(request):
 
     except spotipy.SpotifyException as e:
         # Handle Spotipy-specific errors
-        error_message = f"An error occurred while linking your Spotify account: {str(e)}"
+        error_message = _("An error occurred while linking your Spotify account: {}").format(str(e))
         messages.error(request, error_message)
         return redirect('frontend:login')
 
     except Exception as e:
         # Catch any other unexpected errors
-        error_message = f"An unexpected error occurred: {str(e)}"
+        error_message = _("An unexpected error occurred: {}").format(str(e))
         messages.error(request, error_message)
         return redirect('frontend:login')
 
@@ -165,7 +165,7 @@ def delete_account_view(request):
             logout(request)
 
             # Add a success message (optional)
-            messages.success(request, "Your account has been deleted successfully.")
+            messages.success(request, _("Your account has been deleted successfully."))
             return render(request, 'frontend/spotify_logout.html')
 
     return redirect('frontend:dashboard')  # Prevent access via GET

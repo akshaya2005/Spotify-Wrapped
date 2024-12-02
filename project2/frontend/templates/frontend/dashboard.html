@@ -1,12 +1,32 @@
-<!DOCTYPE html>
 {% load static i18n %}
+<!DOCTYPE html>
+
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
+  <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>{% trans "Dashboard" %}</title>
   <link rel="icon" href="{% static 'images/favicon.ico' %}">
   <link rel="stylesheet" href="{% static 'frontend/WrapCard.css' %}">
+  <style>
+    footer {
+        background-color: #282828;
+        color: white;
+        text-align: center;
+        font-size: 12px;
+        padding: 10px 0;
+        position: fixed;
+        width: 100%;
+        bottom: 0;
+    }
+    footer a {
+        color: #1DB954;
+        text-decoration: none;
+    }
+    footer a:hover {
+        text-decoration: underline;
+    }
+  </style>
 </head>
 <body>
   <header class="heading-bar">
@@ -27,38 +47,48 @@
       </div>
     </div>
 
+    <form action="{% url 'set_language' %}" method="post">
+    {% csrf_token %}
+      <select name="language" onchange="this.form.submit()">
+          <option value="en" {% if LANGUAGE_CODE == 'en' %}selected{% endif %}>{% trans "English" %}</option>
+          <option value="es" {% if LANGUAGE_CODE == 'es' %}selected{% endif %}>{% trans "Español" %}</option>
+          <option value="fr" {% if LANGUAGE_CODE == 'fr' %}selected{% endif %}>{% trans "Français" %}</option>
+      </select>
+    </form>
+
   </header>
 
   <!-- Delete Account Confirmation Modal -->
   <div id="confirm-delete-modal" class="modal">
     <div class="modal-content">
       <span class="close-button" onclick="closeDeleteModal()">&times;</span>
-      <h2>Are you sure you want to delete your account?</h2>
-      <p>This action cannot be undone.</p>
+      <h2>{% trans "Are you sure you want to delete your account?" %}</h2>
+      <p>{% trans "This action cannot be undone." %}</p>
       <div class="modal-actions">
         <form action="{% url 'spotify:delete_account' %}" method="post" style="display:inline;">
           {% csrf_token %}
-          <button type="submit" class="delete-account-confirm-btn">Confirm</button>
+          <button type="submit" class="delete-account-confirm-btn">{% trans "Confirm" %}</button>
         </form>
-        <button class="delete-account-cancel-btn" onclick="closeDeleteModal()">Cancel</button>
+        <button class="delete-account-cancel-btn" onclick="closeDeleteModal()">{% trans "Cancel" %}</button>
       </div>
     </div>
   </div>
 
-    {% if messages %}
-        <div class="messages">
-            {% for message in messages %}
-                <div class="alert {{ message.tags }}">
-                    {% blocktrans %}{{ message }}{% endblocktrans %}
-                </div>
-            {% endfor %}
-        </div>
-    {% endif %}
+  {% if messages %}
+    <div class="messages">
+        {% for message in messages %}
+            <div class="alert {{ message.tags }}">
+                {% blocktrans %}{{ message }}{% endblocktrans %}
+            </div>
+        {% endfor %}
+    </div>
+  {% endif %}
 
   <div class="wraps-container">
+
     {% for wrap in wrap_data %}
       <div class="wrap-card {{ wrap.wrap_type }}"
-           data-title="{{ wrap.wrap_name | escape }}"
+           data-title="{{ wrap.wrap_name }}"
            data-wrap-type="{{ wrap.wrap_type | escape }}"
            data-details="{{ wrap.wrap_data | escape }}"
            onclick="showPopup(this)"
@@ -69,9 +99,9 @@
 
         {% if wrap.wrap_type == "top_tracks" %}
           {% for track in wrap.wrap_data.content %}
-            <p><strong>{% trans "Name" %}:</strong> {{ track.name }}</p>
-            <p><strong>{% trans "Artists" %}:</strong> {{ track.artists }}</p>
-            <p><strong>{% trans "Album" %}:</strong> {{ track.album }}</p>
+            <p><strong>{% trans "Name" %}:</strong> {{ track.name }} </p>
+            <p><strong>{% trans "Artists" %}:</strong> {{ track.artists }}  </p>
+            <p><strong>{% trans "Album" %}:</strong> {{ track.album }} </p>
             {% if track.album_cover %}
               <img src="{{ track.album_cover }}" alt="{% trans 'Album Cover' %}" style="width: 100px; height: auto;">
             {% endif %}
@@ -87,7 +117,7 @@
 
         {% if wrap.wrap_type == "top_artists" %}
           {% for artist in wrap.wrap_data.content %}
-            <p><strong>{% trans "Artist Name" %}:</strong> {{ artist.artist_name }}</p>
+            <p><strong>{% trans "Artist Name" %}:</strong> {{ artist.artist_name }} </p>
             <p><strong>{% trans "Popularity" %}:</strong> {{ artist.popularity }}</p>
             <p><strong>{% trans "Genres" %}:</strong> {{ artist.genres|join:", " }}</p>
             {% if artist.profile_picture %}
@@ -137,7 +167,7 @@
           <button type="submit" class="delete-wrap-button">{% trans "Delete" %}</button>
         </form>
       </div>
-    {% empty %}
+      {% empty %}
       <div class="empty-wrap">
         <p>{% trans "You don't have any saved wraps yet." %}</p>
       </div>
@@ -185,5 +215,42 @@
   <div class="create-wrap-button" onclick="showOptions()">{% trans "Create Wrap" %}</div>
 
   <script src="{% static 'frontend/Dashboard.js' %}"></script>
+  <script>
+  window.translations = {
+    "playlist name" : "{% trans  'Playlist Name' %}",
+    "popularity" : "{% trans 'Popularity' %}",
+    "genres" : "{% trans 'Genres' %}",
+    "is" : "{% trans 'is' %}",
+    "your" : "{% trans 'your' %}",
+    "top_track": "{% trans 'top track' %}",
+    "top_artist": "{% trans 'top artist' %}",
+    "top_album": "{% trans 'top album' %}",
+    "top_genre": "{% trans 'top genre' %}",
+    "top_playlist": "{% trans 'top playlist' %}",
+    "previous": "{% trans 'Previous' %}",
+    "next": "{% trans 'Next' %}",
+    "create_wrap": "{% trans 'Create Wrap' %}",
+    "delete": "{% trans 'Delete' %}",
+    "are_you_sure": "{% trans 'Are you sure you want to delete your account?' %}",
+    "this_action_cannot_be_undone": "{% trans 'This action cannot be undone.' %}",
+    "cancel": "{% trans 'Cancel' %}",
+    "confirm": "{% trans 'Confirm' %}",
+    "logout": "{% trans 'Logout' %}",
+    "delete_account": "{% trans 'Delete Account' %}",
+    "short_term": "{% trans 'Short-Term' %}",
+    "medium_term": "{% trans 'Medium-Term' %}",
+    "long_term": "{% trans 'Long-Term' %}",
+    "select_wrap_type": "{% trans 'Select Wrap Type' %}",
+    "select_time_period": "{% trans 'Select Time Period' %}",
+    "generate_wrap": "{% trans 'Generate Wrap' %}",
+    "name": "{% trans 'Name' %}",
+    "artists": "{% trans 'Artists' %}",
+    "album": "{% trans 'Album' %}",
+    "album_cover": "{% trans 'Album Cover' %}",
+    "your_browser_does_not_support_audio": "{% trans 'Your browser does not support the audio element.' %}",
+    "genre": "{% trans 'Genre' %}",
+    "count": "{% trans 'Count' %}",
+  };
+</script>
 </body>
 </html>

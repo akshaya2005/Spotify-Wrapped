@@ -1,19 +1,47 @@
-{% load static %}
+
 <!DOCTYPE html>
+{% load static i18n %}
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
+    <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Login Page</title>
+    <title>{% trans "Login Page" %}</title>
     <link rel="icon" href="{% static 'images/favicon.ico' %}">
     <link rel="stylesheet" href="{% static 'frontend/index_login.css' %}">
+    <style>
+        footer {
+            background-color: #282828;
+            color: white;
+            text-align: center;
+            font-size: 12px;
+            padding: 10px 0;
+            position: fixed;
+            width: 100%;
+            bottom: 0;
+        }
+        footer a {
+            color: #1DB954;
+            text-decoration: none;
+        }
+        footer a:hover {
+            text-decoration: underline;
+        }
+    </style>
 </head>
 <body>
     <div class="login-container">
         <h2>
             <img src="{% static 'images/Primary_Logo_Green_RGB.svg' %}" alt="Spotify Logo" class="logo">
-            Login
+            {% trans "Login" %}
         </h2>
+        <form action="{% url 'set_language' %}" method="post">
+          {% csrf_token %}
+          <select name="language" onchange="this.form.submit()">
+              <option value="en" {% if LANGUAGE_CODE == 'en' %}selected{% endif %}>{% trans "English" %}</option>
+              <option value="es" {% if LANGUAGE_CODE == 'es' %}selected{% endif %}>{% trans "Español" %}</option>
+              <option value="fr" {% if LANGUAGE_CODE == 'fr' %}selected{% endif %}>{% trans "Français" %}</option>
+          </select>
+        </form>
         {% if messages %}
         <div class="messages">
             {% for message in messages %}
@@ -41,33 +69,38 @@
             </div>
             {% endif %}
 
-
-            <!-- Display error message if authentication fails -->
             {% if error %}
                 <div class="error">
                     {{ error }}
                 </div>
             {% endif %}
 
-            <!-- Username and password fields -->
             <div class="form-group">
-                <label for="username">Username</label>
+                <label for="username">{% trans "Username" %}</label>
                 <input type="text" name="username" id="username" required>
             </div>
 
             <div class="form-group">
-                <label for="password">Password</label>
+                <label for="password">{% trans "Password" %}</label>
                 <input type="password" name="password" id="password" required>
             </div>
 
-            <!-- Submit button -->
-            <button type="submit">Log in and connect to Spotify</button>
+            <button type="submit">{% trans "Log in and connect to Spotify" %}</button>
         </form>
 
-        <!-- Link to register page -->
         <p style="text-align: center; margin-top: 10px; color: white">
-            Don't have an account? <a href="{% url 'frontend:register' %}">Register here</a>
+            {% trans "Don't have an account?" %} <a href="{% url 'frontend:register' %}">{% trans "Register here" %}</a>
         </p>
     </div>
+
 </body>
+<footer>
+    <p>{% trans "Developers:" %}
+        <a href="mailto:akshayaminnasa@gmail.com">Akshaya Arun</a>,
+        <a href="mailto:dylankimwang@gmail.com">Dylan Wang</a>,
+        <a href="mailto:akshajevuru@gmail.com">Akshaj Evuru</a>,
+        <a href="mailto:rohit.vivek.ramaswamy@gmail.com">Rohit Vivek</a>,
+        <a href="mailto:arnav0829@gmail.com">Arnav Mohnalkar</a>
+    </p>
+</footer>
 </html>

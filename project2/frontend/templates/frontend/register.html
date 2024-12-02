@@ -1,9 +1,9 @@
+{% load static i18n %}
 <!DOCTYPE html>
-{% load static %}
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Register</title>
+    <title>{% trans "Register" %}</title>
     <link rel="stylesheet" type="text/css" href="{% static 'frontend/register.css' %}">
     <style>
         footer {
@@ -29,7 +29,7 @@
     <div class="form-container">
         <h2>
             <img src="{% static 'images/Primary_Logo_Green_RGB.svg' %}" alt="Spotify Logo" class="logo">
-            Register
+            {% trans "Register" %}
         </h2>
         {% if errors %}
             <div class="error-container">
@@ -40,54 +40,62 @@
                 </ul>
             </div>
         {% endif %}
+        <form action="{% url 'set_language' %}" method="post">
+          {% csrf_token %}
+          <select name="language" onchange="this.form.submit()">
+              <option value="en" {% if LANGUAGE_CODE == 'en' %}selected{% endif %}>{% trans "English" %}</option>
+              <option value="es" {% if LANGUAGE_CODE == 'es' %}selected{% endif %}>{% trans "Español" %}</option>
+              <option value="fr" {% if LANGUAGE_CODE == 'fr' %}selected{% endif %}>{% trans "Français" %}</option>
+          </select>
+        </form>
         <form method="post">
             {% csrf_token %}
 
             <!-- Username field -->
             <div class="form-field">
-                <label for="id_username">Enter your desired username:</label><br>
+                <label for="id_username">{% trans "Enter your desired username:" %}</label><br>
                 {{ form.username }}
-                <p class="input-note">Required. 150 characters or fewer. Letters, digits, and @/./+/-/_ only.</p>
+                <p class="input-note">{% trans "Required. 150 characters or fewer. Letters, digits, and @/./+/-/_ only." %}</p>
             </div>
 
             <!-- Password field -->
             <div class="form-field">
-                <label for="id_password1">Choose a password:</label><br>
+                <label for="id_password1">{% trans "Choose a password:" %}</label><br>
                 {{ form.password1 }}
                 <ul class="input-note">
-                    <li>Your password can't be too similar to your other personal information.</li>
-                    <li>Your password must contain at least 8 characters.</li>
-                    <li>Your password can't be a commonly used password.</li>
-                    <li>Your password can't be entirely numeric.</li>
+                    <li>{% trans "Your password can't be too similar to your other personal information." %}</li>
+                    <li>{% trans "Your password must contain at least 8 characters." %}</li>
+                    <li>{% trans "Your password can't be a commonly used password." %}</li>
+                    <li>{% trans "Your password can't be entirely numeric." %}</li>
                 </ul>
             </div>
 
             <!-- Confirm Password field -->
             <div class="form-field">
-                <label for="id_password2">Confirm your password:</label><br>
+                <label for="id_password2">{% trans "Confirm your password:" %}</label><br>
                 {{ form.password2 }}
-                <p class="input-note">Enter the same password as before, for verification.</p>
+                <p class="input-note">{% trans "Enter the same password as before, for verification." %}</p>
             </div>
 
             <!-- Checkbox confirmation for Spotify account -->
             <div class="form-field">
                 <label for="has_spotify_account">
                     <input type="checkbox" name="has_spotify_account" required>
-                    I confirm that I have an active Spotify account to link.
+                    {% trans "I confirm that I have an active Spotify account to link." %}
                 </label>
             </div>
 
             <!-- Submit button -->
             <div class="form-field">
-                <button type="submit">Register</button>
+                <button type="submit">{% trans "Register" %}</button>
             </div>
         </form>
-        <p>Already have an account? <a href="{% url 'frontend:login' %}">Login here</a>.</p>
+        <p>{% trans "Already have an account?" %} <a href="{% url 'frontend:login' %}">{% trans "Login here" %}</a>.</p>
     </div>
 
     <!-- Footer -->
     <footer>
-        <p>Developers:
+        <p>{% trans "Developers:" %}
             <a href="mailto:akshayaminnasa@gmail.com">Akshaya Arun</a>,
             <a href="mailto:dylankimwang@gmail.com">Dylan Wang</a>,
             <a href="mailto:akshajevuru@gmail.com">Akshaj Evuru</a>,
@@ -95,5 +103,6 @@
             <a href="mailto:arnav0829@gmail.com">Arnav Mohnalkar</a>
         </p>
     </footer>
+
 </body>
 </html>

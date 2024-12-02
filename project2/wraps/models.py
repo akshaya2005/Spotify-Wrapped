@@ -2,6 +2,7 @@ from django.db import models
 from django.db import models
 from django.contrib.auth.models import User
 from django.utils.timezone import now
+import gettext as _
 # Create your models here.
 
 class UserWrap(models.Model):

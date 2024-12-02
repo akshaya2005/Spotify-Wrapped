@@ -30,7 +30,7 @@ environ.Env.read_env()
 SECRET_KEY = env('SECRET_KEY')
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = False
+DEBUG = True
 
 ALLOWED_HOSTS = ['*']
 
@@ -75,6 +75,7 @@ TEMPLATES = [
                 'django.template.context_processors.debug',
                 'django.template.context_processors.request',
                 'django.contrib.auth.context_processors.auth',
+                'django.template.context_processors.i18n',
                 'django.contrib.messages.context_processors.messages',
             ],
         },
@@ -100,7 +101,9 @@ DATABASES = {
     'default': dj_database_url.parse(env('DATABASE_URL'))
 }
 
-
+LOCALE_PATHS = [
+    BASE_DIR / 'locale/',
+]
 
 # Password validation
 # https://docs.djangoproject.com/en/5.1/ref/settings/#auth-password-validators
@@ -123,6 +126,9 @@ AUTH_PASSWORD_VALIDATORS = [
 
 # Internationalization
 # https://docs.djangoproject.com/en/5.1/topics/i18n/
+USE_I18N = True
+USE_L10N = True
+DEFAULT_CHARSET = 'utf-8'
 
 LANGUAGE_CODE = 'en-us'
 LANGUAGES = [
