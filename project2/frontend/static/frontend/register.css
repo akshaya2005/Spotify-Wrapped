@@ -14,6 +14,11 @@ body {
     height: 100vh; /* Ensures the body occupies full viewport height */
 }
 
+/* Dark mode styling for the body */
+body.dark-mode {
+    background-image: url('../images/authentication_background.png');
+}
+
 .form-container {
     margin: 0; /* Removes extra margins */
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
@@ -24,6 +29,12 @@ body {
     width: 100%;
     max-width: 400px;
     color: white;
+}
+
+/* Dark mode styling for the form container */
+body.dark-mode .form-container {
+    background-color: white; /* Slightly lighter dark background */
+    color: black;/* Keep text white */
 }
 
 h2 {
@@ -54,9 +65,24 @@ button:hover {
     background-color: #218838;
 }
 
+/* Dark mode styling for buttons */
+body.dark-mode button {
+    background-color: #1DB954; /* Spotify green */
+    color: black; /* Black text for contrast */
+}
+
+body.dark-mode button:hover {
+    background-color: #17a554; /* Darker green on hover */
+}
+
 a {
     color: #007bff; /* Change link color */
     text-decoration: none; /* Remove underline */
+}
+
+/* Dark mode styling for links */
+body.dark-mode a {
+    color: #1DB954; /* Spotify green links */
 }
 
 a:hover {
@@ -71,6 +97,14 @@ a:hover {
     margin-bottom: 15px;
     border-radius: 5px;
 }
+
+/* Dark mode styling for error container */
+body.dark-mode .error-container {
+    background-color: #3b1f1f; /* Darker red background */
+    color: #ffcccc; /* Lighter red text */
+    border: 1px solid #ff6666; /* Light red border */
+}
+
 .error-container ul {
     margin: 0;
     padding: 0;
@@ -96,4 +130,35 @@ footer a {
 }
 footer a:hover {
     text-decoration: underline;
+}
+
+/* Dark mode styling for labels */
+body.dark-mode label {
+    color: black; /* White text for better visibility */
+}
+
+/* Input fields */
+input[type="text"],
+input[type="password"],
+input[type="checkbox"] {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 15px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    font-size: 14px;
+    box-sizing: border-box;
+}
+
+/* Dark mode styling for input fields */
+body.dark-mode input[type="text"],
+body.dark-mode input[type="password"],
+body.dark-mode input[type="checkbox"] {
+    background-color: white; /* Darker input background */
+    color: black; /* White text */
+    border: 1px solid #555555; /* Subtle border for visibility */
+}
+
+body.dark-mode .form-field {
+    color: black;
 }

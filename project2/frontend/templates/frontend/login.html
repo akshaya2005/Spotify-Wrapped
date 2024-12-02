@@ -13,6 +13,7 @@
             <img src="../../static/images/Primary_Logo_Green_RGB.svg" alt="Spotify Logo" class="logo">
             Login
         </h2>
+        <button id="theme-toggle" style="margin: 10px;">Toggle Dark Mode</button>
         {% if messages %}
         <div class="messages">
             {% for message in messages %}
@@ -69,13 +70,27 @@
         </p>
     </div>
 <footer>
-        <p>Developers:
-            <a href="mailto:akshayaminnasa@gmail.com">Akshaya Arun</a>,
-            <a href="mailto:dylankimwang@gmail.com">Dylan Wang</a>,
-            <a href="mailto:akshajevuru@gmail.com">Akshaj Evuru</a>,
-            <a href="mailto:rohit.vivek.ramaswamy@gmail.com">Rohit Vivek</a>,
-            <a href="mailto:arnav0829@gmail.com">Arnav Mohnalkar</a>
-        </p>
-    </footer>
+    <p>Developers:
+        <a href="mailto:akshayaminnasa@gmail.com">Akshaya Arun</a>,
+        <a href="mailto:dylankimwang@gmail.com">Dylan Wang</a>,
+        <a href="mailto:akshajevuru@gmail.com">Akshaj Evuru</a>,
+        <a href="mailto:rohit.vivek.ramaswamy@gmail.com">Rohit Vivek</a>,
+        <a href="mailto:arnav0829@gmail.com">Arnav Mohnalkar</a>
+    </p>
+</footer>
+<script>
+    const toggleButton = document.getElementById('theme-toggle');
+    const body = document.body;
+
+    // Set initial button text
+    toggleButton.textContent = body.classList.contains('dark-mode') ? 'Toggle Dark Mode' : 'Toggle Light Mode';
+
+    toggleButton.addEventListener('click', () => {
+        body.classList.toggle('dark-mode');
+
+        // Update button text based on the current mode
+        toggleButton.textContent = body.classList.contains('dark-mode') ? 'Toggle Dark Mode' : 'Toggle Light Mode';
+    });
+</script>
 </body>
 </html>
