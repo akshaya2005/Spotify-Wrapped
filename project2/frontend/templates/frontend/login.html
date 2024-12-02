@@ -9,11 +9,15 @@
     <link rel="stylesheet" href="{% static 'frontend/index_login.css' %}">
 </head>
 <body>
+    <!-- Main container for the login form -->
     <div class="login-container">
         <h2>
+            <!-- Spotify logo -->
             <img src="{% static 'images/Primary_Logo_Green_RGB.svg' %}" alt="Spotify Logo" class="logo">
             Login
         </h2>
+
+        <!-- Display success or error messages -->
         {% if messages %}
         <div class="messages">
             {% for message in messages %}
@@ -23,6 +27,8 @@
             {% endfor %}
         </div>
         {% endif %}
+
+        <!-- Display validation errors -->
         {% if errors %}
             <div class="error-container">
                 <ul>
@@ -33,43 +39,48 @@
             </div>
         {% endif %}
 
+        <!-- Login form -->
         <form action="{% url 'spotify:login_and_connect_spotify' %}" method="post">
             {% csrf_token %}
+
+            <!-- Check for specific error from query parameters -->
             {% if request.GET.error %}
             <div class="error">
                 {{ request.GET.error }}
             </div>
             {% endif %}
 
-
-            <!-- Display error message if authentication fails -->
+            <!-- Display authentication failure error -->
             {% if error %}
                 <div class="error">
                     {{ error }}
                 </div>
             {% endif %}
 
-            <!-- Username and password fields -->
+            <!-- Username input field -->
             <div class="form-group">
                 <label for="username">Username</label>
                 <input type="text" name="username" id="username" required>
             </div>
 
+            <!-- Password input field -->
             <div class="form-group">
                 <label for="password">Password</label>
                 <input type="password" name="password" id="password" required>
             </div>
 
-            <!-- Submit button -->
+            <!-- Submit button to log in -->
             <button type="submit">Log in and connect to Spotify</button>
         </form>
 
-        <!-- Link to register page -->
+        <!-- Redirect to registration page if the user doesn't have an account -->
         <p style="text-align: center; margin-top: 10px; color: white">
             Don't have an account? <a href="{% url 'frontend:register' %}">Register here</a>
         </p>
     </div>
-<footer>
+
+    <!-- Footer with developer contact details -->
+    <footer>
         <p>Developers:
             <a href="mailto:akshayaminnasa@gmail.com">Akshaya Arun</a>,
             <a href="mailto:dylankimwang@gmail.com">Dylan Wang</a>,

@@ -1,8 +1,16 @@
-# yourapp/spotify_service.py
 import spotipy
 
 def get_user_top_tracks(access_token, time_range):
-    # Initialize the Spotipy client with the provided access token
+    """
+    Fetches the user's top tracks from Spotify.
+
+    Args:
+        access_token (str): The access token for Spotify API.
+        time_range (str): The time range for fetching top tracks ('short_term', 'medium_term', 'long_term').
+
+    Returns:
+        dict: Contains the user's top tracks with metadata (name, artists, album, etc.).
+    """
     sp = spotipy.Spotify(auth=access_token)
     try:
         top_tracks_response = sp.current_user_top_tracks(limit=5, time_range=time_range)
@@ -17,24 +25,24 @@ def get_user_top_tracks(access_token, time_range):
             }
             for track in top_tracks_response["items"]
         ]
-
-        # Sort the artists by popularity in ascending order (5th most to 1st)
-        top_tracks_sorted = top_tracks[::-1]
-
-        # Combine user profile and top tracks data in a dictionary to return
-        spotify_data = {
-            "name" : "Top Tracks",
-            "content": top_tracks_sorted,
-        }
-        return spotify_data
-
+        top_tracks_sorted = top_tracks[::-1]  # Reverse order for ascending popularity
+        return {"name": "Top Tracks", "content": top_tracks_sorted}
     except spotipy.exceptions.SpotifyException as e:
         print(f"Error fetching top tracks: {e}")
 
+
 def get_user_top_artists(access_token, time_range):
-    # Initialize Spotify client
+    """
+    Fetches the user's top artists from Spotify.
+
+    Args:
+        access_token (str): The access token for Spotify API.
+        time_range (str): The time range for fetching top artists ('short_term', 'medium_term', 'long_term').
+
+    Returns:
+        dict: Contains the user's top artists with metadata (name, popularity, genres, etc.).
+    """
     sp = spotipy.Spotify(auth=access_token)
-    # Fetch the user's top 5 artists
     try:
         top_artists_response = sp.current_user_top_artists(limit=5, time_range=time_range)
         top_artists = [
@@ -43,103 +51,98 @@ def get_user_top_artists(access_token, time_range):
                 "popularity": artist["popularity"],
                 "genres": artist["genres"],
                 "profile_picture": artist["images"][0]["url"] if artist["images"] else None,
-             }
+            }
             for artist in top_artists_response["items"]
         ]
-
-        # Sort the artists by popularity in ascending order (5th most to 1st)
         top_artists_sorted = top_artists[::-1]
-
-        spotify_data = {"name": "Top Artists", "content" :top_artists_sorted}
-
-        return spotify_data
-
+        return {"name": "Top Artists", "content": top_artists_sorted}
     except spotipy.exceptions.SpotifyException as e:
         print(f"Error fetching top artists: {e}")
 
 
 def get_user_top_albums(access_token, time_range):
+    """
+    Fetches the user's top albums derived from their top tracks.
+
+    Args:
+        access_token (str): The access token for Spotify API.
+        time_range (str): The time range for fetching top tracks ('short_term', 'medium_term', 'long_term').
+
+    Returns:
+        dict: Contains the user's top albums with metadata (name, artists, release date, etc.).
+    """
     import collections
     sp = spotipy.Spotify(auth=access_token)
-
     try:
-        # Fetch the user's top tracks
         top_tracks_response = sp.current_user_top_tracks(limit=50, time_range=time_range)
-        top_tracks = top_tracks_response["items"]
+        album_popularity = collections.defaultdict(list)
 
-        # Extract album data from the top tracks
-        album_popularity = collections.defaultdict(list)  # Tracks albums and their popularity scores
-        for track in top_tracks:
+        for track in top_tracks_response["items"]:
             album = track["album"]
             album_id = album["id"]
-            album_data = {
-                "name": album["name"],
-                "artists": ", ".join([artist["name"] for artist in album["artists"]]),
-                "release_date": album["release_date"],
-                "album_cover": album["images"][0]["url"] if album["images"] else None,
-                "total_tracks": album["total_tracks"],
-            }
             album_popularity[album_id].append(track["popularity"])
-        # Calculate average popularity for each album
+
         sorted_albums = sorted(
             album_popularity.items(),
-            key=lambda x: sum(x[1]) / len(x[1]),  # Average popularity
+            key=lambda x: sum(x[1]) / len(x[1]),
             reverse=True
         )
-        #print(sorted_albums)
-        # Prepare the top albums list
         top_albums = []
         for album_id, popularity_scores in sorted_albums[:5]:
             album = sp.album(album_id)
-            album_data = {
+            top_albums.append({
                 "name": album["name"],
                 "artists": [artist["name"] for artist in album["artists"]],
                 "release_date": album["release_date"],
                 "album_cover": album["images"][0]["url"] if album["images"] else None,
                 "total_tracks": album["total_tracks"],
                 "average_popularity": sum(popularity_scores) / len(popularity_scores),
-            }
-            top_albums.append(album_data)
-
-        # Sort the artists by popularity in ascending order (5th most to 1st)
-        top_albums_sorted = top_albums[::-1]
-        return {"name": "Top Albums", "content": top_albums_sorted}
-
+            })
+        return {"name": "Top Albums", "content": top_albums[::-1]}
     except spotipy.exceptions.SpotifyException as e:
         print(f"Error fetching top albums: {e}")
         if e.http_status == 403:
             raise Exception("Insufficient client scope. Please ensure 'user-top-read' is granted.")
-        return None
 
 
 def get_user_top_genres(access_token, time_range):
+    """
+    Fetches the user's top genres derived from their top artists.
+
+    Args:
+        access_token (str): The access token for Spotify API.
+        time_range (str): The time range for fetching top artists ('short_term', 'medium_term', 'long_term').
+
+    Returns:
+        dict: Contains the user's top genres with counts.
+    """
     sp = spotipy.Spotify(auth=access_token)
     try:
-        # Fetch the user's top artists to derive genres
         top_artists_response = sp.current_user_top_artists(limit=50, time_range=time_range)
         genre_counts = {}
         for artist in top_artists_response["items"]:
             for genre in artist["genres"]:
                 genre_counts[genre] = genre_counts.get(genre, 0) + 1
-        # Sort genres by popularity
+
         sorted_genres = sorted(genre_counts.items(), key=lambda x: x[1], reverse=True)
         top_genres = [{"genre": genre, "count": count} for genre, count in sorted_genres[:5]]
-
-        # Sort the artists by popularity in ascending order (5th most to 1st)
-        top_genres_sorted = top_genres[::-1]
-        spotify_data = {
-            "name": "Top Genres",
-            "content": top_genres_sorted,
-        }
-        return spotify_data
+        return {"name": "Top Genres", "content": top_genres[::-1]}
     except spotipy.exceptions.SpotifyException as e:
         print(f"Error fetching top genres: {e}")
 
 
 def get_user_top_playlists(access_token):
+    """
+    Fetches the user's top playlists from Spotify.
+
+    Args:
+        access_token (str): The access token for Spotify API.
+
+    Returns:
+        dict: Contains the user's top playlists with metadata (name, description, owner, etc.).
+    """
     sp = spotipy.Spotify(auth=access_token)
     try:
-        # Fetch the user's playlists
         playlists_response = sp.current_user_playlists(limit=5)
         top_playlists = [
             {
@@ -151,12 +154,6 @@ def get_user_top_playlists(access_token):
             }
             for playlist in playlists_response["items"]
         ]
-
-
-        spotify_data = {
-            "name": "Top Playlists",
-            "content": top_playlists,
-        }
-        return spotify_data
+        return {"name": "Top Playlists", "content": top_playlists}
     except spotipy.exceptions.SpotifyException as e:
         print(f"Error fetching top playlists: {e}")

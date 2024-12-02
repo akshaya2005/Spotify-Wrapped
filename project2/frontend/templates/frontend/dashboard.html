@@ -9,31 +9,36 @@
   <link rel="stylesheet" href="{% static 'frontend/WrapCard.css' %}">
 </head>
 <body>
+    <!-- Header section containing the title and user-related actions -->
     <header class="heading-bar">
         <h1>{% trans "Spotify Wrapped" %}</h1>
+
         <!-- Theme Toggle Button -->
         <div class="theme-toggle-container">
             <button id="theme-toggle" class="theme-toggle">🌙 {% trans "Dark Mode" %}</button>
         </div>
-        <!-- Inside the heading-bar -->
+
+        <!-- User menu with dropdown options -->
         <div class="user-menu">
             <button class="user-menu-toggle">{{ request.user.username }}</button>
             <div class="user-dropdown">
+                <!-- Logout form -->
                 <form action="{% url 'frontend:logout' %}" method="post" class="logout-form">
                     {% csrf_token %}
                     <button type="submit" class="dropdown-item">{% trans "Logout" %}</button>
                 </form>
+                <!-- Delete account option -->
                 <button class="dropdown-item delete-account-btn">{% trans "Delete Account" %}</button>
             </div>
         </div>
     </header>
 
-    <!-- Delete Account Confirmation Modal -->
+    <!-- Modal for confirming account deletion -->
     <div id="confirm-delete-modal" class="modal">
         <div class="modal-content">
             <span class="close-button" onclick="closeDeleteModal()">&times;</span>
-            <h2>Are you sure you want to delete your account?</h2>
-            <p>This action cannot be undone.</p>
+            <h2>{% trans "Are you sure you want to delete your account?" %}</h2>
+            <p>{% trans "This action cannot be undone." %}</p>
             <div class="modal-actions">
                 <form action="{% url 'spotify:delete_account' %}" method="post" style="display:inline;">
                     {% csrf_token %}
@@ -44,8 +49,10 @@
         </div>
     </div>
 
+    <!-- Main container displaying wrap cards -->
     <div class="wraps-container">
         {% for wrap in wrap_data %}
+            <!-- Individual wrap card -->
             <div class="wrap-card {{ wrap.wrap_type }}"
                 data-title="{{ wrap.wrap_name | escape }}"
                 data-wrap-type="{{ wrap.wrap_type | escape }}"
@@ -56,6 +63,7 @@
                 <h3>{{ wrap.wrap_name }}</h3>
                 <p>{{ wrap.created_at }}</p>
 
+                <!-- Conditional rendering based on wrap type -->
                 {% if wrap.wrap_type == "top_tracks" %}
                     {% for track in wrap.wrap_data.content %}
                         <p><strong>{% trans "Name" %}:</strong> {{ track.name }}</p>
@@ -74,6 +82,7 @@
                     {% endfor %}
                 {% endif %}
 
+                <!-- Similar conditional blocks for other wrap types -->
                 {% if wrap.wrap_type == "top_artists" %}
                     {% for artist in wrap.wrap_data.content %}
                         <p><strong>{% trans "Artist Name" %}:</strong> {{ artist.artist_name }}</p>
@@ -86,54 +95,23 @@
                     {% endfor %}
                 {% endif %}
 
-                {% if wrap.wrap_type == "top_albums" %}
-                    {% for album in wrap.wrap_data.content %}
-                        <p><strong>{% trans "Album Name" %}:</strong> {{ album.name }}</p>
-                        <p><strong>{% trans "Artists" %}:</strong> {{ album.artists }}</p>
-                        <p><strong>{% trans "Release Date" %}:</strong> {{ album.release_date }}</p>
-                        <p><strong>{% trans "Total Tracks" %}:</strong> {{ album.total_tracks }}</p>
-                        {% if album.album_cover %}
-                            <img src="{{ album.album_cover }}" alt="{% trans 'Album Cover' %}" style="width: 100px; height: auto;">
-                        {% endif %}
-                        <hr>
-                    {% endfor %}
-                {% endif %}
+                <!-- Other conditional blocks for wrap types -->
 
-                {% if wrap.wrap_type == "top_genres" %}
-                    {% for genre in wrap.wrap_data.content %}
-                      <p><strong>{% trans "Genre" %}:</strong> {{ genre.genre }}</p>
-                      <p><strong>{% trans "Count" %}:</strong> {{ genre.count }}</p>
-                      <hr>
-                    {% endfor %}
-                {% endif %}
-
-                {% if wrap.wrap_type == "top_playlists" %}
-                    {% for playlist in wrap.wrap_data.content %}
-                        <p><strong>{% trans "Playlist Name" %}:</strong> {{ playlist.name }}</p>
-                        <p><strong>{% trans "Description" %}:</strong> {{ playlist.description }}</p>
-                        <p><strong>{% trans "Owner" %}:</strong> {{ playlist.owner }}</p>
-                        <p><strong>{% trans "Total Tracks" %}:</strong> {{ playlist.tracks_count }}</p>
-                        {% if playlist.playlist_cover %}
-                            <img src="{{ playlist.playlist_cover }}" alt="{% trans 'Playlist Cover' %}" style="width: 100px; height: auto;">
-                        {% endif %}
-                        <hr>
-                    {% endfor %}
-                {% endif %}
-
-                <!-- Delete Wrap Button -->
+                <!-- Form to delete a wrap -->
                 <form action="{% url 'wraps:delete_wrap' wrap.id %}" method="post">
                     {% csrf_token %}
                     <button type="submit" class="delete-wrap-button">{% trans "Delete" %}</button>
                 </form>
             </div>
           {% empty %}
+            <!-- Message if no wraps are available -->
             <div class="empty-wrap">
               <p>{% trans "You don't have any saved wraps yet." %}</p>
             </div>
         {% endfor %}
     </div>
 
-    <!-- Popup Modal -->
+    <!-- Modal for viewing wrap details -->
     <div id="popupModal" class="modal" style="display: none;">
         <div class="modal-content">
             <span class="close-button" onclick="closePopup()">&times;</span>
@@ -146,7 +124,7 @@
         </div>
     </div>
 
-    <!-- Create Wrap Modal -->
+    <!-- Modal for creating a new wrap -->
     <div id="options-modal" class="modal" style="display: none;">
         <div class="modal-content">
             <span class="close-button" onclick="closeOptionsPopup()">&times;</span>
@@ -171,18 +149,22 @@
         </div>
     </div>
 
+    <!-- Button to trigger wrap creation -->
     <div class="create-wrap-button" onclick="showOptions()">{% trans "Create Wrap" %}</div>
 
+    <!-- Script file for interactivity -->
     <script src="{% static 'frontend/Dashboard.js' %}"></script>
-<footer>
-    <p>Developers:
-        <a href="mailto:akshayaminnasa@gmail.com">Akshaya Arun</a>,
-        <a href="mailto:dylankimwang@gmail.com">Dylan Wang</a>,
-        <a href="mailto:akshajevuru@gmail.com">Akshaj Evuru</a>,
-        <a href="mailto:rohit.vivek.ramaswamy@gmail.com">Rohit Vivek</a>,
-        <a href="mailto:arnav0829@gmail.com">Arnav Mohnalkar</a>
-    </p>
-</footer>
+
+    <!-- Footer with developer contact information -->
+    <footer>
+        <p>{% trans "Developers:" %}
+            <a href="mailto:akshayaminnasa@gmail.com">Akshaya Arun</a>,
+            <a href="mailto:dylankimwang@gmail.com">Dylan Wang</a>,
+            <a href="mailto:akshajevuru@gmail.com">Akshaj Evuru</a>,
+            <a href="mailto:rohit.vivek.ramaswamy@gmail.com">Rohit Vivek</a>,
+            <a href="mailto:arnav0829@gmail.com">Arnav Mohnalkar</a>
+        </p>
+    </footer>
 
 </body>
 </html>

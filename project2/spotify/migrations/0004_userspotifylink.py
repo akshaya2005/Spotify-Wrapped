@@ -6,19 +6,33 @@ from django.db import migrations, models
 
 
 class Migration(migrations.Migration):
+    """
+    Migration to create the `UserSpotifyLink` model.
+
+    This model establishes a one-to-one relationship between a Django user
+    and their Spotify account, identified by a unique Spotify user ID.
+    """
 
     dependencies = [
-        ('spotify', '0003_remove_spotifytoken_expires_at_and_more'),
-        migrations.swappable_dependency(settings.AUTH_USER_MODEL),
+        ('spotify', '0003_remove_spotifytoken_expires_at_and_more'),  # Depends on the previous migration in the 'spotify' app.
+        migrations.swappable_dependency(settings.AUTH_USER_MODEL),    # Ensures compatibility with custom user models.
     ]
 
     operations = [
         migrations.CreateModel(
-            name='UserSpotifyLink',
+            name='UserSpotifyLink',  # The name of the model being created.
             fields=[
+                # Auto-generated primary key for the model.
                 ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
+
+                # Field to store the unique Spotify user ID.
                 ('spotify_user_id', models.CharField(max_length=255, unique=True)),
-                ('user', models.OneToOneField(on_delete=django.db.models.deletion.CASCADE, to=settings.AUTH_USER_MODEL)),
+
+                # One-to-one relationship with the Django user model.
+                ('user', models.OneToOneField(
+                    on_delete=django.db.models.deletion.CASCADE,  # Deletes the UserSpotifyLink if the associated user is deleted.
+                    to=settings.AUTH_USER_MODEL                  # Links to the user model (supports custom user models).
+                )),
             ],
         ),
     ]

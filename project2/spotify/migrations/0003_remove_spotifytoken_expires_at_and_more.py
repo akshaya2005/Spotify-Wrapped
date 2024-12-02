@@ -4,19 +4,27 @@ from django.db import migrations, models
 
 
 class Migration(migrations.Migration):
+    """
+    Migration to revert the field change in the SpotifyToken model.
+
+    Changes:
+        - Removes the 'expires_at' field.
+        - Adds the 'expires_in' field back with a default value.
+    """
 
     dependencies = [
+        # Specifies that this migration depends on the previous migration (0002).
         ('spotify', '0002_rename_expires_in_spotifytoken_expires_at'),
     ]
 
     operations = [
         migrations.RemoveField(
-            model_name='spotifytoken',
-            name='expires_at',
+            model_name='spotifytoken',  # The model where the field is removed.
+            name='expires_at',         # The field being removed.
         ),
         migrations.AddField(
-            model_name='spotifytoken',
-            name='expires_in',
-            field=models.IntegerField(default=60),
+            model_name='spotifytoken',  # The model where the field is added.
+            name='expires_in',         # The field being added.
+            field=models.IntegerField(default=60),  # Field definition with a default value.
         ),
     ]

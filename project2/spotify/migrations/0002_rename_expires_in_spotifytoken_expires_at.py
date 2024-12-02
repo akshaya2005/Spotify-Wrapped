@@ -4,15 +4,22 @@ from django.db import migrations
 
 
 class Migration(migrations.Migration):
+    """
+    Migration to rename a field in the SpotifyToken model.
+
+    Changes:
+        - Renames the 'expires_in' field to 'expires_at'.
+    """
 
     dependencies = [
+        # Specifies that this migration depends on the initial migration for the 'spotify' app.
         ('spotify', '0001_initial'),
     ]
 
     operations = [
         migrations.RenameField(
-            model_name='spotifytoken',
-            old_name='expires_in',
-            new_name='expires_at',
+            model_name='spotifytoken',  # The name of the model where the field is being renamed.
+            old_name='expires_in',  # The old field name.
+            new_name='expires_at',  # The new field name.
         ),
     ]
