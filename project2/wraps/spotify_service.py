@@ -5,7 +5,7 @@ def get_user_top_tracks(access_token, time_range):
     # Initialize the Spotipy client with the provided access token
     sp = spotipy.Spotify(auth=access_token)
     try:
-        top_tracks_response = sp.current_user_top_tracks(limit=5, time_range=time_range)
+        top_tracks_response = sp.current_user_top_tracks(limit=8, time_range=time_range)
         top_tracks = [
             {
                 "name": track["name"],
@@ -38,7 +38,7 @@ def get_user_top_artists(access_token, time_range):
     sp = spotipy.Spotify(auth=access_token)
     # Fetch the user's top 5 artists
     try:
-        top_artists_response = sp.current_user_top_artists(limit=5, time_range=time_range)
+        top_artists_response = sp.current_user_top_artists(limit=8, time_range=time_range)
         top_artists = [
             {
                 "artist_name": artist["name"],
@@ -91,7 +91,7 @@ def get_user_top_albums(access_token, time_range):
         #print(sorted_albums)
         # Prepare the top albums list
         top_albums = []
-        for album_id, popularity_scores in sorted_albums[:5]:
+        for album_id, popularity_scores in sorted_albums[:8]:
             album = sp.album(album_id)
             album_data = {
                 "name": album["name"],
@@ -142,7 +142,7 @@ def get_user_top_playlists(access_token):
     sp = spotipy.Spotify(auth=access_token)
     try:
         # Fetch the user's playlists
-        playlists_response = sp.current_user_playlists(limit=5)
+        playlists_response = sp.current_user_playlists(limit=8)
         top_playlists = [
             {
                 "name": playlist["name"],
