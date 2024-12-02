@@ -15,12 +15,13 @@ body {
     justify-content: center; /* Horizontally centers content inside the body */
     align-items: center; /* Vertically centers content inside the body */
     height: 100vh; /* Sets the body height to fill the entire viewport height */
+    color: #1e1e1e;
 }
 
 /* Dark mode styles for the body */
 body.dark-mode {
     background-image: url('../images/authentication_background.png');
-
+    color: #f3f4f6;
 }
 
 /* Container for the login form */
@@ -31,6 +32,7 @@ body.dark-mode {
     box-shadow: 0 0 15px rgba(0, 0, 0, 0.3); /* Adds a subtle shadow effect */
     width: 100%; /* Ensures the container is responsive */
     max-width: 400px; /* Limits the maximum width for readability */
+    color: white;
 }
 
 /* Dark mode styles for the login container */
@@ -82,14 +84,7 @@ input[type="password"] {
     border-radius: 4px; /* Slightly rounded corners for input fields */
     font-size: 14px; /* Sets font size inside input fields */
     box-sizing: border-box; /* Ensures padding and border are included in the total width/height */
-}
-
-/* Dark mode styles for input fields */
-body.dark-mode input[type="text"],
-body.dark-mode input[type="password"] {
-    background-color: #333333;
-    color: #FFFFFF;
-    border: 1px solid #555555;
+    background-color: lavender;
 }
 
 /* Button styling */
@@ -107,7 +102,7 @@ button {
 /* Dark mode styles for buttons */
 body.dark-mode button {
     background-color: #1DB954;
-    color: #000000;
+    color: #282828;
 }
 
 /* Hover effect for buttons */
@@ -126,10 +121,6 @@ a {
     text-decoration: none; /* Removes underline from links */
 }
 
-/* Dark mode styles for links */
-body.dark-mode a {
-    color: #1DB954;
-}
 
 /* Hover effect for links */
 a:hover {
@@ -204,10 +195,12 @@ footer {
     width: 100%;
     bottom: 0;
 }
+
 footer a {
     color: #1DB954;
     text-decoration: none;
 }
+
 footer a:hover {
     text-decoration: underline;
 }
@@ -219,10 +212,29 @@ body.dark-mode .alert.success {
     border-color: #66ff66;
 }
 
-.account-text {
-    color: white;
-}
+/*.account-text {*/
+/*    color: white;*/
+/*}*/
 
 body.dark-mode .account-text {
     color: black;
+}
+
+.toggle-container {
+    display: flex; /* Enables flexbox layout for the container */
+    justify-content: center; /* Horizontally centers the button */
+    margin-bottom: 10px;
+}
+
+#theme-toggle {
+    width: auto; /* Adjusts width to fit the content */
+    font-size: 14px; /* Reduces the font size */
+    border-radius: 4px; /* Keeps slightly rounded corners */
+    background-color: #28a745; /* Keeps the original color */
+    color: white; /* Keeps text color white */
+    cursor: pointer; /* Ensures pointer cursor on hover */
+}
+
+#theme-toggle:hover {
+    background-color: #218838; /* Keeps hover effect */
 }

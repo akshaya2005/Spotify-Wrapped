@@ -80,11 +80,6 @@ a {
     text-decoration: none; /* Remove underline */
 }
 
-/* Dark mode styling for links */
-body.dark-mode a {
-    color: #1DB954; /* Spotify green links */
-}
-
 a:hover {
     text-decoration: underline; /* Add underline on hover */
 }
@@ -148,15 +143,6 @@ input[type="checkbox"] {
     border-radius: 4px;
     font-size: 14px;
     box-sizing: border-box;
-}
-
-/* Dark mode styling for input fields */
-body.dark-mode input[type="text"],
-body.dark-mode input[type="password"],
-body.dark-mode input[type="checkbox"] {
-    background-color: white; /* Darker input background */
-    color: black; /* White text */
-    border: 1px solid #555555; /* Subtle border for visibility */
 }
 
 body.dark-mode .form-field {
