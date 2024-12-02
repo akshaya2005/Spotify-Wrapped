@@ -150,7 +150,6 @@ def spotify_callback(request):
 
         # Link the Spotify account to the current user if it's not already linked
         UserSpotifyLink.objects.create(user=request.user, spotify_user_id=spotify_user_id)
-        messages.success(request, "Spotify account successfully linked!")
         # Create session if it doesn't exist
         if not request.session.exists(request.session.session_key):
             request.session.create()
