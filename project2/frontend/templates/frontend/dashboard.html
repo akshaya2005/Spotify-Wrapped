@@ -61,7 +61,7 @@
                         <p><strong>{% trans "Artists" %}:</strong> {{ track.artists }}</p>
                         <p><strong>{% trans "Album" %}:</strong> {{ track.album }}</p>
                         {% if track.album_cover %}
-                            <img src="{{ track.album_cover }}" alt="{% trans 'Album Cover' %}" style="width: 100px; height: auto;">
+                            <img src="{{ track.album_cover }}" alt="{% trans 'Album Cover' %}" style="width: 150px; height: auto;">
                         {% endif %}
                         {% if track.preview_url %}
                             <audio controls>

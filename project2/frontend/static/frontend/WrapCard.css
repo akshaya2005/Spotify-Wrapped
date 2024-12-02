@@ -498,7 +498,7 @@ body.dark-mode .empty-wrap {
 }
 
 .transition-slide {
-    font-size: 2em; /* Adjust for transition text */
+    font-size: 4em; /* Adjust for transition text */
     text-align: center;
 }
 
