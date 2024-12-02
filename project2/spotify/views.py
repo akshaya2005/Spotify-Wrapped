@@ -135,8 +135,6 @@ def spotify_callback(request):
 
         if existing_link:
             if existing_link.user == request.user:
-                # If the Spotify account is already linked to the current user, allow login
-                messages.success(request, "Spotify account successfully linked!")
                 # Create session if it doesn't exist
                 if not request.session.exists(request.session.session_key):
                     request.session.create()
