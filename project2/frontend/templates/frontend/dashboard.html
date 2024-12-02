@@ -79,7 +79,7 @@
                         <p><strong>{% trans "Popularity" %}:</strong> {{ artist.popularity }}</p>
                         <p><strong>{% trans "Genres" %}:</strong> {{ artist.genres|join:", " }}</p>
                         {% if artist.profile_picture %}
-                            <img src="{{ artist.profile_picture }}" alt="{% trans 'Artist Profile Picture' %}" style="width: 100px; height: auto;">
+                            <img src="{{ artist.profile_picture }}" alt="{% trans 'Artist Profile Picture' %}" style="width: 150px; height: auto;">
                         {% endif %}
                         <hr>
                     {% endfor %}
@@ -92,7 +92,7 @@
                         <p><strong>{% trans "Release Date" %}:</strong> {{ album.release_date }}</p>
                         <p><strong>{% trans "Total Tracks" %}:</strong> {{ album.total_tracks }}</p>
                         {% if album.album_cover %}
-                            <img src="{{ album.album_cover }}" alt="{% trans 'Album Cover' %}" style="width: 100px; height: auto;">
+                            <img src="{{ album.album_cover }}" alt="{% trans 'Album Cover' %}" style="width: 150px; height: auto;">
                         {% endif %}
                         <hr>
                     {% endfor %}
@@ -113,7 +113,7 @@
                         <p><strong>{% trans "Owner" %}:</strong> {{ playlist.owner }}</p>
                         <p><strong>{% trans "Total Tracks" %}:</strong> {{ playlist.tracks_count }}</p>
                         {% if playlist.playlist_cover %}
-                            <img src="{{ playlist.playlist_cover }}" alt="{% trans 'Playlist Cover' %}" style="width: 100px; height: auto;">
+                            <img src="{{ playlist.playlist_cover }}" alt="{% trans 'Playlist Cover' %}" style="width: 150px; height: auto;">
                         {% endif %}
                         <hr>
                     {% endfor %}
