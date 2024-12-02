@@ -1,0 +1,15 @@
+__pycache__/
+venv/
+env/
+.venv/
+project2/.env/
+
+project2/.env
+db.sqlite3
+spotify/credentials.py
+
+project2/settings.py
+project2/frontend/static
+
+
+/frontend/static/

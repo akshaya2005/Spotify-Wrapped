@@ -11,21 +11,29 @@ https://docs.djangoproject.com/en/5.1/ref/settings/
 """
 
 from pathlib import Path
+import environ
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
+
+env = environ.Env()
+environ.Env.read_env()
+
+SPOTIPY_CLIENT_ID=env('SPOTIPY_CLIENT_ID')
+SPOTIPY_CLIENT_SECRET=env('SPOTIPY_CLIENT_SECRET')
+SPOTIPY_REDIRECT_URI=env('SPOTIPY_REDIRECT_URI')
 
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/5.1/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'django-insecure-lzv9$dqw@a(@qn28hv&#xxs(&1yyb@evp(ejgjp95xfq_0&a@+'
+SECRET_KEY = env('SECRET_KEY')
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = False
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['*']
 
 SESSION_EXPIRE_AT_BROWSER_CLOSE = True
 
@@ -42,6 +50,7 @@ INSTALLED_APPS = [
     'frontend.apps.FrontendConfig',
     'spotify.apps.SpotifyConfig',
     'wraps.apps.WrapsConfig',
+    'storages',
 ]
 
 MIDDLEWARE = [
@@ -53,8 +62,6 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
-    'django.middleware.locale.LocaleMiddleware',
-
 ]
 
 ROOT_URLCONF = 'project2.urls'
@@ -80,13 +87,20 @@ WSGI_APPLICATION = 'project2.wsgi.application'
 
 # Database
 # https://docs.djangoproject.com/en/5.1/ref/settings/#databases
-
+"""
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.sqlite3',
         'NAME': BASE_DIR / 'db.sqlite3',
     }
 }
+"""
+# Render Database Stuff
+import dj_database_url
+DATABASES = {
+    'default': dj_database_url.parse(env('DATABASE_URL'))
+}
+
 
 
 # Password validation
@@ -119,7 +133,7 @@ LANGUAGES = [
     # Add any other languages you want
 ]
 
-TIME_ZONE = 'UTC'
+TIME_ZONE = 'EST'
 
 USE_I18N = True
 
@@ -129,13 +143,47 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/5.1/howto/static-files/
 
-STATIC_URL = '/static/'
-# STATICFILES_DIRS = [BASE_DIR / "static"]
+
+STATIC_URL = 'https://spotify-wrapped.s3.amazonaws.com/static/'
+STATICFILES_DIRS = [BASE_DIR / "static"]
+
+#AWS Configuration
+AWS_ACCESS_KEY_ID = env('AWS_ACCESS_KEY_ID')
+AWS_SECRET_ACCESS_KEY =  env('AWS_SECRET_ACCESS_KEY')
+
+AWS_STORAGE_BUCKET_NAME = 'spotify-wrapped'
+AWS_S3_CUSTOM_DOMAIN = '%s.s3.amazonaws.com' % AWS_STORAGE_BUCKET_NAME
+AWS_S3_FILE_OVERWRITE = False
+
+
+STORAGES = {
+    #Media files
+    "default" : {
+        "BACKEND" : "storages.backends.s3boto3.S3StaticStorage",
+    },
+    #CSS and JS file management
+    "staticfiles": {
+        "BACKEND" : "storages.backends.s3boto3.S3StaticStorage",
+    },
+}
+
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/5.1/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+
+
+# Akshaya
+# SPOTIPY_CLIENT_ID = 'cd6b9651745b4329962c82234b0064c3'
+# SPOTIPY_CLIENT_SECRET = '1feec18903eb4a8eba79f1b5d16b2d56'
+# SPOTIPY_REDIRECT_URI = 'http://127.0.0.1:8000/spotify/callback'
+
+# Arnav
+# SPOTIPY_CLIENT_ID = 'cd6b9651745b4329962c82234b0064c3'
+# SPOTIPY_CLIENT_SECRET = '1feec18903eb4a8eba79f1b5d16b2d56'
+# SPOTIPY_REDIRECT_URI = 'http://127.0.0.1:8000/spotify/redirect/'
 
 # LOGIN_URL = '/accounts/login/'
 

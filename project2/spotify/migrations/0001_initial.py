@@ -4,23 +4,36 @@ from django.db import migrations, models
 
 
 class Migration(migrations.Migration):
+    """
+    Represents the initial migration for the SpotifyToken model.
 
-    initial = True
+    This migration creates the SpotifyToken table in the database with the specified fields.
+    """
+
+    initial = True  # Indicates this is the initial migration for the app.
 
     dependencies = [
+        # This migration has no dependencies on other migrations.
     ]
 
     operations = [
         migrations.CreateModel(
-            name='SpotifyToken',
+            name='SpotifyToken',  # The name of the model being created.
             fields=[
                 ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
+                # Automatically generated primary key field.
                 ('user', models.CharField(max_length=50, unique=True)),
+                # Field to store the user's unique identifier (e.g., session ID or username).
                 ('created_at', models.DateTimeField(auto_now_add=True)),
+                # Field to store the timestamp when the token was created.
                 ('refresh_token', models.CharField(max_length=150)),
+                # Field to store the refresh token.
                 ('access_token', models.CharField(max_length=150)),
+                # Field to store the access token for Spotify API access.
                 ('expires_in', models.DateTimeField()),
+                # Field to store the expiration timestamp of the token.
                 ('token_type', models.CharField(max_length=50)),
+                # Field to store the token type (e.g., "Bearer").
             ],
         ),
     ]

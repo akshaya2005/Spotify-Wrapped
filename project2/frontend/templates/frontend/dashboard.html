@@ -2,37 +2,43 @@
 {% load static i18n %}
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>{% trans "Dashboard" %}</title>
-    <link rel="stylesheet" href="{% static 'frontend/WrapCard.css' %}">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>{% trans "Dashboard" %}</title>
+  <link rel="icon" href="{% static 'images/favicon.ico' %}">
+  <link rel="stylesheet" href="{% static 'frontend/WrapCard.css' %}">
 </head>
 <body>
+    <!-- Header section containing the title and user-related actions -->
     <header class="heading-bar">
         <h1>{% trans "Spotify Wrapped" %}</h1>
+
         <!-- Theme Toggle Button -->
         <div class="theme-toggle-container">
             <button id="theme-toggle" class="theme-toggle">🌙 {% trans "Dark Mode" %}</button>
         </div>
-        <!-- Inside the heading-bar -->
+
+        <!-- User menu with dropdown options -->
         <div class="user-menu">
             <button class="user-menu-toggle">{{ request.user.username }}</button>
             <div class="user-dropdown">
+                <!-- Logout form -->
                 <form action="{% url 'frontend:logout' %}" method="post" class="logout-form">
                     {% csrf_token %}
                     <button type="submit" class="dropdown-item">{% trans "Logout" %}</button>
                 </form>
+                <!-- Delete account option -->
                 <button class="dropdown-item delete-account-btn">{% trans "Delete Account" %}</button>
             </div>
         </div>
     </header>
 
-    <!-- Delete Account Confirmation Modal -->
+    <!-- Modal for confirming account deletion -->
     <div id="confirm-delete-modal" class="modal">
         <div class="modal-content">
             <span class="close-button" onclick="closeDeleteModal()">&times;</span>
-            <h2>Are you sure you want to delete your account?</h2>
-            <p>This action cannot be undone.</p>
+            <h2>{% trans "Are you sure you want to delete your account?" %}</h2>
+            <p>{% trans "This action cannot be undone." %}</p>
             <div class="modal-actions">
                 <form action="{% url 'spotify:delete_account' %}" method="post" style="display:inline;">
                     {% csrf_token %}
@@ -43,8 +49,10 @@
         </div>
     </div>
 
+    <!-- Main container displaying wrap cards -->
     <div class="wraps-container">
         {% for wrap in wrap_data %}
+            <!-- Individual wrap card -->
             <div class="wrap-card {{ wrap.wrap_type }}"
                 data-title="{{ wrap.wrap_name | escape }}"
                 data-wrap-type="{{ wrap.wrap_type | escape }}"
@@ -119,20 +127,21 @@
                     {% endfor %}
                 {% endif %}
 
-                <!-- Delete Wrap Button -->
+                <!-- Form to delete a wrap -->
                 <form action="{% url 'wraps:delete_wrap' wrap.id %}" method="post">
                     {% csrf_token %}
                     <button type="submit" class="delete-wrap-button">{% trans "Delete" %}</button>
                 </form>
             </div>
           {% empty %}
+            <!-- Message if no wraps are available -->
             <div class="empty-wrap">
               <p>{% trans "You don't have any saved wraps yet." %}</p>
             </div>
         {% endfor %}
     </div>
 
-    <!-- Popup Modal -->
+    <!-- Modal for viewing wrap details -->
     <div id="popupModal" class="modal" style="display: none;">
         <div class="modal-content">
             <span class="close-button" onclick="closePopup()">&times;</span>
@@ -145,7 +154,7 @@
         </div>
     </div>
 
-    <!-- Create Wrap Modal -->
+    <!-- Modal for creating a new wrap -->
     <div id="options-modal" class="modal" style="display: none;">
         <div class="modal-content">
             <span class="close-button" onclick="closeOptionsPopup()">&times;</span>
@@ -170,18 +179,22 @@
         </div>
     </div>
 
+    <!-- Button to trigger wrap creation -->
     <div class="create-wrap-button" onclick="showOptions()">{% trans "Create Wrap" %}</div>
 
+    <!-- Script file for interactivity -->
     <script src="{% static 'frontend/Dashboard.js' %}"></script>
-<footer>
-    <p>Developers:
-        <a href="mailto:akshayaminnasa@gmail.com">Akshaya Arun</a>,
-        <a href="mailto:dylankimwang@gmail.com">Dylan Wang</a>,
-        <a href="mailto:akshajevuru@gmail.com">Akshaj Evuru</a>,
-        <a href="mailto:rohit.vivek.ramaswamy@gmail.com">Rohit Vivek</a>,
-        <a href="mailto:arnav0829@gmail.com">Arnav Mohnalkar</a>
-    </p>
-</footer>
+
+    <!-- Footer with developer contact information -->
+    <footer>
+        <p>{% trans "Developers:" %}
+            <a href="mailto:akshayaminnasa@gmail.com">Akshaya Arun</a>,
+            <a href="mailto:dylankimwang@gmail.com">Dylan Wang</a>,
+            <a href="mailto:akshajevuru@gmail.com">Akshaj Evuru</a>,
+            <a href="mailto:rohit.vivek.ramaswamy@gmail.com">Rohit Vivek</a>,
+            <a href="mailto:arnav0829@gmail.com">Arnav Mohnalkar</a>
+        </p>
+    </footer>
 
 </body>
 </html>

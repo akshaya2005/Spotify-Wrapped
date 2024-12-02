@@ -4,8 +4,25 @@ from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
 from django.shortcuts import render, redirect
 from django.contrib import messages
 
-# Register view
+
 def register_view(request):
+    """
+    Handles user registration.
+
+    - If the request is POST:
+        - Processes the registration form.
+        - Checks if the "has_spotify_account" checkbox is checked.
+        - Saves the new user if the form is valid and the checkbox is checked.
+        - Adds error messages to the context if validation fails.
+    - If the request is GET:
+        - Renders the registration page with a blank form.
+
+    Args:
+        request: The HTTP request object.
+
+    Returns:
+        HttpResponse: The rendered registration page or a redirect to the login page.
+    """
     if request.method == 'POST':
         form = UserCreationForm(request.POST)
         errors = []  # List to hold error messages
@@ -35,8 +52,23 @@ def register_view(request):
     return render(request, 'frontend/register.html', {'form': form, 'errors': []})
 
 
-# Login view
 def login_view(request):
+    """
+    Handles user login.
+
+    - If the request is POST:
+        - Authenticates the user using the provided credentials.
+        - Redirects to the dashboard on successful login.
+        - Adds error messages to the context if validation fails.
+    - If the request is GET:
+        - Renders the login page with a blank form.
+
+    Args:
+        request: The HTTP request object.
+
+    Returns:
+        HttpResponse: The rendered login page or a redirect to the dashboard page.
+    """
     if request.method == 'POST':
         form = AuthenticationForm(data=request.POST)
         errors = []  # List to hold error messages
@@ -59,8 +91,19 @@ def login_view(request):
     return render(request, 'frontend/login.html', {'form': form, 'errors': []})
 
 
-# Logout view
 def logout_view(request):
+    """
+    Handles user logout.
+
+    - Logs the user out of Django.
+    - Renders a template to log out of Spotify and redirects to the login page.
+
+    Args:
+        request: The HTTP request object.
+
+    Returns:
+        HttpResponse: The rendered Spotify logout template.
+    """
     # Log out of Django
     logout(request)
 

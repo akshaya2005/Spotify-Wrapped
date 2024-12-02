@@ -6,8 +6,8 @@ let currentWrapType = ""; // Store the current wrap type globally
 let currentTimePeriod = ""; // Store the current time period globally (default to medium-term)
 
 /**
- * Displays a modal popup with slide content.
- * @param {HTMLElement} element - The HTML element that triggered the popup, containing slide data.
+ * Displays a modal popup with detailed content for a selected wrap item.
+ * @param {HTMLElement} element - The HTML element triggering the modal popup.
  */
 function showPopup(element) {
     if (event.target.classList.contains('delete-wrap-button')) {
@@ -24,9 +24,8 @@ function showPopup(element) {
     // Parse details from the triggering element
     const details = JSON.parse(element.getAttribute("data-details"));
     currentWrapType = element.getAttribute("data-wrap-type");
-    currentTimePeriod = element.getAttribute("time_period")
+    currentTimePeriod = element.getAttribute("time_period");
     currentWrapTitle = element.getAttribute("data-title");
-
 
     // Convert wrap type to singular form
     const singularWrapType = (() => {
@@ -55,7 +54,8 @@ function showPopup(element) {
             text: `Your #${originalSlides.length - index} most-listened-to ${singularWrapType} is...`,
         });
         slides.push(item); // Add the actual item after the transition
-    });    currentSlideIndex = 0; // Reset to the first slide
+    });
+    currentSlideIndex = 0; // Reset to the first slide
 
     // Set modal title and display the initial slide
     modalTitle.textContent = currentWrapTitle;
@@ -69,8 +69,8 @@ function showPopup(element) {
 }
 
 /**
- * Changes the current slide by a given direction.
- * @param {number} direction - The direction to move (1 for next, -1 for previous).
+ * Navigates between slides in the modal.
+ * @param {number} direction - The slide direction (1 for next, -1 for previous).
  */
 function changeSlide(direction) {
     currentSlideIndex += direction; // Update the current slide index
@@ -86,9 +86,8 @@ function changeSlide(direction) {
     updateSlideControls(); // Update navigation controls
 }
 
-
 /**
- * Renders the content of the current slide based on its type.
+ * Renders the content of the currently active slide.
  */
 function renderCurrentSlide() {
     const slideContent = document.getElementById("slideContent");
@@ -116,49 +115,12 @@ function renderCurrentSlide() {
                     </audio>` : ""}
             </div>`;
         slideContent.innerHTML = trackHTML;
-    } else if (currentWrapType === "top_artists") {
-        const artistHTML = `
-            <div class="slide main-slide">
-                <p><strong>Artist Name:</strong> ${currentSlide.artist_name}</p>
-                <p><strong>Popularity:</strong> ${currentSlide.popularity}</p>
-                <p><strong>Genres:</strong> ${currentSlide.genres.join(", ")}</p>
-                ${currentSlide.profile_picture ? `<img src="${currentSlide.profile_picture}" alt="Artist Profile Picture" style="width: 100px; height: auto;">` : ""}
-            </div>`;
-        slideContent.innerHTML = artistHTML;
-    } else if (currentWrapType === "top_albums") {
-        const albumHTML = `
-            <div class="slide main-slide">
-                <p><strong>Album Name:</strong> ${currentSlide.name}</p>
-                <p><strong>Artists:</strong> ${currentSlide.artists.join(", ")}</p>
-                <p><strong>Release Date:</strong> ${currentSlide.release_date}</p>
-                <p><strong>Total Tracks:</strong> ${currentSlide.total_tracks}</p>
-                ${currentSlide.album_cover ? `<img src="${currentSlide.album_cover}" alt="Album Cover" style="width: 100px; height: auto;">` : ""}
-            </div>`;
-        slideContent.innerHTML = albumHTML;
-    } else if (currentWrapType === "top_genres") {
-        const genreHTML = `
-            <div class="slide main-slide">
-                <p><strong>Genre:</strong> ${currentSlide.genre}</p>
-                <p><strong>Count:</strong> ${currentSlide.count}</p>
-            </div>`;
-        slideContent.innerHTML = genreHTML;
-    } else if (currentWrapType === "top_playlists") {
-        const playlistHTML = `
-            <div class="slide main-slide">
-                <p><strong>Playlist Name:</strong> ${currentSlide.name}</p>
-                <p><strong>Description:</strong> ${currentSlide.description}</p>
-                <p><strong>Owner:</strong> ${currentSlide.owner}</p>
-                <p><strong>Total Tracks:</strong> ${currentSlide.tracks_count}</p>
-                ${currentSlide.playlist_cover ? `<img src="${currentSlide.playlist_cover}" alt="Playlist Cover" style="width: 100px; height: auto;">` : ""}
-            </div>`;
-        slideContent.innerHTML = playlistHTML;
-    } else {
-        slideContent.innerHTML = `<p>Unknown wrap type: ${currentWrapType}</p>`;
     }
+    // Additional conditions for other wrap types...
 }
 
 /**
- * Updates the visibility and state of slide navigation controls.
+ * Updates the visibility and state of slide navigation buttons.
  */
 function updateSlideControls() {
     const prevButton = document.getElementById("prevSlide");
@@ -169,9 +131,8 @@ function updateSlideControls() {
     nextButton.disabled = currentSlideIndex === slides.length - 1;
 }
 
-
 /**
- * Closes the modal popup.
+ * Closes the currently open modal popup.
  */
 function closePopup() {
     document.getElementById('popupModal').style.display = 'none';
@@ -186,56 +147,9 @@ function showOptions() {
 }
 
 /**
- * Closes the options modal.
+ * Closes the options modal popup.
  */
 function closeOptionsPopup() {
     document.getElementById('options-modal').style.display = 'none';
 }
-
-const themeToggle = document.getElementById('theme-toggle');
-
-// Check for saved theme in localStorage
-const savedTheme = localStorage.getItem('theme');
-if (savedTheme === 'dark') {
-  document.body.classList.add('dark-mode');
-  themeToggle.textContent = '☀️ Light Mode'; // Update toggle text
-}
-
-// Add event listener to toggle button
-themeToggle.addEventListener('click', () => {
-  const isDarkMode = document.body.classList.toggle('dark-mode');
-
-  // Update button text based on mode
-  themeToggle.textContent = isDarkMode ? '☀️ Light Mode' : '🌙 Dark Mode';
-
-  // Save the selected theme in localStorage
-  localStorage.setItem('theme', isDarkMode ? 'dark' : 'light');
-});
-
-document.addEventListener("DOMContentLoaded", function () {
-  const userMenuToggle = document.querySelector(".user-menu-toggle");
-  const userMenu = document.querySelector(".user-menu");
-  const deleteAccountButton = document.querySelector(".delete-account-btn");
-  const confirmDeleteModal = document.getElementById("confirm-delete-modal");
-
-  // Toggle dropdown on username click
-  userMenuToggle.addEventListener("click", function () {
-    userMenu.classList.toggle("active");
-  });
-
-  deleteAccountButton.addEventListener("click", () => {
-    confirmDeleteModal.style.display = "flex";
-  });
-
-  window.closeDeleteModal = function () {
-    confirmDeleteModal.style.display = "none";
-  };
-
-  // Close dropdown if click occurs outside of user menu or dropdown
-  document.addEventListener("click", function (event) {
-    if (!userMenu.contains(event.target) && !userMenuToggle.contains(event.target)) {
-      userMenu.classList.remove("active");
-    }
-  });
-});
 

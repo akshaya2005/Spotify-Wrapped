@@ -2,72 +2,94 @@ import spotipy
 from django.contrib import messages
 from rest_framework.views import APIView
 from rest_framework.response import Response
-
 from .models import UserSpotifyLink
-from .utils import *
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from django.contrib.auth import authenticate, login, logout
 from django.views.decorators.csrf import csrf_protect
 from django.http import HttpResponseRedirect
-from requests import Request
-from .credentials import SPOTIPY_CLIENT_ID, SPOTIPY_REDIRECT_URI
-from django.shortcuts import redirect
-from requests import post
+from requests import Request, post
+from django.conf import settings
 from .utils import update_or_create_user_tokens
 
-# Create your views here.
 @csrf_protect
 def login_and_connect_spotify(request):
+    """
+    Handles user login and initiates the Spotify authentication flow.
+
+    If the user is successfully authenticated, it redirects them to the Spotify authorization URL.
+
+    Args:
+        request (HttpRequest): The incoming HTTP request.
+
+    Returns:
+        HttpResponseRedirect or HttpResponse: Redirects to Spotify auth URL or renders the login page with an error.
+    """
     if request.method == 'POST':
         username = request.POST.get('username')
         password = request.POST.get('password')
 
-        # Authenticate the user
         user = authenticate(request, username=username, password=password)
         if user is not None:
-            # Log the user in
             login(request, user)
-
-            # Define Spotify scopes
             scopes = (
                 'user-read-playback-state user-modify-playback-state '
                 'user-read-currently-playing user-read-private user-top-read user-library-read'
             )
-
-            # Generate the Spotify authorization URL
             url = Request(
                 'GET',
                 'https://accounts.spotify.com/authorize',
                 params={
                     'scope': scopes,
                     'response_type': 'code',
-                    'redirect_uri': SPOTIPY_REDIRECT_URI,
-                    'client_id': SPOTIPY_CLIENT_ID,
+                    'redirect_uri': settings.SPOTIPY_REDIRECT_URI,
+                    'client_id': settings.SPOTIPY_CLIENT_ID,
+                    'show_dialog': True
                 }
             ).prepare().url
-
             return HttpResponseRedirect(url)
         else:
-            # If authentication fails, display an error message
-            messages.error(request, "Invalid username or password. Please check your credentials and try again.")
-            return redirect('frontend:login')  # Redirect back to the login page
-
-    # If the request is not POST, render the login page
+            messages.error(request, "Invalid username or password. Please try again.")
+            return redirect('frontend:login')
     return render(request, 'frontend/login.html')
 
 
 class AuthURL(APIView):
-    #returns the API endpoint that allows us to authenticate
-    def get(self, request, format=None):
-        scopes = 'user-read-private user-top-read'
-        url = Request('GET', 'https://accounts.spotify.com/authorize',
-        params={'scope': scopes, 'response_type':'code', 'redirect_uri': SPOTIPY_REDIRECT_URI, 'client_id':SPOTIPY_CLIENT_ID}).prepare().url
+    """
+    Returns the Spotify authorization URL with required scopes for the application.
 
-        return Response({'url': url}, status = 200)
+    Methods:
+        get: Handles GET requests to generate and return the Spotify authorization URL.
+    """
+    def get(self, request, format=None):
+        scopes = (
+            'user-read-playback-state user-modify-playback-state '
+            'user-read-currently-playing user-read-private user-top-read user-library-read'
+        )
+        url = Request(
+            'GET',
+            'https://accounts.spotify.com/authorize',
+            params={
+                'scope': scopes,
+                'response_type': 'code',
+                'redirect_uri': settings.SPOTIPY_REDIRECT_URI,
+                'client_id': settings.SPOTIPY_CLIENT_ID
+            }
+        ).prepare().url
+        return Response({'url': url}, status=200)
 
 
 def spotify_callback(request):
-    # Extract code and error from the Spotify redirect response
+    """
+    Handles Spotify's authorization callback, exchanging the auth code for tokens.
+
+    Links the Spotify account to the authenticated user or updates existing tokens.
+
+    Args:
+        request (HttpRequest): The incoming HTTP request.
+
+    Returns:
+        HttpResponseRedirect: Redirects to the dashboard or login page based on success or error.
+    """
     code = request.GET.get('code')
     error = request.GET.get('error')
 
@@ -80,9 +102,9 @@ def spotify_callback(request):
     response = post('https://accounts.spotify.com/api/token', data={
         'grant_type': 'authorization_code',
         'code': code,
-        'redirect_uri': SPOTIPY_REDIRECT_URI,
-        'client_id': SPOTIPY_CLIENT_ID,
-        'client_secret': SPOTIPY_CLIENT_SECRET
+        'redirect_uri': settings.SPOTIPY_REDIRECT_URI,
+        'client_id': settings.SPOTIPY_CLIENT_ID,
+        'client_secret': settings.SPOTIPY_CLIENT_SECRET
     })
 
     # Parse the response
@@ -149,18 +171,23 @@ def spotify_callback(request):
         messages.error(request, error_message)
         return redirect('frontend:login')
 
+
 def delete_account_view(request):
-    if request.method == "POST":
+    """
+    Handles account deletion for authenticated users.
+
+    Deletes the user's account and logs them out of the application.
+
+    Args:
+        request (HttpRequest): The incoming HTTP request.
+
+    Returns:
+        HttpResponseRedirect or HttpResponse: Redirects to dashboard or renders a logout template.
+    """
+    if request.method == "POST" and request.user.is_authenticated:
         user = request.user
-        if user.is_authenticated:
-            # Delete the user's account
-            user.delete()
-
-            # Log out the user
-            logout(request)
-
-            # Add a success message (optional)
-            messages.success(request, "Your account has been deleted successfully.")
-            return render(request, 'frontend/spotify_logout.html')
-
-    return redirect('frontend:dashboard')  # Prevent access via GET
+        user.delete()
+        logout(request)
+        messages.success(request, "Your account has been deleted successfully.")
+        return render(request, 'frontend/spotify_logout.html')
+    return redirect('frontend:dashboard')
