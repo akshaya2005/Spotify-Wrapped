@@ -7,6 +7,13 @@
     {% load static %}
     <link rel="stylesheet" type="text/css" href="{% static 'frontend/index_login.css' %}">
     <style>
+        .account-text {
+            color: white;
+        }
+
+        body.dark-mode .account-text {
+            color: black !important;
+        }
         footer {
             background-color: #282828;
             color: white;

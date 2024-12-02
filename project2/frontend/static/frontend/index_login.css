@@ -20,8 +20,7 @@ body {
 /* Dark mode styles for the body */
 body.dark-mode {
     background-image: url('../images/authentication_background.png');
-    /* Disable the background image in dark mode */
-    color: #FFFFFF;
+
 }
 
 /* Container for the login form */
