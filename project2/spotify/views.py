@@ -102,9 +102,9 @@ def spotify_callback(request):
     response = post('https://accounts.spotify.com/api/token', data={
         'grant_type': 'authorization_code',
         'code': code,
-        'redirect_uri': SPOTIPY_REDIRECT_URI,
-        'client_id': SPOTIPY_CLIENT_ID,
-        'client_secret': SPOTIPY_CLIENT_SECRET
+        'redirect_uri': settings.SPOTIPY_REDIRECT_URI,
+        'client_id': settings.SPOTIPY_CLIENT_ID,
+        'client_secret': settings.SPOTIPY_CLIENT_SECRET
     })
 
     # Parse the response
