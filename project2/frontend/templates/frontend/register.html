@@ -7,12 +7,16 @@
     <link rel="stylesheet" type="text/css" href="{% static 'frontend/register.css' %}">
 </head>
 <body>
-    <div class="form-container">
+    <div class="register-container">
         <h2>
             <img src="../../static/images/Primary_Logo_Green_RGB.svg" alt="Spotify Logo" class="logo">
             Register
         </h2>
-        <button id="theme-toggle" style="margin: 10px;">Toggle Dark Mode</button>
+
+        <div class="toggle-container">
+            <button id="theme-toggle" style="margin: 10px;">🌙 Dark Mode</button>
+        </div>
+
         {% if errors %}
             <div class="error-container">
                 <ul>
